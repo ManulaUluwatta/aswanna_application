@@ -1,4 +1,5 @@
 import 'package:aswanna_application/constrants.dart';
+import 'package:aswanna_application/screens/components/body.dart';
 import 'package:aswanna_application/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,13 +17,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
+        // scaffoldBackgroundColor: Colors.,
+        primarySwatch: Colors.green,
         textTheme: GoogleFonts.robotoTextTheme(textTheme).copyWith(
           bodyText1: TextStyle(
-            color: cTextColor,
+            color: Colors.white,
           ),
           bodyText2: TextStyle(
-            color: cTextColor,
+            color: Colors.white,
           ),
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -30,5 +32,9 @@ class MyApp extends StatelessWidget {
       home: SplashScreen(),
     );
   }
+
+
 }
+
+
 
