@@ -2,8 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import '../../constrants.dart';
-import '../../size_cofig.dart';
+import '../../../size_cofig.dart';
 
 class SplashContent extends StatelessWidget {
   const SplashContent({
@@ -27,7 +26,7 @@ class SplashContent extends StatelessWidget {
         //   ),
         // ),
         Container(
-          width: getProportionateScreenWidth(450),
+          width: getProportionateScreenWidth(500),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
             child: Image(
@@ -40,7 +39,7 @@ class SplashContent extends StatelessWidget {
         //   flex: 2,
         // ),
         Container(
-            width: getProportionateScreenWidth(500),
+            width: getProportionateScreenWidth(450),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Image.asset(

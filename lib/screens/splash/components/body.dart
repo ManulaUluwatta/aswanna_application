@@ -1,12 +1,11 @@
-import 'dart:ffi';
+// import 'dart:ffi';
 
 import 'package:aswanna_application/constrants.dart';
+import 'package:aswanna_application/screens/sign_in/sign_in_screen.dart';
 import 'package:aswanna_application/size_cofig.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 
 import '../components/splash_content.dart';
-import '../splash/splash_screen.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -15,7 +14,8 @@ class Body extends StatefulWidget {
   _BodyState createState() => _BodyState();
 
   getSheet() {
-    return _BodyState().getBottomSheet();
+    // _BodyState.currentPage == _BodyState.numPages - 1 ?
+    _BodyState().getBottomSheet();
   }
 }
 
@@ -26,7 +26,7 @@ class _BodyState extends State<Body> {
   // PageController
   List<Map<String, String>> splashData = [
     {
-      "text": "Connect people around the world",
+      "text": "Connect people\ naround the world",
       "image": "assets/images/slide_1.png",
       "text2":
           "Lorem ipsum dolor sit amet, adipiscing consect, yet, by long-and vitality, so that labor, and do eiusmod."
@@ -108,9 +108,12 @@ class _BodyState extends State<Body> {
                   ),
                 ),
                 Expanded(
+                  flex: 1,
                   child: Padding(
                     padding: EdgeInsets.symmetric(
-                        horizontal: getProportionateScreenWidth(80)),
+                      horizontal: getProportionateScreenWidth(80),
+                      vertical: getProportionateScreenHeight(10),
+                    ),
                     child: Column(
                       children: <Widget>[
                         Row(
@@ -127,6 +130,8 @@ class _BodyState extends State<Body> {
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         Text(
@@ -149,6 +154,40 @@ class _BodyState extends State<Body> {
                                 ),
                               )
                             : Text(''),
+                        currentPage == numPages - 1
+                            ? Expanded(
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  height: getProportionateScreenHeight(50),
+                                  child: OutlinedButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, SignInScreen.routeName);
+                                    },
+                                    style: ButtonStyle(
+                                      shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30.0),
+                                        ),
+                                      ),
+                                      side:
+                                          MaterialStateProperty.all(BorderSide(
+                                        color: Colors.white,
+                                        width: 2,
+                                      )),
+                                    ),
+                                    child: const Text(
+                                      "Get Started",
+                                      style: TextStyle(
+                                        fontSize: 22.0,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w100,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Text(""),
                       ],
                     ),
                   ),
@@ -158,7 +197,6 @@ class _BodyState extends State<Body> {
           ),
         ),
       ),
-      
     );
   }
 
