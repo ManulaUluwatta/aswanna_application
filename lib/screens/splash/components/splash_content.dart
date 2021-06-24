@@ -57,6 +57,7 @@ class SplashContent extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
+                color: Colors.white
               ),
             ),
           ),
@@ -69,7 +70,9 @@ class SplashContent extends StatelessWidget {
               text2!,
               style: TextStyle(
                 fontSize: 16.0,
+                color: Colors.white
               ),
+              // textAlign: TextAlign.justify,
               ),
           ),
           width: double.infinity,

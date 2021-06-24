@@ -8,20 +8,22 @@ import 'package:flutter/material.dart';
 import '../components/splash_content.dart';
 
 class Body extends StatefulWidget {
-  const Body({Key? key}) : super(key: key);
-
+  final int currentPageSplash;
+  final Function(int i) updateCurrentPage;
+  const Body(this.currentPageSplash, this.updateCurrentPage, {Key? key})
+      : super(key: key);
   @override
   _BodyState createState() => _BodyState();
-
   getSheet() {
-    // _BodyState.currentPage == _BodyState.numPages - 1 ?
     _BodyState().getBottomSheet();
   }
 }
 
 class _BodyState extends State<Body> {
+// Function(int i) up = updateCurrentPage;
+
   static final int numPages = 3;
-  final PageController _pageController = PageController(initialPage: 0);
+  // final PageController _pageController = PageController(initialPage: 0);
   static int currentPage = 0;
   // PageController
   List<Map<String, String>> splashData = [
@@ -45,8 +47,12 @@ class _BodyState extends State<Body> {
     },
   ];
 
+  // static Function(int i) get updateCurrentPage => updateCurrentPage;
+
+  
   @override
   Widget build(BuildContext context) {
+    // print(context);
     return SafeArea(
       child: Container(
         decoration: BoxDecoration(
@@ -93,11 +99,44 @@ class _BodyState extends State<Body> {
                 Expanded(
                   flex: 5,
                   child: PageView.builder(
-                    // physics: ClampingScrollPhysics(),
+                    physics: ClampingScrollPhysics(),
                     onPageChanged: (value) {
                       setState(() {
                         currentPage = value;
+                        // widget.updateCurrentPage(currentPage);
+                        // Container(
+                        //   child: getBottomSheet(),
+                        // );
                       });
+                      
+                      if (currentPage == numPages - 1) {
+                        showBottomSheet(
+                            context: context,
+                            builder: (context) => Container(
+                                  height: 80.0,
+                                  width: double.infinity,
+                                  color: Colors.white,
+                                  child: GestureDetector(
+                                    onTap: () => Navigator.pushNamed(context, SignInScreen.routeName),
+                                    child: Center(
+                                      child: Text(
+                                        "Get Started",
+                                        style: TextStyle(
+                                          color: Color(0xFF008b00),
+                                          fontSize: 25.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ));
+                      } else {
+                        showBottomSheet(
+                            context: context,
+                            builder: (context) => Container(
+                                  height: 0,
+                                ));
+                      }
                     },
                     itemCount: splashData.length,
                     itemBuilder: (context, index) => SplashContent(
@@ -107,6 +146,11 @@ class _BodyState extends State<Body> {
                     ),
                   ),
                 ),
+                // PageView.builder(
+                //   onPageChanged: (value),
+                //   itemBuilder: (context,index
+                //   )
+                //   ),
                 Expanded(
                   flex: 1,
                   child: Padding(
@@ -154,40 +198,40 @@ class _BodyState extends State<Body> {
                                 ),
                               )
                             : Text(''),
-                        currentPage == numPages - 1
-                            ? Expanded(
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  height: getProportionateScreenHeight(50),
-                                  child: OutlinedButton(
-                                    onPressed: () {
-                                      Navigator.pushNamed(context, SignInScreen.routeName);
-                                    },
-                                    style: ButtonStyle(
-                                      shape: MaterialStateProperty.all(
-                                        RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30.0),
-                                        ),
-                                      ),
-                                      side:
-                                          MaterialStateProperty.all(BorderSide(
-                                        color: Colors.white,
-                                        width: 2,
-                                      )),
-                                    ),
-                                    child: const Text(
-                                      "Get Started",
-                                      style: TextStyle(
-                                        fontSize: 22.0,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w100,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : Text(""),
+                        //   currentPage == numPages - 1
+                        //       ? Expanded(
+                        //           child: SizedBox(
+                        //             width: double.infinity,
+                        //             height: getProportionateScreenHeight(50),
+                        //             child: OutlinedButton(
+                        //               onPressed: () {
+                        //                 Navigator.pushNamed(context, SignInScreen.routeName);
+                        //               },
+                        //               style: ButtonStyle(
+                        //                 shape: MaterialStateProperty.all(
+                        //                   RoundedRectangleBorder(
+                        //                     borderRadius:
+                        //                         BorderRadius.circular(30.0),
+                        //                   ),
+                        //                 ),
+                        //                 side:
+                        //                     MaterialStateProperty.all(BorderSide(
+                        //                   color: Colors.white,
+                        //                   width: 2,
+                        //                 )),
+                        //               ),
+                        //               child: const Text(
+                        //                 "Get Started",
+                        //                 style: TextStyle(
+                        //                   fontSize: 22.0,
+                        //                   color: Colors.white,
+                        //                   fontWeight: FontWeight.w100,
+                        //                 ),
+                        //               ),
+                        //             ),
+                        //           ),
+                        //         )
+                        //       : Text(""),
                       ],
                     ),
                   ),
@@ -214,31 +258,31 @@ class _BodyState extends State<Body> {
   }
 
   Container? getBottomSheet() {
-    if (_BodyState.currentPage == 2) {
-      return Container(
-        // child: _BodyState.currentPage == _BodyState.numPages - 1
+    // if (_BodyState.currentPage == 2) {
+    return Container(
+      // child: _BodyState.currentPage == _BodyState.numPages - 1
 
-        height: 80.0,
-        width: double.infinity,
-        color: Colors.white,
-        child: GestureDetector(
-          onTap: () => print("Get start"),
-          child: Center(
-            child: Text(
-              "Get Started",
-              style: TextStyle(
-                color: Color(0xFF008b00),
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-              ),
+      height: 80.0,
+      width: double.infinity,
+      color: Colors.white,
+      child: GestureDetector(
+        onTap: () => print("Get start"),
+        child: Center(
+          child: Text(
+            "Get Started",
+            style: TextStyle(
+              color: Color(0xFF008b00),
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
-        // )
-        // : Text(""),
-      );
-    } else {
-      return null;
-    }
+      ),
+      // )
+      // : Text(""),
+    );
+    // } else {
+    //   return null;
+    // }
   }
 }
