@@ -5,44 +5,37 @@ import 'constrants.dart';
 
 ThemeData theme(TextTheme textTheme) {
   return ThemeData(
+    primarySwatch: Colors.green,
     scaffoldBackgroundColor: Colors.white,
     appBarTheme: appBarTheme(),
     textTheme: fontTheme(textTheme),
     visualDensity: VisualDensity.adaptivePlatformDensity,
     inputDecorationTheme: inputDecorationTheme(),
-    iconTheme: IconThemeData(
-      color: cPrimaryColor 
-    )
+    iconTheme: IconThemeData(color: cPrimaryColor),
   );
 }
 
 InputDecorationTheme inputDecorationTheme() {
   return InputDecorationTheme(
-            labelStyle: TextStyle(
-              color: cPrimaryColor,
-              fontSize: 18
-            ),
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 42,
-              vertical: 20
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(28),
-              borderSide: BorderSide(
-                color: cPrimaryColor,
-                width: 2,
-              ),
-              gapPadding: 10,
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(28),
-              borderSide: BorderSide(
-                color: cPrimaryColor,
-                width: 2,
-              ),
-              gapPadding: 10,
-            ),
-          );
+    labelStyle: TextStyle(color: Color(0xFF09af00), fontSize: 18),
+    contentPadding: EdgeInsets.symmetric(horizontal: 42, vertical: 20),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(28),
+      borderSide: BorderSide(
+        color: Color(0xFF09af00),
+        width: 2,
+      ),
+      gapPadding: 10,
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(28),
+      borderSide: BorderSide(
+        color: Color(0xFF09af00),
+        width: 2,
+      ),
+      gapPadding: 10,
+    ),
+  );
 }
 
 TextTheme fontTheme(TextTheme textTheme) {
@@ -68,7 +61,6 @@ AppBarTheme appBarTheme() {
         color: Color(0xFF37474F),
         fontSize: 18.0,
       ),
-    
     ),
   );
 }

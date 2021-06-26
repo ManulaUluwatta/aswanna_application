@@ -1,7 +1,10 @@
-import 'package:aswanna_application/constrants.dart';
-import 'package:aswanna_application/size_cofig.dart';
+
+import 'package:aswanna_application/screens/sign_in/components/sign_form.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../size_cofig.dart';
+import '../../../components/social_card.dart';
+import '../../../components/no_account_text.dart';
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
@@ -15,20 +18,48 @@ class Body extends StatelessWidget {
           padding: EdgeInsets.symmetric(
             horizontal: getProportionateScreenWidth(30.0),
           ),
-          child: Column(
-            children: [
-              Text(
-                "Welocome Back",
-                style: TextStyle(
-                    fontSize: getProportionateScreenWidth(60),
-                    fontWeight: FontWeight.w500),
-              ),
-              Text(
-                "Sign in with your email and password \nor continue with google",
-                textAlign: TextAlign.center,
-              ),
-              SignForm(),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: SizeConfig.screenHeight! * 0.03,
+                ),
+                Text(
+                  "Welocome Back",
+                  style: TextStyle(
+                      fontSize: getProportionateScreenWidth(60),
+                      fontWeight: FontWeight.w500),
+                ),
+                Text(
+                  "Sign in with your email and password \nor continue with google",
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: SizeConfig.screenHeight! * 0.08,
+                ),
+                SignForm(),
+                SizedBox(
+                  height: SizeConfig.screenHeight! * 0.08,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SocialCard(
+                      icon: "assets/icons/google.svg",
+                      press: () {},
+                    ),
+                    SocialCard(
+                      icon: "assets/icons/facebook.svg",
+                      press: () {},
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: getProportionateScreenHeight(10),
+                ),
+                NoAccountText(),
+              ],
+            ),
           ),
         ),
       ),
@@ -36,31 +67,3 @@ class Body extends StatelessWidget {
   }
 }
 
-class SignForm extends StatefulWidget {
-  const SignForm({Key? key}) : super(key: key);
-
-  @override
-  _SignFormState createState() => _SignFormState();
-}
-
-class _SignFormState extends State<SignForm> {
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      child: Column(
-        children: [
-          TextFormField(
-              decoration: InputDecoration(
-                labelText: "Email",
-                hintText: "Enter Your Email",
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-                suffixIcon: Icon(
-                  Icons.email,
-                 
-                  )
-          )),
-        ],
-      ),
-    );
-  }
-}

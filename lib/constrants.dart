@@ -8,6 +8,14 @@ const cPrimaryGradiantCOlor = LinearGradient(
   end: Alignment.bottomRight,
   colors: [Color(0xFFB2FF59),Color(0xFFEEFF41)]
   );
+
 const cSecondaryColor = Color(0xFFECEFF1);
 const cTextColor = Color(0xFF607D8B);
 const cAnimationDuration = Duration(microseconds: 200);
+
+final RegExp emailValidatorRegExp = RegExp(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)");
+const String cEmailNullError = "Please enter your email";
+const String cInvalidEmailError = "Please enter valid email";
+const String cPassNullError = "Please enter your password";
+const String cShortPassError = "Password is too short";
+const String cMatchPassError = "Password don't match";
