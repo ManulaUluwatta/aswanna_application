@@ -1,76 +1,58 @@
-import 'package:aswanna_application/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../../constrants.dart';
 import '../../../size_cofig.dart';
+
+import '../../../constrants.dart';
 import '../../../components/default_button.dart';
 import '../../../components/custom_suffix_icon.dart';
 import '../../../components/form_error.dart';
-import '../../forgot_password/forgot_password_screen.dart';
 
-class SignForm extends StatefulWidget {
-  const SignForm({Key? key}) : super(key: key);
+class SignUpForm extends StatefulWidget {
+  const SignUpForm({Key? key}) : super(key: key);
 
   @override
-  _SignFormState createState() => _SignFormState();
+  _SignUpFormState createState() => _SignUpFormState();
 }
 
-class _SignFormState extends State<SignForm> {
+class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
   late String email;
   late String password;
-  bool remember = false;
+  late String confirmPassword;
   final List<String> errors = [];
-
-  // bool chekBoxState = false;
-  late bool _passwordVisible;
-
-  @override
-  void initState() {
-    _passwordVisible = false;
-    super.initState();
-  }
-
+  bool chekBoxState = false;
+  bool obscureTextValue = true;
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
         children: [
-          buildEmailFormField(),
+          buildEmailTextField(),
           SizedBox(
-            height: getProportionateScreenHeight(30.0),
+            height: getProportionateScreenHeight(35.0),
           ),
-          buildPasswordFormField(),
+          buildPasswordTextField(obscureTextValue),
           SizedBox(
-            height: getProportionateScreenHeight(10.0),
+            height: getProportionateScreenHeight(35.0),
           ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 10, 10),
-            child: Row(
-              children: [
-                Checkbox(
-                  value: remember,
-                  // fillColor: MaterialStateProperty.all(Color(0xFF09af00)),
-                  activeColor: Color(0xFF09af00),
-                  onChanged: (value) {
-                    setState(() {
-                      remember = value!;
-                    });
-                  },
-                ),
-                Text("Remember me"),
-                Spacer(),
-                GestureDetector(
-                  onTap: () => Navigator.pushNamed(
-                      context, FogotPasswodScreen.routeName),
-                  child: Text(
-                    "Forgot Password",
-                    style: TextStyle(decoration: TextDecoration.underline),
-                  ),
-                ),
-              ],
-            ),
+          buildConfirmPasswordFormField(obscureTextValue),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                "Show password",
+              ),
+              Checkbox(
+                value: chekBoxState, 
+                onChanged: (value){
+                  setState(() {
+                    chekBoxState = value!;
+                    cchengeObcureTextState(chekBoxState);
+                  });
+                }
+                )
+            ],
           ),
           FormError(errors: errors),
           SizedBox(
@@ -81,9 +63,9 @@ class _SignFormState extends State<SignForm> {
             press: () {
               if (_formKey.currentState!.validate() && errors.length == 0) {
                 _formKey.currentState!.save();
+                print(confirmPassword);
                 print(email);
                 print(password);
-                Navigator.pushNamed(context, HomeScreen.routeName);
               }
             },
           ),
@@ -92,10 +74,52 @@ class _SignFormState extends State<SignForm> {
     );
   }
 
-  TextFormField buildPasswordFormField() {
+  TextFormField buildConfirmPasswordFormField(bool obscureTextValue) {
     return TextFormField(
       // keyboardType: TextInputType.visiblePassword,
-      obscureText: _passwordVisible,
+      obscureText: obscureTextValue,
+      onSaved: (newValue) => confirmPassword = newValue!,
+      onChanged: (value) {
+        confirmPassword = value;
+        if (value.isNotEmpty && errors.contains(cPassNullError)) {
+          setState(() {
+            errors.remove(cPassNullError);
+          });
+        } else if (password == confirmPassword &&
+            errors.contains(cMatchPassError)) {
+          setState(() {
+            errors.remove(cMatchPassError);
+          });
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value!.isEmpty && !errors.contains(cPassNullError)) {
+          setState(() {
+            errors.add(cPassNullError);
+          });
+        } else if (password != confirmPassword &&
+            !errors.contains(cMatchPassError)) {
+          setState(() {
+            errors.add(cMatchPassError);
+          });
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "Confirm Password",
+        hintText: "Re-enter Your Password",
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        //Create suffix icon as a widget and pass the icon
+        suffixIcon: CustomSuffixIcon(icons: Icons.lock_outlined),
+      ),
+    );
+  }
+
+  TextFormField buildPasswordTextField(bool obscureTextValue) {
+    return TextFormField(
+      // keyboardType: TextInputType.visiblePassword,
+      obscureText: obscureTextValue,
       onSaved: (newValue) => password = newValue!,
       onChanged: (value) {
         if (value.isNotEmpty && errors.contains(cPassNullError)) {
@@ -107,6 +131,7 @@ class _SignFormState extends State<SignForm> {
             errors.remove(cShortPassError);
           });
         }
+        password = value;
         return null;
       },
       validator: (value) {
@@ -129,24 +154,11 @@ class _SignFormState extends State<SignForm> {
         suffixIcon: CustomSuffixIcon(
           icons: Icons.lock_outline,
         ),
-        prefixIcon: IconButton(
-          onPressed: () {
-            setState(() {
-              _passwordVisible = !_passwordVisible;
-            });
-          },
-          icon: Icon(
-            _passwordVisible
-                ? Icons.visibility_off_outlined
-                : Icons.visibility_outlined,
-            color: Theme.of(context).primaryColorDark,
-          ),
-        ),
       ),
     );
   }
 
-  TextFormField buildEmailFormField() {
+  TextFormField buildEmailTextField() {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
       onSaved: (newValue) => email = newValue!,
@@ -187,4 +199,14 @@ class _SignFormState extends State<SignForm> {
       ),
     );
   }
+
+  void cchengeObcureTextState(bool chekBoxState) {
+    if (chekBoxState) {
+      obscureTextValue = false;
+    }else{
+      obscureTextValue = true;
+    }
+  }
+
+  
 }
