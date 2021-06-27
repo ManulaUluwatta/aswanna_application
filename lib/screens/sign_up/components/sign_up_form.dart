@@ -1,3 +1,4 @@
+import 'package:aswanna_application/screens/complete_profile/complete_profile_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../size_cofig.dart';
@@ -44,14 +45,13 @@ class _SignUpFormState extends State<SignUpForm> {
                 "Show password",
               ),
               Checkbox(
-                value: chekBoxState, 
-                onChanged: (value){
-                  setState(() {
-                    chekBoxState = value!;
-                    cchengeObcureTextState(chekBoxState);
-                  });
-                }
-                )
+                  value: chekBoxState,
+                  onChanged: (value) {
+                    setState(() {
+                      chekBoxState = value!;
+                      cchengeObcureTextState(chekBoxState);
+                    });
+                  })
             ],
           ),
           FormError(errors: errors),
@@ -63,9 +63,10 @@ class _SignUpFormState extends State<SignUpForm> {
             press: () {
               if (_formKey.currentState!.validate() && errors.length == 0) {
                 _formKey.currentState!.save();
-                print(confirmPassword);
                 print(email);
                 print(password);
+                print(confirmPassword);
+                Navigator.pushNamed(context, CompleteProfileScreen.routeName);
               }
             },
           ),
@@ -203,10 +204,8 @@ class _SignUpFormState extends State<SignUpForm> {
   void cchengeObcureTextState(bool chekBoxState) {
     if (chekBoxState) {
       obscureTextValue = false;
-    }else{
+    } else {
       obscureTextValue = true;
     }
   }
-
-  
 }
