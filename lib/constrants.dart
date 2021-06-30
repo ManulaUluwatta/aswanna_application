@@ -19,3 +19,8 @@ const String cInvalidEmailError = "Please enter valid email";
 const String cPassNullError = "Please enter your password";
 const String cShortPassError = "Password is too short";
 const String cMatchPassError = "Password don't match";
+
+const String cFristNameNullError = "Please Enter your first name";
+const String cLastNameNullError = "Please Enter your last name";
+const String cPhoneNumberNullError = "Please Enter your phone number";
+const String cAddressNullError = "Please Enter your address";
