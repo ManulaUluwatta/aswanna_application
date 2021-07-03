@@ -26,7 +26,7 @@ class DefaultButton extends StatelessWidget {
             backgroundColor: MaterialStateProperty.all(Color(0xFF09af00))),
         onPressed: press,
         child: Text(
-          "Continue",
+          text,
           style: TextStyle(
             fontSize: 22.0,
             color: Colors.white,
