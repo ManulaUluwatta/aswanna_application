@@ -1,4 +1,5 @@
 import 'package:aswanna_application/screens/home/home_screen.dart';
+import 'package:aswanna_application/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constrants.dart';
@@ -16,11 +17,13 @@ class SignForm extends StatefulWidget {
 }
 
 class _SignFormState extends State<SignForm> {
+  final AuthService authService = AuthService();
   final _formKey = GlobalKey<FormState>();
   late String email;
   late String password;
   bool remember = false;
   final List<String> errors = [];
+
 
   // bool chekBoxState = false;
   late bool _passwordVisible;
@@ -59,14 +62,23 @@ class _SignFormState extends State<SignForm> {
                     });
                   },
                 ),
-                Text("Remember me"),
+                Text(
+                  "Remember me",
+                  style: TextStyle(
+                    fontSize: getProportionateScreenWidth(30),
+                  ),
+                  ),
                 Spacer(),
                 GestureDetector(
                   onTap: () => Navigator.pushNamed(
                       context, FogotPasswodScreen.routeName),
                   child: Text(
                     "Forgot Password",
-                    style: TextStyle(decoration: TextDecoration.underline),
+                    style: TextStyle(
+                      fontSize: getProportionateScreenWidth(30),
+                      decoration: TextDecoration.underline,
+                      fontWeight: FontWeight.w500
+                      ),
                   ),
                 ),
               ],
@@ -76,6 +88,40 @@ class _SignFormState extends State<SignForm> {
           SizedBox(
             height: getProportionateScreenHeight(20.0),
           ),
+                Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "To View, ",
+                style: TextStyle(
+                  fontSize: getProportionateScreenWidth(35),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  dynamic result = authService.signInAnonymously();
+                  if (result == null) {
+                    print("error signing in");
+                  }else{
+                    Navigator.pushNamed(context, HomeScreen.routeName);
+                    print("sign in");
+                    print(result);
+                  }
+                },
+                child: Text(
+                  "Anonymous Sign In",
+                  style: TextStyle(
+                      fontSize: getProportionateScreenWidth(35),
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF09af00)),
+                ),
+              ),
+            ],
+          ),
+           SizedBox(
+            height: getProportionateScreenHeight(10.0),
+          ),
+    
           DefaultButton(
             text: "Continue",
             press: () {
@@ -87,6 +133,7 @@ class _SignFormState extends State<SignForm> {
               }
             },
           ),
+         
         ],
       ),
     );

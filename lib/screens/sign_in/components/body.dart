@@ -1,4 +1,3 @@
-
 import 'package:aswanna_application/screens/sign_in/components/sign_form.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +7,8 @@ import '../../../components/no_account_text.dart';
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class Body extends StatelessWidget {
                 ),
                 SignForm(),
                 SizedBox(
-                  height: SizeConfig.screenHeight! * 0.08,
+                  height: SizeConfig.screenHeight! * 0.06,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -66,4 +67,3 @@ class Body extends StatelessWidget {
     );
   }
 }
-

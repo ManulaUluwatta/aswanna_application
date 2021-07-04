@@ -43,6 +43,9 @@ class _SignUpFormState extends State<SignUpForm> {
             children: [
               Text(
                 "Show password",
+                style: TextStyle(
+                  fontSize: getProportionateScreenWidth(30),
+                ),
               ),
               Checkbox(
                   value: chekBoxState,

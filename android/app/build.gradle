@@ -5,6 +5,11 @@ if (localPropertiesFile.exists()) {
         localProperties.load(reader)
     }
 }
+// rootProject.ext {
+//   set('FlutterFire', [
+//     FirebaseSDKVersion: '25.12.0'
+//   ])
+// }
 
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
@@ -22,6 +27,7 @@ if (flutterVersionName == null) {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
@@ -39,6 +45,7 @@ android {
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -56,4 +63,7 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation platform('com.google.firebase:firebase-bom:28.2.0')
+    implementation 'com.android.support:multidex:1.0.3'
 }
+

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "320957932986",
+    "project_id": "aswanna-application",
+    "storage_bucket": "aswanna-application.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:320957932986:android:19c32a859c535bfb196983",
+        "android_client_info": {
+          "package_name": "com.example.aswanna_application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "320957932986-cm30i9klpmbs7ggo3d2r08hc58vql6h7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAryZd0KWI7n0Pf5ZaX423mahUx1DPaVlk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "320957932986-cm30i9klpmbs7ggo3d2r08hc58vql6h7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
