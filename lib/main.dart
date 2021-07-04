@@ -1,4 +1,5 @@
 import 'package:aswanna_application/routs.dart';
+import 'package:aswanna_application/screens/profile/profile_screen.dart';
 import 'package:aswanna_application/screens/splash/splash_screen.dart';
 import 'package:aswanna_application/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
       theme: theme(textTheme),
       // home: SplashScreen(),
       initialRoute: SplashScreen.routeName,
+      // initialRoute: ProfileScreen.routeName,
       routes: routes,
     );
   }
