@@ -1,5 +1,8 @@
 import 'package:aswanna_application/screens/complete_profile/complete_profile_screen.dart';
+import 'package:aswanna_application/screens/home/home_screen.dart';
+import 'package:aswanna_application/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../size_cofig.dart';
 
@@ -16,6 +19,9 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
+  
+  late final TextEditingController emailController;
+  late final TextEditingController passwordController;
   final _formKey = GlobalKey<FormState>();
   late String email;
   late String password;
@@ -23,11 +29,28 @@ class _SignUpFormState extends State<SignUpForm> {
   final List<String> errors = [];
   bool chekBoxState = false;
   bool obscureTextValue = true;
+
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
+    // final loginProvider = Provider.of<AuthService>(context);
     return Form(
       key: _formKey,
-      child: Column(
+      child: isLoading == false ? Column(
         children: [
           buildEmailTextField(),
           SizedBox(
@@ -63,18 +86,51 @@ class _SignUpFormState extends State<SignUpForm> {
           ),
           DefaultButton(
             text: "Continue",
-            press: () {
+            press: () async {
               if (_formKey.currentState!.validate() && errors.length == 0) {
                 _formKey.currentState!.save();
                 print(email);
                 print(password);
                 print(confirmPassword);
-                Navigator.pushNamed(context, CompleteProfileScreen.routeName);
+                setState(() {
+                        isLoading = true;
+                      });
+                      AuthService()
+                          .signUp(
+                              email: emailController.text.trim(),
+                              password: passwordController.text.trim())
+                          .then((value) {
+                        if (value == 'SignUp') {
+                          setState(() {
+                            isLoading = false;
+                          });
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomeScreen()),
+                              (route) => false);
+                        }else{
+                          setState(() {
+                            isLoading = false;
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(value!)));
+                        }
+                      });
+                // context.read<AuthService>().signUp(
+                //   email: emailController.text.trim(), 
+                //   password: passwordController.text.trim(), 
+                //   context: context,
+                //   );
+                  // dispose();
+                // await loginProvider.signUp(
+                //     email: emailController.text.trim(),
+                //     password: passwordController.text.trim());
+                // Navigator.pushNamed(context, CompleteProfileScreen.routeName);
               }
             },
           ),
         ],
-      ),
+      ) : Center(child: CircularProgressIndicator()),
     );
   }
 
@@ -122,6 +178,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   TextFormField buildPasswordTextField(bool obscureTextValue) {
     return TextFormField(
+      controller: passwordController,
       // keyboardType: TextInputType.visiblePassword,
       obscureText: obscureTextValue,
       onSaved: (newValue) => password = newValue!,
@@ -164,6 +221,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   TextFormField buildEmailTextField() {
     return TextFormField(
+      controller: emailController,
       keyboardType: TextInputType.emailAddress,
       onSaved: (newValue) => email = newValue!,
       onChanged: (value) {

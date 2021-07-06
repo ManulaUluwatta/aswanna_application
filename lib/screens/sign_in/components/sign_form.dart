@@ -1,6 +1,11 @@
 import 'package:aswanna_application/screens/home/home_screen.dart';
+import 'package:aswanna_application/screens/sign_in/sign_in_screen.dart';
+import 'package:aswanna_application/screens/sign_up/components/sign_up_form.dart';
+import 'package:aswanna_application/screens/sign_up/sign_up_screen.dart';
 import 'package:aswanna_application/services/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../constrants.dart';
 import '../../../size_cofig.dart';
@@ -17,13 +22,16 @@ class SignForm extends StatefulWidget {
 }
 
 class _SignFormState extends State<SignForm> {
-  final AuthService authService = AuthService();
+  // final AuthService authService = AuthService();
+  late final TextEditingController emailController;
+  late final TextEditingController passwordController;
   final _formKey = GlobalKey<FormState>();
   late String email;
   late String password;
   bool remember = false;
   final List<String> errors = [];
 
+  bool isLoading = false;
 
   // bool chekBoxState = false;
   late bool _passwordVisible;
@@ -31,116 +39,168 @@ class _SignFormState extends State<SignForm> {
   @override
   void initState() {
     _passwordVisible = false;
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
     super.initState();
   }
 
   @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // final loginProvider = Provider.of<AuthService>(context);
     return Form(
       key: _formKey,
-      child: Column(
-        children: [
-          buildEmailFormField(),
-          SizedBox(
-            height: getProportionateScreenHeight(30.0),
-          ),
-          buildPasswordFormField(),
-          SizedBox(
-            height: getProportionateScreenHeight(10.0),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 10, 10),
-            child: Row(
+      child: isLoading == false
+          ? Column(
               children: [
-                Checkbox(
-                  value: remember,
-                  // fillColor: MaterialStateProperty.all(Color(0xFF09af00)),
-                  activeColor: Color(0xFF09af00),
-                  onChanged: (value) {
-                    setState(() {
-                      remember = value!;
-                    });
+                buildEmailFormField(),
+                SizedBox(
+                  height: getProportionateScreenHeight(30.0),
+                ),
+                buildPasswordFormField(),
+                SizedBox(
+                  height: getProportionateScreenHeight(10.0),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 10, 10),
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: remember,
+                        // fillColor: MaterialStateProperty.all(Color(0xFF09af00)),
+                        activeColor: Color(0xFF09af00),
+                        onChanged: (value) {
+                          setState(() {
+                            remember = value!;
+                          });
+                        },
+                      ),
+                      Text(
+                        "Remember me",
+                        style: TextStyle(
+                          fontSize: getProportionateScreenWidth(30),
+                        ),
+                      ),
+                      Spacer(),
+                      GestureDetector(
+                        // onTap: () => Navigator.pushNamed(
+                        //     context, FogotPasswodScreen.routeName),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FogotPasswodScreen()));
+                        },
+                        child: Text(
+                          "Forgot Password",
+                          style: TextStyle(
+                              fontSize: getProportionateScreenWidth(30),
+                              decoration: TextDecoration.underline,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                FormError(errors: errors),
+                SizedBox(
+                  height: getProportionateScreenHeight(20.0),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "To View, ",
+                      style: TextStyle(
+                        fontSize: getProportionateScreenWidth(35),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        // dynamic result = authService.signInAnonymously();
+                        // dynamic result =
+                        //     context.read<AuthService>().signInAnonymously();
+                        // if (result == null) {
+                        //   print("error signing in");
+                        // } else {
+                        //   Navigator.pushNamed(context, HomeScreen.routeName);
+                        //   print("sign in");
+                        //   print(result);
+                        // }
+                      },
+                      child: Text(
+                        "Anonymous Sign In",
+                        style: TextStyle(
+                            fontSize: getProportionateScreenWidth(35),
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF09af00)),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: getProportionateScreenHeight(10.0),
+                ),
+                DefaultButton(
+                  text: "Continue",
+                  press: () async {
+                    if (_formKey.currentState!.validate() &&
+                        errors.length == 0) {
+                      _formKey.currentState!.save();
+                      print(email);
+                      print(password);
+                      setState(() {
+                        isLoading = true;
+                      });
+                      AuthService()
+                          .signIn(
+                              email: emailController.text.trim(),
+                              password: passwordController.text.trim())
+                          .then((value) {
+                        if (value == 'welcome') {
+                          setState(() {
+                            isLoading = false;
+                          });
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomeScreen()),
+                              (route) => false);
+                        }else{
+                          setState(() {
+                            isLoading = false;
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(value!)));
+                        }
+                      });
+                      // context.read<AuthService>().signIn(
+                      //   email: emailController.text.trim(),
+                      //    password: passwordController.text.trim(),
+                      //     context: context,
+                      //     );
+                      // dispose();
+                      // var user = await loginProvider.signIn(
+                      //     email: emailController.text.trim(),
+                      //     password: passwordController.text.trim());
+
+                    }
                   },
                 ),
-                Text(
-                  "Remember me",
-                  style: TextStyle(
-                    fontSize: getProportionateScreenWidth(30),
-                  ),
-                  ),
-                Spacer(),
-                GestureDetector(
-                  onTap: () => Navigator.pushNamed(
-                      context, FogotPasswodScreen.routeName),
-                  child: Text(
-                    "Forgot Password",
-                    style: TextStyle(
-                      fontSize: getProportionateScreenWidth(30),
-                      decoration: TextDecoration.underline,
-                      fontWeight: FontWeight.w500
-                      ),
-                  ),
-                ),
               ],
-            ),
-          ),
-          FormError(errors: errors),
-          SizedBox(
-            height: getProportionateScreenHeight(20.0),
-          ),
-                Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "To View, ",
-                style: TextStyle(
-                  fontSize: getProportionateScreenWidth(35),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  dynamic result = authService.signInAnonymously();
-                  if (result == null) {
-                    print("error signing in");
-                  }else{
-                    Navigator.pushNamed(context, HomeScreen.routeName);
-                    print("sign in");
-                    print(result);
-                  }
-                },
-                child: Text(
-                  "Anonymous Sign In",
-                  style: TextStyle(
-                      fontSize: getProportionateScreenWidth(35),
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF09af00)),
-                ),
-              ),
-            ],
-          ),
-           SizedBox(
-            height: getProportionateScreenHeight(10.0),
-          ),
-    
-          DefaultButton(
-            text: "Continue",
-            press: () {
-              if (_formKey.currentState!.validate() && errors.length == 0) {
-                _formKey.currentState!.save();
-                print(email);
-                print(password);
-                Navigator.pushNamed(context, HomeScreen.routeName);
-              }
-            },
-          ),
-         
-        ],
-      ),
+            )
+          : Center(child: CircularProgressIndicator()),
     );
   }
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
+      controller: passwordController,
       // keyboardType: TextInputType.visiblePassword,
       obscureText: _passwordVisible,
       onSaved: (newValue) => password = newValue!,
@@ -195,6 +255,7 @@ class _SignFormState extends State<SignForm> {
 
   TextFormField buildEmailFormField() {
     return TextFormField(
+      controller: emailController,
       keyboardType: TextInputType.emailAddress,
       onSaved: (newValue) => email = newValue!,
       onChanged: (value) {

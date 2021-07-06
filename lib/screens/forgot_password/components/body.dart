@@ -1,6 +1,8 @@
 import 'package:aswanna_application/components/default_button.dart';
 import 'package:aswanna_application/components/form_error.dart';
 import 'package:aswanna_application/components/no_account_text.dart';
+import 'package:aswanna_application/screens/sign_in/sign_in_screen.dart';
+import 'package:aswanna_application/services/auth_service.dart';
 import 'package:aswanna_application/size_cofig.dart';
 import 'package:flutter/material.dart';
 
@@ -53,16 +55,25 @@ class ForgotPasswordForm extends StatefulWidget {
 }
 
 class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
+  late final TextEditingController emailController;
   final _formKey = GlobalKey<FormState>();
   List<String> errors = [];
   late String email;
+
+  bool isLoading = false;
+  @override
+  void initState() {
+    emailController = TextEditingController();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Column(
+      child: isLoading == false ? Column(
         children: [
           TextFormField(
+            controller: emailController,
             keyboardType: TextInputType.emailAddress,
             onSaved: (newValue) => email = newValue!,
             onChanged: (value) {
@@ -113,7 +124,30 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
               press: () {
                 if (_formKey.currentState!.validate() && errors.length == 0) {
                   _formKey.currentState!.save();
-                  print(email);
+                  print(email);setState(() {
+                        isLoading = true;
+                      });
+                      AuthService()
+                          .restPassword(
+                              email: emailController.text.trim(),)
+                          .then((value) {
+                        if (value == 'Email Send') {
+                          setState(() {
+                            isLoading = false;
+                          });
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignInScreen()),
+                              (route) => false);
+                        }else{
+                          setState(() {
+                            isLoading = false;
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(value!)));
+                        }
+                      });
+                  
                 }
               }),
           SizedBox(
@@ -121,7 +155,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
           ),
           NoAccountText(),
         ],
-      ),
+      ) : Center(child: CircularProgressIndicator())
     );
   }
 }

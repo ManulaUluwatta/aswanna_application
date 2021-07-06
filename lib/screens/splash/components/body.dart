@@ -8,9 +8,9 @@ import 'package:flutter/material.dart';
 import '../components/splash_content.dart';
 
 class Body extends StatefulWidget {
-  final int currentPageSplash;
-  final Function(int i) updateCurrentPage;
-  const Body(this.currentPageSplash, this.updateCurrentPage, {Key? key})
+  // final int currentPageSplash;
+  // final Function(int i) updateCurrentPage;
+  const Body({Key? key})
       : super(key: key);
   @override
   _BodyState createState() => _BodyState();
