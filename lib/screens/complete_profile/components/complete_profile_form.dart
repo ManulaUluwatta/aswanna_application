@@ -1,5 +1,8 @@
 import 'package:aswanna_application/screens/home/home_screen.dart';
+import 'package:aswanna_application/services/custom/user_service.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../../../models/user.dart' as UserModel;
 
 import '../../../constrants.dart';
 import '../../../size_cofig.dart';
@@ -15,13 +18,15 @@ class CompleteProfileForm extends StatefulWidget {
 }
 
 class _CompleteProfileFormState extends State<CompleteProfileForm> {
+  
+  final UserService _userService = UserService();
   final _formKey = GlobalKey<FormState>();
   List<String> errors = [];
   late String firstName;
   late String lastName;
-  late String role;
   late String phoneNumber;
   late String address;
+  late String role;
   late Object selectedRadio;
 
   @override
@@ -48,6 +53,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
 
   @override
   Widget build(BuildContext context) {
+    String? uid = FirebaseAuth.instance.currentUser!.uid;
     return Form(
       key: _formKey,
       child: Column(
@@ -81,7 +87,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                 activeColor: Colors.green,
                 onChanged: (value) {
                   setSelectedRadio(value);
-                  print(value);
+
+                  // print(value);
                 },
               ),
               Text(
@@ -89,12 +96,11 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                 style: TextStyle(fontSize: 18),
               ),
               Radio(
-                value: "Buyyer",
+                value: "Buyer",
                 groupValue: selectedRadio,
                 onChanged: (value) {
                   setSelectedRadio(value);
-
-                  print(value);
+                  // print(value);
                 },
               ),
               Text(
@@ -119,8 +125,21 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                 print(lastName);
                 print(phoneNumber);
                 print(address);
-                print(selectedRadio);
-                Navigator.pushNamed(context, HomeScreen.routeName);
+                print(uid);
+                _userService.create(UserModel.User(
+                  uid: uid,
+                  firstName: firstName,
+                   lastName: lastName ,
+                   contact: phoneNumber,
+                   address: address,
+                   role: selectedRadio.toString(),
+                   ),);
+                // Navigator.pushNamed(context, HomeScreen.routeName);
+                Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomeScreen()),
+                              (route) => false);
               }
               }),
         ],

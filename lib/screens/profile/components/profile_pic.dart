@@ -1,3 +1,5 @@
+//import 'dart:html';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +18,8 @@ class ProfilePic extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           CircleAvatar(
-            // backgroundImage: AssetImage("assets/images/profilePic.png"),
+            backgroundImage: AssetImage("assets/images/profilePic.png"),
+            backgroundColor: Colors.white,
           ),
           Positioned(
             right: -12,

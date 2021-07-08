@@ -1,11 +1,7 @@
 import 'package:aswanna_application/screens/home/home_screen.dart';
-import 'package:aswanna_application/screens/sign_in/sign_in_screen.dart';
-import 'package:aswanna_application/screens/sign_up/components/sign_up_form.dart';
-import 'package:aswanna_application/screens/sign_up/sign_up_screen.dart';
-import 'package:aswanna_application/services/auth_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:aswanna_application/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:future_progress_dialog/future_progress_dialog.dart';
 
 import '../../../constrants.dart';
 import '../../../size_cofig.dart';
@@ -29,7 +25,6 @@ class _SignFormState extends State<SignForm> {
   late String email;
   late String password;
   bool remember = false;
-  final List<String> errors = [];
 
   bool isLoading = false;
 
@@ -49,6 +44,11 @@ class _SignFormState extends State<SignForm> {
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
+  }
+
+  _resetTextField() {
+    passwordController.clear();
+    emailController.clear();
   }
 
   @override
@@ -108,7 +108,7 @@ class _SignFormState extends State<SignForm> {
                     ],
                   ),
                 ),
-                FormError(errors: errors),
+                // FormError(errors: errors),
                 SizedBox(
                   height: getProportionateScreenHeight(20.0),
                 ),
@@ -149,48 +149,7 @@ class _SignFormState extends State<SignForm> {
                 ),
                 DefaultButton(
                   text: "Continue",
-                  press: () async {
-                    if (_formKey.currentState!.validate() &&
-                        errors.length == 0) {
-                      _formKey.currentState!.save();
-                      print(email);
-                      print(password);
-                      setState(() {
-                        isLoading = true;
-                      });
-                      AuthService()
-                          .signIn(
-                              email: emailController.text.trim(),
-                              password: passwordController.text.trim())
-                          .then((value) {
-                        if (value == 'welcome') {
-                          setState(() {
-                            isLoading = false;
-                          });
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomeScreen()),
-                              (route) => false);
-                        }else{
-                          setState(() {
-                            isLoading = false;
-                          });
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(value!)));
-                        }
-                      });
-                      // context.read<AuthService>().signIn(
-                      //   email: emailController.text.trim(),
-                      //    password: passwordController.text.trim(),
-                      //     context: context,
-                      //     );
-                      // dispose();
-                      // var user = await loginProvider.signIn(
-                      //     email: emailController.text.trim(),
-                      //     password: passwordController.text.trim());
-
-                    }
-                  },
+                  press: signInUser,
                 ),
               ],
             )
@@ -204,27 +163,11 @@ class _SignFormState extends State<SignForm> {
       // keyboardType: TextInputType.visiblePassword,
       obscureText: _passwordVisible,
       onSaved: (newValue) => password = newValue!,
-      onChanged: (value) {
-        if (value.isNotEmpty && errors.contains(cPassNullError)) {
-          setState(() {
-            errors.remove(cPassNullError);
-          });
-        } else if (value.length >= 8 && errors.contains(cShortPassError)) {
-          setState(() {
-            errors.remove(cShortPassError);
-          });
-        }
-        return null;
-      },
       validator: (value) {
-        if (value!.isEmpty && !errors.contains(cPassNullError)) {
-          setState(() {
-            errors.add(cPassNullError);
-          });
-        } else if (value.length < 8 && !errors.contains(cShortPassError)) {
-          setState(() {
-            errors.add(cShortPassError);
-          });
+        if (value!.isEmpty) {
+          return cPassNullError;
+        } else if (value.length < 8) {
+          return cShortPassError;
         }
         return null;
       },
@@ -250,6 +193,8 @@ class _SignFormState extends State<SignForm> {
           ),
         ),
       ),
+
+      autovalidateMode: AutovalidateMode.onUserInteraction,
     );
   }
 
@@ -258,32 +203,6 @@ class _SignFormState extends State<SignForm> {
       controller: emailController,
       keyboardType: TextInputType.emailAddress,
       onSaved: (newValue) => email = newValue!,
-      onChanged: (value) {
-        if (value.isNotEmpty && errors.contains(cEmailNullError)) {
-          setState(() {
-            errors.remove(cEmailNullError);
-          });
-        } else if (emailValidatorRegExp.hasMatch(value) &&
-            errors.contains(cInvalidEmailError)) {
-          setState(() {
-            errors.remove(cInvalidEmailError);
-          });
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value!.isEmpty && !errors.contains(cEmailNullError)) {
-          setState(() {
-            errors.add(cEmailNullError);
-          });
-        } else if (!emailValidatorRegExp.hasMatch(value) &&
-            !errors.contains(cInvalidEmailError)) {
-          setState(() {
-            errors.add(cInvalidEmailError);
-          });
-        }
-        return null;
-      },
       decoration: InputDecoration(
         labelText: "Email",
         hintText: "Enter Your Email",
@@ -293,6 +212,55 @@ class _SignFormState extends State<SignForm> {
           icons: Icons.email_outlined,
         ),
       ),
+      validator: (value) {
+        if (emailController.text.isEmpty) {
+          return cEmailNullError;
+        } else if (!emailValidatorRegExp.hasMatch(emailController.text)) {
+          return cInvalidEmailError;
+        }
+        return null;
+      },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
     );
+  }
+
+  Future<void> signInUser() async {
+    if (_formKey.currentState!.validate()) {
+      //  && errors.length == 0
+      _formKey.currentState!.save();
+      print(email);
+      print(password);
+      setState(() {
+        isLoading = true;
+      });
+      AuthService()
+          .signIn(
+              email: emailController.text.trim(),
+              password: passwordController.text.trim())
+          .then((value) {
+        if (value == 'welcome') {
+          setState(() {
+            isLoading = false;
+          });
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+              (route) => false);
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              value!,
+              style: TextStyle(fontSize: 18),
+              textAlign: TextAlign.center,
+            ),
+            backgroundColor: Colors.red[300],
+          ));
+          _resetTextField();
+        }
+      });
+    }
   }
 }

@@ -2,7 +2,7 @@ import 'package:aswanna_application/components/default_button.dart';
 import 'package:aswanna_application/components/form_error.dart';
 import 'package:aswanna_application/components/no_account_text.dart';
 import 'package:aswanna_application/screens/sign_in/sign_in_screen.dart';
-import 'package:aswanna_application/services/auth_service.dart';
+import 'package:aswanna_application/services/auth/auth_service.dart';
 import 'package:aswanna_application/size_cofig.dart';
 import 'package:flutter/material.dart';
 
@@ -140,11 +140,26 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                               MaterialPageRoute(
                                   builder: (context) => SignInScreen()),
                               (route) => false);
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                              value!,
+                              style: TextStyle(fontSize: 18),
+                              textAlign: TextAlign.center,
+                            ),
+                            backgroundColor: Colors.green[200],
+                          ));
                         }else{
                           setState(() {
                             isLoading = false;
                           });
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(value!)));
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                              value!,
+                              style: TextStyle(fontSize: 18),
+                              textAlign: TextAlign.center,
+                            ),
+                            backgroundColor: Colors.red[300],
+                          ));
                         }
                       });
                   

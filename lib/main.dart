@@ -1,16 +1,9 @@
 
-
 import 'package:aswanna_application/routs.dart';
-import 'package:aswanna_application/screens/sign_in/sign_in_screen.dart';
-import 'package:aswanna_application/screens/splash/splash_screen.dart';
 import 'package:aswanna_application/screens/welcome/welcome_screen.dart';
-import 'package:aswanna_application/services/auth_service.dart';
 import 'package:aswanna_application/theme.dart';
-import 'package:aswanna_application/wrapper.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 // import 'package:provider/provider.dart';
 
 Future<void> main() async {

@@ -3,6 +3,8 @@ import 'package:aswanna_application/screens/splash/splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../size_cofig.dart';
+
 class WelcomeScreen extends StatefulWidget {
   static String routeName = "/welcomeScreen";
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -16,7 +18,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 2), () {
+    SizeConfig().init(context);
+    Future.delayed(const Duration(seconds: 3), () {
       if (auth.currentUser == null) {
         Navigator.pushAndRemoveUntil(
             context,
@@ -30,6 +33,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       }
     });
     return Scaffold(
+    
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -39,10 +43,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
             
           )),
+          SizedBox(height: SizeConfig.screenHeight!* 0.02,),
           Text(
             "Welcome!",
             style: TextStyle(
-              
+              fontSize: 40,
+              fontWeight: FontWeight.w500,
+              color: Color(0xFF008b00),
             ),
           )
         ],

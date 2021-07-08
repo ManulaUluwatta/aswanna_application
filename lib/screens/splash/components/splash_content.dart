@@ -15,6 +15,7 @@ class SplashContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Column(
       children: <Widget>[
         // Text(
@@ -31,6 +32,8 @@ class SplashContent extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
             child: Image(
               image: AssetImage("assets/images/as.png"),
+              width: getProportionateScreenWidth(100),
+              height: getProportionateScreenHeight(100),
             ),
           ),
         ),
@@ -44,20 +47,28 @@ class SplashContent extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Image.asset(
                 image!,
-                // width: 300.0,
-                // height: 300.0,
+                width: getProportionateScreenWidth(220),
+                height: getProportionateScreenHeight(220),
               ),
             )),
-        SizedBox(height: 30.0),
+        SizedBox(height: SizeConfig.screenWidth! * 0.05),
         Container(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
             child: Text(
               text!,
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
-                color: Colors.white
+                color: Colors.white,
+                shadows: <Shadow>[
+                 Shadow(
+                    offset: Offset(5.0, 4.0),
+                    blurRadius: 8.0,
+                    color: Color(0xFF008b00)
+                  ),
+                ],
               ),
             ),
           ),
@@ -69,21 +80,15 @@ class SplashContent extends StatelessWidget {
             child: Text(
               text2!,
               style: TextStyle(
-                fontSize: 16.0,
-                color: Colors.white
-              ),
+                  fontSize: 17.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w400),
               // textAlign: TextAlign.justify,
-              ),
+            ),
           ),
           width: double.infinity,
         ),
-
-        
       ],
-      
     );
-    
-    
   }
-  
 }

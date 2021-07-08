@@ -4,7 +4,6 @@ import 'package:aswanna_application/constrants.dart';
 import 'package:aswanna_application/screens/sign_in/sign_in_screen.dart';
 import 'package:aswanna_application/size_cofig.dart';
 import 'package:flutter/material.dart';
-
 import '../components/splash_content.dart';
 
 class Body extends StatefulWidget {
@@ -28,22 +27,23 @@ class _BodyState extends State<Body> {
   // PageController
   List<Map<String, String>> splashData = [
     {
-      "text": "Connect people\ naround the world",
-      "image": "assets/images/slide_1.png",
+      "text": "Originators at door step..",
+      "image": "assets/images/doorStop.png",
       "text2":
-          "Lorem ipsum dolor sit amet, adipiscing consect, yet, by long-and vitality, so that labor, and do eiusmod."
+          "We hook you up with hundreds of convenient rated sellers, so you’re never ended up with dissapointment. Search by product,\nplace and amount to have fresh inspiration at your fingertips. Finding all your crops is a fraction of the time."
+          // "Lorem ipsum dolor sit amet, adipiscing consect, yet, by long-and vitality, so that labor, and do eiusmod."
     },
     {
-      "text": "Live your life smarter with us!",
-      "image": "assets/images/slide_2.png",
+      "text": "Why pay extra ?",
+      "image": "assets/images/whyPayExtra.png",
       "text2":
-          "Lorem ipsum dolor sit amet, adipiscing consect, yet, by long-and vitality, so that labor, and do eiusmod."
+          "Gone are the days of having to loose \nso much money in every single market.\nOnce you’ve landed on the gig you like, you can directly contact seller and talk to the price. No extortion, No bribes,No frauds, No halfway rupees at all. Just Place the order and  will take care of the rest. "
     },
     {
-      "text": "Get a new experoence of imagination.",
-      "image": "assets/images/slideNew_3.png",
+      "text": "Why take risks ?",
+      "image": "assets/images/whyTake.png",
       "text2":
-          "Lorem ipsum dolor sit amet, adipiscing consect, yet, by long-and vitality, so that labor, and do eiusmod."
+          "Safty applied when you are on the couch.\nWith your loved once. \nWe keep you out from  market clusters. Nothing is important than the life."
     },
   ];
 
@@ -79,7 +79,7 @@ class _BodyState extends State<Body> {
         child: SizedBox(
           width: double.infinity,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            padding: const EdgeInsets.symmetric(vertical: 2.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -182,7 +182,7 @@ class _BodyState extends State<Body> {
                                           "Next",
                                           style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 22.0),
+                                              fontSize: 21.0),
                                         ),
                                         SizedBox(
                                           width: 10.0,
@@ -190,7 +190,7 @@ class _BodyState extends State<Body> {
                                         Icon(
                                           Icons.arrow_forward,
                                           color: Colors.white,
-                                          size: 30.0,
+                                          size: 25.0,
                                         ),
                                       ],
                                     ),

@@ -8,7 +8,6 @@ import 'package:aswanna_application/screens/sign_in/sign_in_screen.dart';
 import 'package:aswanna_application/screens/sign_up/sign_up_screen.dart';
 import 'package:aswanna_application/screens/splash/splash_screen.dart';
 import 'package:aswanna_application/screens/welcome/welcome_screen.dart';
-import 'package:aswanna_application/wrapper.dart';
 import 'package:flutter/widgets.dart';
 
 final Map<String, WidgetBuilder> routes = {
@@ -19,7 +18,6 @@ final Map<String, WidgetBuilder> routes = {
   SignUpScreen.routeName : (context) => SignUpScreen(),
   CompleteProfileScreen.routeName : (context) => CompleteProfileScreen(),
   ProfileScreen.routeName : (context) => ProfileScreen(),
-  Wrapper.routeName : (context) => Wrapper(),
   HomeContrroller.routeName : (context) => HomeContrroller(),
   WelcomeScreen.routeName : (context) => WelcomeScreen(),
 };
