@@ -7,7 +7,6 @@ import '../../../size_cofig.dart';
 import '../../../constrants.dart';
 import '../../../components/default_button.dart';
 import '../../../components/custom_suffix_icon.dart';
-import '../../../components/form_error.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({Key? key}) : super(key: key);

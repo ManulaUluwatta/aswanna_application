@@ -8,45 +8,46 @@ class Categories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> categories = [
-      {"Icon": "assets/images/fruit.svg", "text": "fruits"},
-      {
-        "Icon":
-            "assets/images/iconfinder_7498444_fruit_vegetables_pumpkin_outline_icon.svg",
-        "text": "Vegetables"
-      },
-      {"Icon": "assets/images/rice.svg", "text": "Rice"},
+      {"icon": "assets/images/fruit.png", "text": "Fruits"},
+      {"icon": "assets/images/vegi.png", "text": "Vegetables"},
+      {"icon": "assets/images/rice.png", "text": "Rice"},
     ];
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: getProportionateScreenWidth(20),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // ...List.generate(
-          //   categories.length,
-          //   (index) => CategoryCard(
-          //     icon: categories[index]["icon"],
-          //     text: categories[index]["text"],
-          //     press: () {},
-          //   ),
-          // ),
-          /* Exception caught by widgets library ═══════════════════════════════════
-The following _TypeError was thrown building Categories(dirty):
-type 'Null' is not a subtype of type 'String'
-
-The relevant error-causing widget was
-Categories
-lib\…\components\body.dart:33
-When the exception was thrown, this was the stack
-#0      Categories.build.<anonymous closure>
-package:aswanna_application/…/components/categories.dart:30
-#1      new _GrowableList.generate (dart:core-patch/growable_array.dart:133:28)
-#2      Categories.build
-package:aswanna_application/…/components/categories.dart:27 */
-
-        ],
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ...List.generate(
+              categories.length,
+              (index) => Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CategoryCard(
+                  icon: categories[index]["icon"],
+                  text: categories[index]["text"],
+                  press: () {},
+                ),
+              ),
+            ),
+            /* Exception caught by widgets library ═══════════════════════════════════
+      The following _TypeError was thrown building Categories(dirty):
+      type 'Null' is not a subtype of type 'String'
+      
+      The relevant error-causing widget was
+      Categories
+      lib\…\components\body.dart:33
+      When the exception was thrown, this was the stack
+      #0      Categories.build.<anonymous closure>
+      package:aswanna_application/…/components/categories.dart:30
+      #1      new _GrowableList.generate (dart:core-patch/growable_array.dart:133:28)
+      #2      Categories.build
+      package:aswanna_application/…/components/categories.dart:27 */
+          ],
+        ),
       ),
     );
   }
@@ -68,7 +69,7 @@ class CategoryCard extends StatelessWidget {
     return GestureDetector(
       onTap: press,
       child: SizedBox(
-        width: getProportionateScreenWidth(55),
+        width: getProportionateScreenWidth(250),
         child: Column(
           children: [
             AspectRatio(
@@ -78,15 +79,19 @@ class CategoryCard extends StatelessWidget {
                   getProportionateScreenWidth(15),
                 ),
                 decoration: BoxDecoration(
-                  color: Color(0xFFFFFECDF),
+                  color: Colors.white10,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: SvgPicture.asset(icon),
+                child: Image.asset(icon),
               ),
             ),
             const SizedBox(height: 5),
             Text(
               text,
+              style: TextStyle(
+                fontSize: getProportionateScreenWidth(35),
+                fontWeight: FontWeight.w500
+              ),
               textAlign: TextAlign.center,
             ),
           ],

@@ -27,7 +27,7 @@ List<Product> demoProducts = [
   Product(
     id: 1,
     images: [
-      "assets/images/green-chilli.png",
+      "assets/images/fruit.png",
       // "assets/images/ps4_console_white_2.png",
       // "assets/images/ps4_console_white_3.png",
       // "assets/images/ps4_console_white_4.png",
@@ -48,7 +48,7 @@ List<Product> demoProducts = [
   Product(
     id: 2,
     images: [
-      "assets/images/apples.png",
+      "assets/images/png-cliparvegi1.png",
     ],
     colors: [
       Color(0xFFF6625E),
@@ -65,7 +65,7 @@ List<Product> demoProducts = [
   Product(
     id: 3,
     images: [
-      "assets/images/turmeric.png",
+      "assets/images/rice.png",
     ],
     colors: [
       Color(0xFFF6625E),
@@ -83,7 +83,7 @@ List<Product> demoProducts = [
   Product(
     id: 4,
     images: [
-      "assets/images/grapes.png",
+      "assets/images/vegi.png",
     ],
     colors: [
       Color(0xFFF6625E),

@@ -11,9 +11,9 @@ class SearchField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       //width : SizeConfig.screenWidth! * 0.60,//60% of our width
-      width: MediaQuery.of(context).size.width * 0.59,
+      width: MediaQuery.of(context).size.width * 0.70,
       decoration: BoxDecoration(
-        color: cSecondaryColor.withOpacity(0.1),
+        color: cSecondaryColor.withOpacity(1),
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextField(

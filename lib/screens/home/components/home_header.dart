@@ -25,7 +25,7 @@ class HomeHeader extends StatelessWidget {
           ),
           IconBtnWithCounter(
             iconSrc: Icons.notifications,
-            numOfItems: 3, //pass the related value
+            numOfItems: 4, //pass the related value
             press: () {}, //assign the behaviour
           ),
         ],

@@ -1,4 +1,5 @@
 import 'package:aswanna_application/screens/home/home_screen.dart';
+import 'package:aswanna_application/screens/sign_in/sign_in_screen.dart';
 import 'package:aswanna_application/services/custom/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -138,7 +139,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                 Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => HomeScreen()),
+                                  builder: (context) => SignInScreen()),
                               (route) => false);
               }
               }),

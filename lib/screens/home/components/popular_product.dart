@@ -14,7 +14,7 @@ class PopularProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-         SectionTitle(text: "Most Selling", press: () {}),
+         SectionTitle(text: "Best Selling", press: () {}),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(

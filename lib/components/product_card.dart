@@ -7,8 +7,8 @@ import '../size_cofig.dart';
 class ProductsCard extends StatelessWidget {
   const ProductsCard({
     Key? key,
-    this.width = 100,
-    this.aspectRa = 1.02,
+    this.width = 400,
+    this.aspectRa = 1.2,
     required this.product,
   }) : super(key: key);
   final double width, aspectRa;
@@ -31,7 +31,7 @@ class ProductsCard extends StatelessWidget {
                   getProportionateScreenWidth(20),
                 ),
                 decoration: BoxDecoration(
-                  color: cSecondaryColor.withOpacity(8.1),
+                  color: cSecondaryColor.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Image.asset(product.images[0]),

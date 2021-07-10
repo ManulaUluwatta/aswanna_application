@@ -39,6 +39,7 @@ dependencies:
   firebase_auth: any
   cloud_firestore: any
   future_progress_dialog: ^0.2.0
+  logger: ^1.0.0
 
 dev_dependencies:
   flutter_test:

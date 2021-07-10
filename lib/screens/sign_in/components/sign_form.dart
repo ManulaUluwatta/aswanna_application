@@ -1,5 +1,8 @@
+import 'dart:ffi';
+
 import 'package:aswanna_application/screens/home/home_screen.dart';
 import 'package:aswanna_application/services/auth/auth_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 
@@ -7,7 +10,6 @@ import '../../../constrants.dart';
 import '../../../size_cofig.dart';
 import '../../../components/default_button.dart';
 import '../../../components/custom_suffix_icon.dart';
-import '../../../components/form_error.dart';
 import '../../forgot_password/forgot_password_screen.dart';
 
 class SignForm extends StatefulWidget {
@@ -26,7 +28,10 @@ class _SignFormState extends State<SignForm> {
   late String password;
   bool remember = false;
 
+  // late String snackbarMessage;
+
   bool isLoading = false;
+
 
   // bool chekBoxState = false;
   late bool _passwordVisible;
@@ -152,9 +157,10 @@ class _SignFormState extends State<SignForm> {
                   press: signInUser,
                 ),
               ],
-            )
+            ) 
           : Center(child: CircularProgressIndicator()),
     );
+    
   }
 
   TextFormField buildPasswordFormField() {
@@ -237,7 +243,7 @@ class _SignFormState extends State<SignForm> {
           .signIn(
               email: emailController.text.trim(),
               password: passwordController.text.trim())
-          .then((value) {
+          .then((value) async {
         if (value == 'welcome') {
           setState(() {
             isLoading = false;
@@ -258,7 +264,7 @@ class _SignFormState extends State<SignForm> {
             ),
             backgroundColor: Colors.red[300],
           ));
-          _resetTextField();
+          // _resetTextField();
         }
       });
     }
