@@ -1,6 +1,9 @@
+import 'package:aswanna_application/components/confirm_dialog.dart';
 import 'package:aswanna_application/screens/complete_profile/complete_profile_screen.dart';
+import 'package:aswanna_application/screens/sign_in/sign_in_screen.dart';
 import 'package:aswanna_application/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:future_progress_dialog/future_progress_dialog.dart';
 
 import '../../../size_cofig.dart';
 
@@ -45,49 +48,49 @@ class _SignUpFormState extends State<SignUpForm> {
   Widget build(BuildContext context) {
     // final loginProvider = Provider.of<AuthService>(context);
     return Form(
-      key: _formKey,
-      child: isLoading == false
-          ? Column(
+        key: _formKey,
+        // child: isLoading == false
+        child: Column(
+          children: [
+            buildEmailTextField(),
+            SizedBox(
+              height: getProportionateScreenHeight(35.0),
+            ),
+            buildPasswordTextField(obscureTextValue),
+            SizedBox(
+              height: getProportionateScreenHeight(35.0),
+            ),
+            buildConfirmPasswordFormField(obscureTextValue),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                buildEmailTextField(),
-                SizedBox(
-                  height: getProportionateScreenHeight(35.0),
+                Text(
+                  "Show password",
+                  style: TextStyle(
+                    fontSize: getProportionateScreenWidth(30),
+                  ),
                 ),
-                buildPasswordTextField(obscureTextValue),
-                SizedBox(
-                  height: getProportionateScreenHeight(35.0),
-                ),
-                buildConfirmPasswordFormField(obscureTextValue),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      "Show password",
-                      style: TextStyle(
-                        fontSize: getProportionateScreenWidth(30),
-                      ),
-                    ),
-                    Checkbox(
-                        value: chekBoxState,
-                        onChanged: (value) {
-                          setState(() {
-                            chekBoxState = value!;
-                            cchengeObcureTextState(chekBoxState);
-                          });
-                        })
-                  ],
-                ),
-                SizedBox(
-                  height: getProportionateScreenHeight(20.0),
-                ),
-                DefaultButton(
-                  text: "Continue",
-                  press: signUpUser,
-                ),
+                Checkbox(
+                    value: chekBoxState,
+                    onChanged: (value) {
+                      setState(() {
+                        chekBoxState = value!;
+                        cchengeObcureTextState(chekBoxState);
+                      });
+                    })
               ],
-            )
-          : Center(child: CircularProgressIndicator()),
-    );
+            ),
+            SizedBox(
+              height: getProportionateScreenHeight(20.0),
+            ),
+            DefaultButton(
+              text: "Continue",
+              press: signUpUser,
+            ),
+          ],
+        )
+        // : Center(child: CircularProgressIndicator()),
+        );
   }
 
   TextFormField buildConfirmPasswordFormField(bool obscureTextValue) {
@@ -176,7 +179,9 @@ class _SignUpFormState extends State<SignUpForm> {
   }
 
   Future<void> signUpUser() async {
+    AuthService authService = AuthService();
     if (_formKey.currentState!.validate()) {
+      String signInStatus = "";
       _formKey.currentState!.save();
       print(email);
       print(password);
@@ -184,41 +189,46 @@ class _SignUpFormState extends State<SignUpForm> {
       setState(() {
         isLoading = true;
       });
-      AuthService()
-          .signUp(
-              email: emailController.text.trim(),
-              password: passwordController.text.trim())
-          .then((value) {
-        if (value == 'SignUp') {
-          setState(() {
-            isLoading = false;
-          });
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-              value!,
+      final signInFuture = authService.signUp(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim());
+      signInFuture.then((value) => signInStatus = value);
+      await showDialog(
+        context: context,
+        builder: (context) {
+          return FutureProgressDialog(
+            signInFuture,
+            message: Text(
+              "Signing up",
               style: TextStyle(fontSize: 18),
-              textAlign: TextAlign.center,
             ),
-            backgroundColor: Colors.green[300],
-          ));
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => CompleteProfileScreen()),
-              (route) => false);
-        } else {
-          setState(() {
-            isLoading = false;
-          });
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-              value!,
-              style: TextStyle(fontSize: 18),
-              textAlign: TextAlign.center,
-            ),
-            backgroundColor: Colors.red[300],
-          ));
-        }
-      });
+          );
+        },
+      );
+      if (signInStatus == 'SignUp') {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            signInStatus,
+            style: TextStyle(fontSize: 18),
+            textAlign: TextAlign.center,
+          ),
+          backgroundColor: Colors.green[300],
+        ));
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => CompleteProfileScreen()),
+            (route) => false);
+        // }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            signInStatus,
+            style: TextStyle(fontSize: 18),
+            textAlign: TextAlign.center,
+          ),
+          backgroundColor: Colors.red[300],
+        ));
+      }
     }
   }
 
@@ -230,3 +240,53 @@ class _SignUpFormState extends State<SignUpForm> {
     }
   }
 }
+
+  // Future<void> signUpUser() async {
+  //   AuthService authService = AuthService();
+  //   if (_formKey.currentState!.validate()) {
+  //     _formKey.currentState!.save();
+  //     print(email);
+  //     print(password);
+  //     print(confirmPassword);
+  //     setState(() {
+  //       isLoading = true;
+  //     });
+  //     authService
+  //         .signUp(
+  //             email: emailController.text.trim(),
+  //             password: passwordController.text.trim())
+  //         .then((value) async {
+  //       if (value == 'SignUp') {
+  //         setState(() {
+  //           isLoading = false;
+  //         });
+  //         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //             content: Text(
+  //               value!,
+  //               style: TextStyle(fontSize: 18),
+  //               textAlign: TextAlign.center,
+  //             ),
+  //             backgroundColor: Colors.green[300],
+  //           ));
+  //           Navigator.pushAndRemoveUntil(
+  //               context,
+  //               MaterialPageRoute(builder: (context) => CompleteProfileScreen()),
+  //               (route) => false);
+  //         // }
+  //       } else {
+  //         setState(() {
+  //           isLoading = false;
+  //         });
+  //         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //           content: Text(
+  //             value!,
+  //             style: TextStyle(fontSize: 18),
+  //             textAlign: TextAlign.center,
+  //           ),
+  //           backgroundColor: Colors.red[300],
+  //         ));
+  //       }
+  //     });
+  //   }
+  // }
+

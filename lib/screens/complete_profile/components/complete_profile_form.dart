@@ -1,8 +1,11 @@
+import 'package:aswanna_application/components/confirm_dialog.dart';
 import 'package:aswanna_application/screens/home/home_screen.dart';
 import 'package:aswanna_application/screens/sign_in/sign_in_screen.dart';
+import 'package:aswanna_application/services/auth/auth_service.dart';
 import 'package:aswanna_application/services/custom/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:future_progress_dialog/future_progress_dialog.dart';
 import '../../../models/user.dart' as UserModel;
 
 import '../../../constrants.dart';
@@ -19,7 +22,6 @@ class CompleteProfileForm extends StatefulWidget {
 }
 
 class _CompleteProfileFormState extends State<CompleteProfileForm> {
-  
   final UserService _userService = UserService();
   final _formKey = GlobalKey<FormState>();
   List<String> errors = [];
@@ -29,9 +31,17 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   late String address;
   late String role;
   late Object selectedRadio;
+  late final TextEditingController firstNameController;
+  late final TextEditingController lastNameController;
+  late final TextEditingController phoneNumberController;
+  late final TextEditingController addressController;
 
   @override
   void initState() {
+    firstNameController = TextEditingController();
+    lastNameController = TextEditingController();
+    phoneNumberController = TextEditingController();
+    addressController = TextEditingController();
     super.initState();
     selectedRadio = 0;
   }
@@ -54,7 +64,6 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
 
   @override
   Widget build(BuildContext context) {
-    String? uid = FirebaseAuth.instance.currentUser!.uid;
     return Form(
       key: _formKey,
       child: Column(
@@ -117,32 +126,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           SizedBox(
             height: getProportionateScreenHeight(10),
           ),
-          DefaultButton(
-              text: "Continue",
-              press: () {
-               if (_formKey.currentState!.validate() && errors.length == 0) {
-                _formKey.currentState!.save();
-                print(firstName);
-                print(lastName);
-                print(phoneNumber);
-                print(address);
-                print(uid);
-                _userService.create(UserModel.User(
-                  uid: uid,
-                  firstName: firstName,
-                   lastName: lastName ,
-                   contact: phoneNumber,
-                   address: address,
-                   role: selectedRadio.toString(),
-                   ),);
-                // Navigator.pushNamed(context, HomeScreen.routeName);
-                Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SignInScreen()),
-                              (route) => false);
-              }
-              }),
+          DefaultButton(text: "Continue", press: completeProfileAction),
         ],
       ),
     );
@@ -156,21 +140,12 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
 
   TextFormField buildAddressFormField() {
     return TextFormField(
+      controller: addressController,
       keyboardType: TextInputType.streetAddress,
       onSaved: (newValue) => address = newValue!,
-      onChanged: (value) {
-        if (value.isNotEmpty && errors.contains(cAddressNullError)) {
-          setState(() {
-            errors.remove(cAddressNullError);
-          });
-        }
-        return null;
-      },
       validator: (value) {
-        if (value!.isEmpty && !errors.contains(cAddressNullError)) {
-          setState(() {
-            errors.add(cAddressNullError);
-          });
+        if (value!.isEmpty) {
+          return cAddressNullError;
         }
         return null;
       },
@@ -183,26 +158,26 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           icons: Icons.location_pin,
         ),
       ),
+      autovalidateMode: AutovalidateMode.onUserInteraction,
     );
   }
 
   TextFormField buildPhoneNumberFormField() {
     return TextFormField(
+      controller: phoneNumberController,
       keyboardType: TextInputType.number,
       onSaved: (newValue) => phoneNumber = newValue!,
-      onChanged: (value) {
-        if (value.isNotEmpty && errors.contains(cPhoneNumberNullError)) {
-          setState(() {
-            errors.remove(cPhoneNumberNullError);
-          });
-        }
-        return null;
-      },
+      // validator: (value) {
+      //   if (value!.isEmpty) {
+      //     return cPhoneNumberNullError;
+      //   }
+      //   return null;
+      // },
       validator: (value) {
-        if (value!.isEmpty && !errors.contains(cPhoneNumberNullError)) {
-          setState(() {
-            errors.add(cPhoneNumberNullError);
-          });
+        if (phoneNumberController.text.isEmpty) {
+          return cPhoneNumberNullError;
+        } else if (!phoneNumberValidationRegExp.hasMatch(phoneNumberController.text)) {
+          return "Invalid Phone Number";
         }
         return null;
       },
@@ -215,26 +190,18 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           icons: Icons.contact_phone,
         ),
       ),
+      autovalidateMode: AutovalidateMode.onUserInteraction,
     );
   }
 
   TextFormField buildLastNameFormField() {
     return TextFormField(
+      controller: lastNameController,
       keyboardType: TextInputType.text,
       onSaved: (newValue) => lastName = newValue!,
-      onChanged: (value) {
-        if (value.isNotEmpty && errors.contains(cLastNameNullError)) {
-          setState(() {
-            errors.remove(cLastNameNullError);
-          });
-        }
-        return null;
-      },
       validator: (value) {
-        if (value!.isEmpty && !errors.contains(cLastNameNullError)) {
-          setState(() {
-            errors.add(cLastNameNullError);
-          });
+        if (value!.isEmpty) {
+          return cLastNameNullError;
         }
         return null;
       },
@@ -247,26 +214,18 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           icons: Icons.person,
         ),
       ),
+      autovalidateMode: AutovalidateMode.onUserInteraction,
     );
   }
 
   TextFormField buildFirstNameFormField() {
     return TextFormField(
+      controller: firstNameController,
       keyboardType: TextInputType.text,
       onSaved: (newValue) => firstName = newValue!,
-      onChanged: (value) {
-        if (value.isNotEmpty && errors.contains(cFristNameNullError)) {
-          setState(() {
-            errors.remove(cFristNameNullError);
-          });
-        }
-        return null;
-      },
       validator: (value) {
-        if (value!.isEmpty && !errors.contains(cFristNameNullError)) {
-          setState(() {
-            errors.add(cFristNameNullError);
-          });
+        if (value!.isEmpty) {
+          return cFristNameNullError;
         }
         return null;
       },
@@ -279,6 +238,100 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           icons: Icons.person,
         ),
       ),
+      autovalidateMode: AutovalidateMode.onUserInteraction,
     );
   }
+
+  Future<void> completeProfileAction() async {
+    String? uid = FirebaseAuth.instance.currentUser!.uid;
+    AuthService authService = AuthService();
+
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      bool allowed = authService.currentUserVerified;
+      if (!allowed) {
+        final reverify = await showConfirmationDialog(context,
+            "You haven't verified your email address.You have to verifiy your account first",
+            positiveResponse: "Resend verification email",
+            negativeResponse: "Go Back");
+        if (reverify) {
+          final future = await authService.sendEmailVerificationToUser();
+          await showDialog(
+            context: context,
+            builder: (context) {
+              return FutureProgressDialog(
+                future,
+                message: Text("Resending verification email"),
+              );
+            },
+          );
+        }
+      } else {
+        _userService.create(
+          UserModel.User(
+            uid: uid,
+            firstName: firstNameController.text,
+            lastName: lastNameController.text,
+            contact: phoneNumberController.text,
+            address: addressController.text,
+            role: selectedRadio.toString(),
+          ),
+        );
+        // Navigator.pushNamed(context, HomeScreen.routeName);
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+            (route) => false);
+      }
+    }
+  }
 }
+
+//   Future<void> completeProfileAction() async {
+//     String? uid = FirebaseAuth.instance.currentUser!.uid;
+//     AuthService authService = AuthService();
+//     if (_formKey.currentState!.validate() && errors.length == 0) {
+//       _formKey.currentState!.save();
+//       print(firstName);
+//       print(lastName);
+//       print(phoneNumber);
+//       print(address);
+//       print(uid);
+//       bool allowed = authService.currentUserVerified;
+//       if (!allowed) {
+//         final reverify = await showConfirmationDialog(context,
+//             "You haven't verified your email address.You have to verifiy your account first",
+//             positiveResponse: "Resend verification email",
+//             negativeResponse: "Go Back");
+//         if (reverify) {
+//           final future = await authService.sendEmailVerificationToUser();
+//           await showDialog(
+//             context: context,
+//             builder: (context) {
+//               return FutureProgressDialog(
+//                 future,
+//                 message: Text("Resending verification email"),
+//               );
+//             },
+//           );
+//         }
+//       } else {
+//         _userService.create(
+//           UserModel.User(
+//             uid: uid,
+//             firstName: firstName,
+//             lastName: lastName,
+//             contact: phoneNumber,
+//             address: address,
+//             role: selectedRadio.toString(),
+//           ),
+//         );
+//         // Navigator.pushNamed(context, HomeScreen.routeName);
+//         Navigator.pushAndRemoveUntil(
+//             context,
+//             MaterialPageRoute(builder: (context) => HomeScreen()),
+//             (route) => false);
+//       }
+//     }
+//   }
+// }

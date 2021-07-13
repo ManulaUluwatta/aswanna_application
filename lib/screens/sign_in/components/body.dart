@@ -24,7 +24,7 @@ class Body extends StatelessWidget {
                   height: SizeConfig.screenHeight! * 0.03,
                 ),
                 Text(
-                  "Welocome Back",
+                  "Welocome",
                   style: TextStyle(
                       fontSize: getProportionateScreenWidth(60),
                       fontWeight: FontWeight.w500),

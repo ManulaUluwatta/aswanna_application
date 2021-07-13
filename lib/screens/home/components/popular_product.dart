@@ -19,12 +19,12 @@ class PopularProduct extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              ...List.generate(
-                demoProducts.length,
-                (index) => ProductsCard(
-                  product: demoProducts[index],
-                ),
-              ),
+              // ...List.generate(
+              //   demoProducts.length,
+              //   (index) => ProductsCard(
+              //     product: demoProducts[index],
+              //   ),
+              // ),
               SizedBox(
                 width: getProportionateScreenWidth(20),
               ),

@@ -1,6 +1,7 @@
 import 'package:aswanna_application/components/custom_bottom_nav_bar.dart';
 import 'package:aswanna_application/enums.dart';
 import 'package:flutter/material.dart';
+import '../../size_cofig.dart';
 import 'components/body.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -9,7 +10,8 @@ class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {  
+    SizeConfig().init(context);  
     return Scaffold(      
       appBar: AppBar(
         title: Text("Profile"),

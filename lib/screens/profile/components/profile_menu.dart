@@ -19,7 +19,7 @@ class ProfileMenu extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: TextButton(
         style: TextButton.styleFrom(
-            primary: Colors.lightGreenAccent[200],
+            primary: Color(0xFF61d800),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15))),
         onPressed: press,
@@ -27,7 +27,7 @@ class ProfileMenu extends StatelessWidget {
           children: [
             Icon(
               pic,
-              color: Colors.green[400],
+              color: Color(0xFF41c300),
             ),
             SizedBox(
               width: 20,
@@ -35,12 +35,15 @@ class ProfileMenu extends StatelessWidget {
             Expanded(
               child: Text(
                 text,
-                style: Theme.of(context).textTheme.bodyText1,
+                style: TextStyle(
+                  color:Color(0xFF455A64),
+                  fontSize: 16
+                ),
               ),
             ),
             Icon(
               Icons.arrow_forward_ios,
-              color: Colors.grey,
+              color: Color(0xFF41c300),
             ),
           ],
         ),

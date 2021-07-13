@@ -33,19 +33,6 @@ class Categories extends StatelessWidget {
                 ),
               ),
             ),
-            /* Exception caught by widgets library ═══════════════════════════════════
-      The following _TypeError was thrown building Categories(dirty):
-      type 'Null' is not a subtype of type 'String'
-      
-      The relevant error-causing widget was
-      Categories
-      lib\…\components\body.dart:33
-      When the exception was thrown, this was the stack
-      #0      Categories.build.<anonymous closure>
-      package:aswanna_application/…/components/categories.dart:30
-      #1      new _GrowableList.generate (dart:core-patch/growable_array.dart:133:28)
-      #2      Categories.build
-      package:aswanna_application/…/components/categories.dart:27 */
           ],
         ),
       ),

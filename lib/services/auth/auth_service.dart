@@ -28,7 +28,7 @@ class AuthService with ChangeNotifier {
 
   Stream<User?> get userChanges => auth.userChanges();
 
-  Future<String?> signUp(
+  Future signUp(
       {required String email, required String password}) async {
     try {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
@@ -48,7 +48,7 @@ class AuthService with ChangeNotifier {
     }
   }
 
-  Future<String?> signIn(
+  Future signIn(
       {required String email, required String password}) async {
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
@@ -58,6 +58,7 @@ class AuthService with ChangeNotifier {
       } else {
         log("sending...");
         await userCredential.user!.sendEmailVerification();
+        return "Sent Account verification link to your email";
       }
      } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -78,11 +79,14 @@ class AuthService with ChangeNotifier {
     }
   }
 
-  Future<void> signOut() async {
+  Future signOut() async {
     await auth.signOut();
   }
+  Future sendEmailVerificationToUser() async {
+    return await auth.currentUser!.sendEmailVerification();
+  }
 
-  Future<void> deleteUserAccount() async {
+  Future deleteUserAccount() async {
     await auth.currentUser!.delete();
     await signOut();
   }
@@ -92,11 +96,15 @@ class AuthService with ChangeNotifier {
     return auth.currentUser!.emailVerified;
   }
 
-  Future<void> sendEmailVerification() async {
+  Future sendEmailVerification() async {
     await auth.currentUser!.sendEmailVerification();
   }
 
-  Future<void> updateCurrentUserDisplayName(String name) async {
+  Future updateCurrentUserDisplayName(String name) async {
     await auth.currentUser!.updateDisplayName(name);
+  }
+
+  User? get currentUser {
+    return auth.currentUser;
   }
 }

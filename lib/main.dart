@@ -23,9 +23,63 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: HomeContrroller.routeName, 
       routes: routes,
-
     );
-    // return MultiProvider(
+  }
+}
+
+class HomeContrroller extends StatefulWidget {
+  static String routeName = "/homeController";
+  const HomeContrroller({ Key? key }) : super(key: key);
+
+  @override
+  _HomeContrrollerState createState() => _HomeContrrollerState();
+}
+
+class _HomeContrrollerState extends State<HomeContrroller> {
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  @override
+  Widget build(BuildContext context) {
+     return FutureBuilder(
+      // Initialize FlutterFire:
+      future: _initialization,
+      builder: (context, snapshot) {
+        // Check for errors
+        if (snapshot.hasError) {
+          return ErrorWidget();
+        }
+
+        // Once complete, show your application
+        if (snapshot.connectionState == ConnectionState.done) {
+          return WelcomeScreen();
+        }
+
+        // Otherwise, show something whilst waiting for initialization to complete
+        return Center(child: CircularProgressIndicator() ,);
+      },
+    );
+  }
+}
+
+class ErrorWidget extends StatelessWidget {
+  const ErrorWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          children: [
+            Icon(Icons.error),
+            Text("Something went wrong !"),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+// return MultiProvider(
     //   providers: [
     //     Provider<AuthService>(create: (_) => AuthService(FirebaseAuth.instance),
     //     ),
@@ -85,56 +139,3 @@ class MyApp extends StatelessWidget {
     //   // initialRoute: ProfileScreen.routeName,
     //   routes: routes,
     // );
-  }
-}
-
-class HomeContrroller extends StatefulWidget {
-  static String routeName = "/homeController";
-  const HomeContrroller({ Key? key }) : super(key: key);
-
-  @override
-  _HomeContrrollerState createState() => _HomeContrrollerState();
-}
-
-class _HomeContrrollerState extends State<HomeContrroller> {
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-  @override
-  Widget build(BuildContext context) {
-     return FutureBuilder(
-      // Initialize FlutterFire:
-      future: _initialization,
-      builder: (context, snapshot) {
-        // Check for errors
-        if (snapshot.hasError) {
-          return ErrorWidget();
-        }
-
-        // Once complete, show your application
-        if (snapshot.connectionState == ConnectionState.done) {
-          return WelcomeScreen();
-        }
-
-        // Otherwise, show something whilst waiting for initialization to complete
-        return Center(child: CircularProgressIndicator() ,);
-      },
-    );
-  }
-}
-
-class ErrorWidget extends StatelessWidget {
-  const ErrorWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            Icon(Icons.error),
-            Text("Something went wrong !"),
-          ],
-        ),
-      ),
-    );
-  }
-}
