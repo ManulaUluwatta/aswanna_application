@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
 
 class HomeContrroller extends StatefulWidget {
   static String routeName = "/homeController";
-  const HomeContrroller({ Key? key }) : super(key: key);
+  const HomeContrroller({ Key key }) : super(key: key);
 
   @override
   _HomeContrrollerState createState() => _HomeContrrollerState();
@@ -61,7 +61,7 @@ class _HomeContrrollerState extends State<HomeContrroller> {
 }
 
 class ErrorWidget extends StatelessWidget {
-  const ErrorWidget({Key? key}) : super(key: key);
+  const ErrorWidget({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

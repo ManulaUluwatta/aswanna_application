@@ -8,7 +8,7 @@ enum ImageType {
 
 class CustomImage {
   final ImageType imgType;
-  final String? path;
+  final String path;
   CustomImage({this.imgType = ImageType.local,@required this.path});
   @override
   String toString() {
@@ -18,12 +18,13 @@ class CustomImage {
 
 class ProductDetails extends ChangeNotifier {
   List<CustomImage> _selectedImages = <CustomImage>[];
-  late ProductType _productType;
+  ProductType _productType;
   List<String> _searchTags = <String>[];
 
   List<CustomImage> get selectedImages {
     return _selectedImages;
   }
+
 
   set initialSelectedImages(List<CustomImage> images) {
     _selectedImages = images;
@@ -48,6 +49,7 @@ class ProductDetails extends ChangeNotifier {
 
   set initialProductType(ProductType type) {
     _productType = type;
+    notifyListeners();
   }
 
   set productType(ProductType type) {
@@ -70,6 +72,7 @@ class ProductDetails extends ChangeNotifier {
 
   set initSearchTags(List<String> tags) {
     _searchTags = tags;
+    notifyListeners();
   }
 
   void addSearchTag(String tag) {
@@ -77,7 +80,7 @@ class ProductDetails extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeSearchTag({required int index}) {
+  void removeSearchTag({int index}) {
     if (index == null) {
       _searchTags.removeLast();
     } else {

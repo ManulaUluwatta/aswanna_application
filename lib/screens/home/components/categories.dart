@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import '../../../size_cofig.dart';
 
 class Categories extends StatelessWidget {
-  const Categories({Key? key}) : super(key: key);
+  const Categories({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +42,10 @@ class Categories extends StatelessWidget {
 
 class CategoryCard extends StatelessWidget {
   const CategoryCard({
-    Key? key,
-    required this.icon,
-    required this.text,
-    required this.press,
+    Key key,
+    this.icon,
+    this.text,
+    this.press,
   }) : super(key: key);
 
   final String icon, text;

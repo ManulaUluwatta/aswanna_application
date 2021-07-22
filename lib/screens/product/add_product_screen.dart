@@ -8,8 +8,8 @@ import 'package:provider/provider.dart';
 import '../../size_cofig.dart';
 
 class AddProductScreen extends StatelessWidget {
-  final Product? productToEdit;
-  const AddProductScreen({ Key? key, this.productToEdit }) : super(key: key);
+  final Product productToEdit;
+  const AddProductScreen({ Key key, this.productToEdit }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

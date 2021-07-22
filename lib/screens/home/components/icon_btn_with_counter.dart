@@ -4,10 +4,10 @@ import '../../../size_cofig.dart';
 
 class IconBtnWithCounter extends StatelessWidget {
   const IconBtnWithCounter({
-    Key? key,
-    required this.iconSrc,
+    Key key,
+    this.iconSrc,
     this.numOfItems = 0,
-    required this.press,
+    this.press,
   }) : super(key: key);
 
   final IconData iconSrc;

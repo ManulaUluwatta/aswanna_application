@@ -5,7 +5,7 @@ import 'complete_profile_form.dart';
 
 
 class Body extends StatelessWidget {
-  const Body({Key? key}) : super(key: key);
+  const Body({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class Body extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: SizeConfig.screenHeight! * 0.02,),
+              SizedBox(height: SizeConfig.screenHeight * 0.02,),
               Text(
                 "Complete Profile",
                 style: TextStyle(
@@ -29,7 +29,7 @@ class Body extends StatelessWidget {
                 "Complete your details",
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: SizeConfig.screenHeight! * 0.04,),
+              SizedBox(height: SizeConfig.screenHeight * 0.04,),
               CompleteProfileForm(),
               SizedBox(height: getProportionateScreenHeight(30),),
               Text(

@@ -10,18 +10,18 @@ import 'profile_menu.dart';
 import 'profile_pic.dart';
 
 class Body extends StatelessWidget {
-  const Body({Key? key}) : super(key: key);
+  const Body({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final userData =
-        UserService().getById(FirebaseAuth.instance.currentUser!.uid);
+        UserService().getById(FirebaseAuth.instance.currentUser.uid);
         FirebaseAuth auth = FirebaseAuth.instance;
     return SingleChildScrollView(
       child: Column(
         children: [
           ProfilePic(),
-          Text("${auth.currentUser!.email}"),
+          Text("${auth.currentUser.email}"),
           SizedBox(
             height: 20,
           ),

@@ -9,7 +9,7 @@ import '../../size_cofig.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static String routeName = "/welcomeScreen";
-  const WelcomeScreen({Key? key}) : super(key: key);
+  const WelcomeScreen({Key key}) : super(key: key);
 
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
@@ -53,7 +53,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
             
           )),
-          SizedBox(height: SizeConfig.screenHeight!* 0.02,),
+          SizedBox(height: SizeConfig.screenHeight* 0.02,),
           Text(
             "Welcome!",
             style: TextStyle(

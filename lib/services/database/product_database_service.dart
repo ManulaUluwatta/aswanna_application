@@ -14,7 +14,7 @@ class ProductDatabaseService{
     return _instance;
   }
 
-  late FirebaseFirestore _firebaseFirestore;
+  FirebaseFirestore _firebaseFirestore;
   FirebaseFirestore get firestore{
     if (_firebaseFirestore == null) {
       _firebaseFirestore = FirebaseFirestore.instance;
@@ -25,7 +25,7 @@ class ProductDatabaseService{
   AuthService authService = AuthService();
 
    Future<List<dynamic>> searchInProducts(String query,
-      {ProductType? productType}) async {
+      {ProductType productType}) async {
     Query queryRef;
     if (productType == null) {
       queryRef = firestore.collection(productCollectionName);
@@ -73,7 +73,7 @@ class ProductDatabaseService{
       );
     } else {
       int oldRating = 0;
-      oldRating = (await reviewDoc.get()).data()!["rating"];
+      oldRating = (await reviewDoc.get()).data()["rating"];
       reviewDoc.update(review.toUpdateMap());
       return await addUsersRatingForProduct(productId, review.rating,
           oldRating: oldRating);
@@ -81,7 +81,7 @@ class ProductDatabaseService{
   }
 
   Future<bool> addUsersRatingForProduct(String productId, int rating,
-      {int? oldRating}) async {
+      {int oldRating}) async {
     final productDocRef =
         firestore.collection(productCollectionName).doc(productId);
     final ratingsCount =
@@ -89,7 +89,7 @@ class ProductDatabaseService{
             .docs
             .length;
     final productDoc = await productDocRef.get();
-    final prevRating = productDoc.data()!["rating"];
+    final prevRating = productDoc.data()["rating"];
     double newRating;
     if (oldRating == null) {
       newRating = (prevRating * (ratingsCount - 1) + rating) / ratingsCount;
@@ -102,7 +102,7 @@ class ProductDatabaseService{
     return true;
   }
 
-  Future<Review?> getProductReviewWithID(
+  Future<Review> getProductReviewWithID(
       String productId, String reviewId) async {
     final reviewesCollectionRef = firestore
         .collection(productCollectionName)
@@ -133,7 +133,7 @@ class ProductDatabaseService{
     }
   }
 
-  Future<Product?> getProductWithID(String productId) async {
+  Future<Product> getProductWithID(String productId) async {
     final docSnapshot = await firestore
         .collection(productCollectionName)
         .doc(productId)
@@ -146,7 +146,7 @@ class ProductDatabaseService{
   }
 
   Future<String> addUsersProduct(Product product) async {
-    String uid = authService.currentUser!.uid;
+    String uid = authService.currentUser.uid;
     final productMap = product.toMap();
     product.owner = uid;
     final productsCollectionReference =
@@ -197,7 +197,7 @@ class ProductDatabaseService{
   }
 
   Future<List<dynamic>> get usersProductsList async {
-    String uid = authService.currentUser!.uid;
+    String uid = authService.currentUser.uid;
     final productsCollectionReference =
         firestore.collection(productCollectionName);
     final querySnapshot = await productsCollectionReference
@@ -221,7 +221,7 @@ class ProductDatabaseService{
   }
 
   Future<bool> updateProductsImages(
-      String productId, List<String?> imgUrl) async {
+      String productId, List<String> imgUrl) async {
     final Product updateProduct = Product(null,  images:imgUrl);
     final docRef =
         firestore.collection(productCollectionName).doc(productId);

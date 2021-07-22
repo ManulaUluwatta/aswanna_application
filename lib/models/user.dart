@@ -1,19 +1,19 @@
 class User {
-  late String uid;
-  late String firstName;
-  late String lastName;
-  late String contact;
-  late String address;
-  late String role;
+  String uid;
+  String firstName;
+  String lastName;
+  String contact;
+  String address;
+  String role;
 
   // User({required this.uid});
   User(
-      {required this.uid,
-      required this.firstName,
-      required this.lastName,
-      required this.contact,
-      required this.address,
-      required this.role});
+      {this.uid,
+      this.firstName,
+      this.lastName,
+      this.contact,
+      this.address,
+      this.role});
 
   User.map(dynamic user){
     this.uid = user["uid"];

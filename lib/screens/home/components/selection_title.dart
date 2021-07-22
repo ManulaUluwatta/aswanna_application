@@ -3,9 +3,9 @@ import '../../../size_cofig.dart';
 
 class SectionTitle extends StatelessWidget {
   const SectionTitle({
-    Key? key, 
-    required this.text, 
-    required this.press,
+    Key key, 
+    this.text, 
+    this.press,
   }) : super(key: key);
   final String text;
   final GestureTapCallback press;

@@ -9,7 +9,7 @@ class FirestoreFilesAccess {
   factory FirestoreFilesAccess() {
     return _instance;
   }
-  late FirebaseFirestore _firebaseFirestore;
+  FirebaseFirestore _firebaseFirestore;
   FirebaseFirestore get firestore {
     // ignore: unnecessary_null_comparison
     if (_firebaseFirestore == null) {

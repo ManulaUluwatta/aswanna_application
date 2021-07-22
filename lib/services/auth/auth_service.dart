@@ -24,17 +24,17 @@ class AuthService with ChangeNotifier {
 
   static FirebaseAuth auth = FirebaseAuth.instance;
 
-  Stream<User?> get authStateChanges => auth.authStateChanges();
+  Stream<User> get authStateChanges => auth.authStateChanges();
 
-  Stream<User?> get userChanges => auth.userChanges();
+  Stream<User> get userChanges => auth.userChanges();
 
   Future signUp(
-      {required String email, required String password}) async {
+      {String email,String password}) async {
     try {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      if (userCredential.user!.emailVerified == false) {
-        await userCredential.user!.sendEmailVerification();
+      if (userCredential.user.emailVerified == false) {
+        await userCredential.user.sendEmailVerification();
       }
       return "SignUp";
     } on FirebaseAuthException catch (e) {
@@ -49,15 +49,15 @@ class AuthService with ChangeNotifier {
   }
 
   Future signIn(
-      {required String email, required String password}) async {
+      {String email, String password}) async {
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
-      if (userCredential.user!.emailVerified) {
+      if (userCredential.user.emailVerified) {
         return "welcome";
       } else {
         log("sending...");
-        await userCredential.user!.sendEmailVerification();
+        await userCredential.user.sendEmailVerification();
         return "Sent Account verification link to your email";
       }
      } on FirebaseAuthException catch (e) {
@@ -70,7 +70,7 @@ class AuthService with ChangeNotifier {
     }
   }
 
-  Future<String?> restPassword({required String email}) async {
+  Future<String> restPassword({String email}) async {
     try {
       await auth.sendPasswordResetEmail(email: email);
       return 'Email Send';
@@ -83,28 +83,28 @@ class AuthService with ChangeNotifier {
     await auth.signOut();
   }
   Future sendEmailVerificationToUser() async {
-    return await auth.currentUser!.sendEmailVerification();
+    return await auth.currentUser.sendEmailVerification();
   }
 
   Future deleteUserAccount() async {
-    await auth.currentUser!.delete();
+    await auth.currentUser.delete();
     await signOut();
   }
 
   bool get currentUserVerified {
-    auth.currentUser!.reload();
-    return auth.currentUser!.emailVerified;
+    auth.currentUser.reload();
+    return auth.currentUser.emailVerified;
   }
 
   Future sendEmailVerification() async {
-    await auth.currentUser!.sendEmailVerification();
+    await auth.currentUser.sendEmailVerification();
   }
 
   Future updateCurrentUserDisplayName(String name) async {
-    await auth.currentUser!.updateDisplayName(name);
+    await auth.currentUser.updateDisplayName(name);
   }
 
-  User? get currentUser {
+  User get currentUser {
     return auth.currentUser;
   }
 }

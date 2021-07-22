@@ -10,7 +10,7 @@ import '../../../constrants.dart';
 import '../../../components/custom_suffix_icon.dart';
 
 class Body extends StatelessWidget {
-  const Body({Key? key}) : super(key: key);
+  const Body({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class Body extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(
-                height: SizeConfig.screenHeight! * 0.04,
+                height: SizeConfig.screenHeight * 0.04,
               ),
               Text(
                 "Forgot Password",
@@ -36,7 +36,7 @@ class Body extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               SizedBox(
-                height: SizeConfig.screenHeight! * 0.1,
+                height: SizeConfig.screenHeight * 0.1,
               ),
               ForgotPasswordForm(),
             ],
@@ -48,17 +48,17 @@ class Body extends StatelessWidget {
 }
 
 class ForgotPasswordForm extends StatefulWidget {
-  const ForgotPasswordForm({Key? key}) : super(key: key);
+  const ForgotPasswordForm({Key key}) : super(key: key);
 
   @override
   _ForgotPasswordFormState createState() => _ForgotPasswordFormState();
 }
 
 class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
-  late final TextEditingController emailController;
+  TextEditingController emailController;
   final _formKey = GlobalKey<FormState>();
   List<String> errors = [];
-  late String email;
+  String email;
 
   bool isLoading = false;
   @override
@@ -77,7 +77,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                   TextFormField(
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
-                    onSaved: (newValue) => email = newValue!,
+                    onSaved: (newValue) => email = newValue,
                     onChanged: (value) {
                       if (value.isNotEmpty &&
                           errors.contains(cEmailNullError)) {
@@ -93,7 +93,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                       return null;
                     },
                     validator: (value) {
-                      if (value!.isEmpty && !errors.contains(cEmailNullError)) {
+                      if (value.isEmpty && !errors.contains(cEmailNullError)) {
                         setState(() {
                           errors.add(cEmailNullError);
                         });
@@ -120,14 +120,14 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                   ),
                   FormError(errors: errors),
                   SizedBox(
-                    height: SizeConfig.screenHeight! * 0.1,
+                    height: SizeConfig.screenHeight * 0.1,
                   ),
                   DefaultButton(
                       text: "Continue",
                       press: () {
-                        if (_formKey.currentState!.validate() &&
+                        if (_formKey.currentState.validate() &&
                             errors.length == 0) {
-                          _formKey.currentState!.save();
+                          _formKey.currentState.save();
                           print(email);
                           setState(() {
                             isLoading = true;
@@ -149,7 +149,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
                                 content: Text(
-                                  value!,
+                                  value,
                                   style: TextStyle(fontSize: 18),
                                   textAlign: TextAlign.center,
                                 ),
@@ -162,7 +162,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
                                 content: Text(
-                                  value!,
+                                  value,
                                   style: TextStyle(fontSize: 18),
                                   textAlign: TextAlign.center,
                                 ),
@@ -173,7 +173,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                         }
                       }),
                   SizedBox(
-                    height: SizeConfig.screenHeight! * 0.1,
+                    height: SizeConfig.screenHeight * 0.1,
                   ),
                   NoAccountText(),
                 ],

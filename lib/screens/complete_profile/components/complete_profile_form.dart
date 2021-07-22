@@ -15,7 +15,7 @@ import '../../../components/custom_suffix_icon.dart';
 import '../../../components/form_error.dart';
 
 class CompleteProfileForm extends StatefulWidget {
-  const CompleteProfileForm({Key? key}) : super(key: key);
+  const CompleteProfileForm({Key key}) : super(key: key);
 
   @override
   _CompleteProfileFormState createState() => _CompleteProfileFormState();
@@ -25,16 +25,16 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   final UserService _userService = UserService();
   final _formKey = GlobalKey<FormState>();
   List<String> errors = [];
-  late String firstName;
-  late String lastName;
-  late String phoneNumber;
-  late String address;
-  late String role;
-  late Object selectedRadio;
-  late final TextEditingController firstNameController;
-  late final TextEditingController lastNameController;
-  late final TextEditingController phoneNumberController;
-  late final TextEditingController addressController;
+  String firstName;
+  String lastName;
+  String phoneNumber;
+  String address;
+  String role;
+  Object selectedRadio;
+  TextEditingController firstNameController;
+  TextEditingController lastNameController;
+  TextEditingController phoneNumberController;
+  TextEditingController addressController;
 
   @override
   void initState() {
@@ -46,7 +46,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
     selectedRadio = 0;
   }
 
-  void addError({required String error}) {
+  void addError({String error}) {
     if (!errors.contains(error)) {
       setState(() {
         errors.add(error);
@@ -54,7 +54,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
     }
   }
 
-  void removeError({required String error}) {
+  void removeError({String error}) {
     if (errors.contains(error)) {
       setState(() {
         errors.remove(error);
@@ -142,9 +142,9 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
     return TextFormField(
       controller: addressController,
       keyboardType: TextInputType.streetAddress,
-      onSaved: (newValue) => address = newValue!,
+      onSaved: (newValue) => address = newValue,
       validator: (value) {
-        if (value!.isEmpty) {
+        if (value.isEmpty) {
           return cAddressNullError;
         }
         return null;
@@ -166,7 +166,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
     return TextFormField(
       controller: phoneNumberController,
       keyboardType: TextInputType.number,
-      onSaved: (newValue) => phoneNumber = newValue!,
+      onSaved: (newValue) => phoneNumber = newValue,
       // validator: (value) {
       //   if (value!.isEmpty) {
       //     return cPhoneNumberNullError;
@@ -198,9 +198,9 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
     return TextFormField(
       controller: lastNameController,
       keyboardType: TextInputType.text,
-      onSaved: (newValue) => lastName = newValue!,
+      onSaved: (newValue) => lastName = newValue,
       validator: (value) {
-        if (value!.isEmpty) {
+        if (value.isEmpty) {
           return cLastNameNullError;
         }
         return null;
@@ -222,9 +222,9 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
     return TextFormField(
       controller: firstNameController,
       keyboardType: TextInputType.text,
-      onSaved: (newValue) => firstName = newValue!,
+      onSaved: (newValue) => firstName = newValue,
       validator: (value) {
-        if (value!.isEmpty) {
+        if (value.isEmpty) {
           return cFristNameNullError;
         }
         return null;
@@ -243,11 +243,11 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   }
 
   Future<void> completeProfileAction() async {
-    String? uid = FirebaseAuth.instance.currentUser!.uid;
+    String uid = FirebaseAuth.instance.currentUser.uid;
     AuthService authService = AuthService();
 
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
       bool allowed = authService.currentUserVerified;
       if (!allowed) {
         final reverify = await showConfirmationDialog(context,

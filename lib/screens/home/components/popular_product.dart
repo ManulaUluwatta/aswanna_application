@@ -7,7 +7,7 @@ import 'package:aswanna_application/screens/home/components/selection_title.dart
 
 class PopularProduct extends StatelessWidget {
   const PopularProduct({
-    Key? key,
+    Key key,
   }) : super(key: key);
 
   @override

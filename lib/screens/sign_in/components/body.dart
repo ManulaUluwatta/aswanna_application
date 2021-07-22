@@ -6,7 +6,7 @@ import '../../../components/social_card.dart';
 import '../../../components/no_account_text.dart';
 
 class Body extends StatelessWidget {
-  const Body({Key? key}) : super(key: key);
+  const Body({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class Body extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(
-                  height: SizeConfig.screenHeight! * 0.03,
+                  height: SizeConfig.screenHeight * 0.03,
                 ),
                 Text(
                   "Welocome",
@@ -34,11 +34,11 @@ class Body extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(
-                  height: SizeConfig.screenHeight! * 0.08,
+                  height: SizeConfig.screenHeight * 0.08,
                 ),
                 SignForm(),
                 SizedBox(
-                  height: SizeConfig.screenHeight! * 0.06,
+                  height: SizeConfig.screenHeight * 0.06,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

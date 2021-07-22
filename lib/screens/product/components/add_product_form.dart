@@ -20,9 +20,9 @@ import 'package:flutter_tags/flutter_tags.dart';
 import '../../../size_cofig.dart';
 
 class EditProductForm extends StatefulWidget {
-  final Product? product;
+  final Product product;
   EditProductForm({
-    Key? key,
+    Key key,
     this.product,
   }) : super(key: key);
 
@@ -48,7 +48,7 @@ class _EditProductFormState extends State<EditProductForm> {
   final TextEditingController sellerFieldController = TextEditingController();
 
   bool newProduct = true;
-  late Product product;
+  Product product;
 
   @override
   void dispose() {
@@ -71,14 +71,14 @@ class _EditProductFormState extends State<EditProductForm> {
       product = Product(null);
       newProduct = true;
     } else {
-      product = widget.product!;
+      product = widget.product;
       newProduct = false;
       final productDetails =
           Provider.of<ProductDetails>(context, listen: false);
-      productDetails.initialSelectedImages = widget.product!.images!
+      productDetails.initialSelectedImages = widget.product.images
           .map((e) => CustomImage(imgType: ImageType.network, path: e))
           .toList();
-      productDetails.initialProductType = product.productType!;
+      productDetails.initialProductType = product.productType;
       productDetails.initSearchTags = product.searchTags ?? [];
     }
   }
@@ -94,7 +94,7 @@ class _EditProductFormState extends State<EditProductForm> {
         SizedBox(height: getProportionateScreenHeight(10)),
         buildUploadImagesTile(context),
         SizedBox(height: getProportionateScreenHeight(20)),
-        // buildProductTypeDropdown(),
+        buildProductTypeDropdown(),
         SizedBox(height: getProportionateScreenHeight(20)),
         buildProductSearchTagsTile(),
         SizedBox(height: getProportionateScreenHeight(80)),
@@ -107,13 +107,13 @@ class _EditProductFormState extends State<EditProductForm> {
       ],
     );
     if (newProduct == false) {
-      titleFieldController.text = product.title!;
-      variantFieldController.text = product.subCategory!;
+      titleFieldController.text = product.title;
+      variantFieldController.text = product.subCategory;
       discountPriceFieldController.text = product.discountPrice.toString();
       originalPriceFieldController.text = product.originalPrice.toString();
-      highlightsFieldController.text = product.highlights!;
-      desciptionFieldController.text = product.description!;
-      sellerFieldController.text = product.owner!;
+      highlightsFieldController.text = product.highlights;
+      desciptionFieldController.text = product.description;
+      sellerFieldController.text = product.owner;
     }
     return column;
   }
@@ -194,8 +194,8 @@ class _EditProductFormState extends State<EditProductForm> {
   }
 
   bool validateBasicDetailsForm() {
-    if (_basicDetailsFormKey.currentState!.validate()) {
-      _basicDetailsFormKey.currentState!.save();
+    if (_basicDetailsFormKey.currentState.validate()) {
+      _basicDetailsFormKey.currentState.save();
       product.title = titleFieldController.text;
       product.subCategory = variantFieldController.text;
       product.originalPrice = double.parse(originalPriceFieldController.text);
@@ -231,8 +231,8 @@ class _EditProductFormState extends State<EditProductForm> {
   }
 
   bool validateDescribeProductForm() {
-    if (_describeProductFormKey.currentState!.validate()) {
-      _describeProductFormKey.currentState!.save();
+    if (_describeProductFormKey.currentState.validate()) {
+      _describeProductFormKey.currentState.save();
       product.highlights = highlightsFieldController.text;
       product.description = desciptionFieldController.text;
       return true;
@@ -339,10 +339,10 @@ class _EditProductFormState extends State<EditProductForm> {
                         child: productDetails.selectedImages[index].imgType ==
                                 ImageType.local
                             ? Image.memory(
-                                File(productDetails.selectedImages[index].path!)
+                                File(productDetails.selectedImages[index].path)
                                     .readAsBytesSync())
                             : Image.network(
-                                productDetails.selectedImages[index].path!),
+                                productDetails.selectedImages[index].path),
                       ),
                     ),
                   ),
@@ -535,8 +535,8 @@ class _EditProductFormState extends State<EditProductForm> {
       );
       return;
     }
-    late String productId;
-    late String snackbarMessage;
+    String productId;
+    String snackbarMessage;
     try {
       product.productType = productDetails.productType;
       product.searchTags = productDetails.searchTags;
@@ -598,7 +598,7 @@ class _EditProductFormState extends State<EditProductForm> {
         ),
       );
     }
-    List<String?> downloadUrls = productDetails.selectedImages
+    List<String> downloadUrls = productDetails.selectedImages
         .map((e) => e.imgType == ImageType.network ? e.path : null)
         .toList();
     bool productFinalizeUpdate = false;
@@ -642,11 +642,11 @@ class _EditProductFormState extends State<EditProductForm> {
     for (int i = 0; i < productDetails.selectedImages.length; i++) {
       if (productDetails.selectedImages[i].imgType == ImageType.local) {
         print(
-            "Image being uploaded: " + productDetails.selectedImages[i].path!);
-        late String downloadUrl;
+            "Image being uploaded: " + productDetails.selectedImages[i].path);
+        String downloadUrl;
         try {
           final imgUploadFuture = FirestoreFilesAccess().uploadFileToPath(
-              File(productDetails.selectedImages[i].path!),
+              File(productDetails.selectedImages[i].path),
               ProductDatabaseService().getPathForProductImage(productId, i));
           downloadUrl = await showDialog(
             context: context,
@@ -681,15 +681,15 @@ class _EditProductFormState extends State<EditProductForm> {
     return allImagesUpdated;
   }
 
-  Future<void> addImageButtonCallback({int? index}) async {
+  Future<void> addImageButtonCallback({int index}) async {
     final productDetails = Provider.of<ProductDetails>(context, listen: false);
     if (index == null && productDetails.selectedImages.length >= 3) {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Max 3 images can be uploaded")));
       return;
     }
-    late String path;
-    late String snackbarMessage;
+    String path;
+    String snackbarMessage;
     try {
       path = await choseImageFromLocalFiles(context);
       if (path == null) {

@@ -9,7 +9,7 @@ import '../components/splash_content.dart';
 class Body extends StatefulWidget {
   // final int currentPageSplash;
   // final Function(int i) updateCurrentPage;
-  const Body({Key? key})
+  const Body({Key key})
       : super(key: key);
   @override
   _BodyState createState() => _BodyState();
@@ -244,7 +244,7 @@ class _BodyState extends State<Body> {
     );
   }
 
-  AnimatedContainer buildDot({required int index}) {
+  AnimatedContainer buildDot({int index}) {
     return AnimatedContainer(
       duration: cAnimationDuration,
       margin: EdgeInsets.only(right: 5),
@@ -257,7 +257,7 @@ class _BodyState extends State<Body> {
     );
   }
 
-  Container? getBottomSheet() {
+  Container getBottomSheet() {
     // if (_BodyState.currentPage == 2) {
     return Container(
       // child: _BodyState.currentPage == _BodyState.numPages - 1

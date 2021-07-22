@@ -5,13 +5,13 @@ import '../size_cofig.dart';
 
 class SocialCard extends StatelessWidget {
   const SocialCard({
-    Key? key,
-    required this.icon,
-    required this.press,
+    Key key,
+    this.icon,
+    this.press,
   }) : super(key: key);
 
   final String icon;
-  final Function()? press;
+  final Function() press;
 
   @override
   Widget build(BuildContext context) {

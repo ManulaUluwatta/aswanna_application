@@ -6,7 +6,7 @@ import '../../../components/social_card.dart';
 
 
 class Body extends StatelessWidget {
-  const Body({Key? key}) : super(key: key);
+  const Body({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class Body extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(
-                height: SizeConfig.screenHeight! * 0.03,
+                height: SizeConfig.screenHeight * 0.03,
               ),
               Text(
                 "Register Account",
@@ -33,11 +33,11 @@ class Body extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               SizedBox(
-                  height: SizeConfig.screenHeight! * 0.06,
+                  height: SizeConfig.screenHeight * 0.06,
                 ),
               SignUpForm(),
               SizedBox(
-                  height: SizeConfig.screenHeight! * 0.01,
+                  height: SizeConfig.screenHeight * 0.01,
                 ),
                Row(
                   mainAxisAlignment: MainAxisAlignment.center,

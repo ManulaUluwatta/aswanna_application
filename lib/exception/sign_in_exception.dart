@@ -2,7 +2,7 @@ import 'package:aswanna_application/exception/supper_exception_message_firebase_
 
 // ignore: must_be_immutable
 class SignInExeption extends SupperExceptionMessageFirebaseAuth {
-  SignInExeption({required String message})
+  SignInExeption({String message})
       : super(message);
 }
 

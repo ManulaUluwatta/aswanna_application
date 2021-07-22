@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class ProfilePic extends StatelessWidget {
   const ProfilePic({
-    Key? key,
+    Key key,
   }) : super(key: key);
 
   @override

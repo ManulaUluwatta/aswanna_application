@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 class ProfileMenu extends StatelessWidget {
   const ProfileMenu({
-    Key? key,
-    required this.text,
-    required this.pic,
-    required this.press,
+    Key key,
+    this.text,
+    this.pic,
+    this.press,
   }) : super(key: key);
 
   final String text;

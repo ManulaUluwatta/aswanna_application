@@ -15,7 +15,7 @@ import '../../../components/custom_suffix_icon.dart';
 import '../../forgot_password/forgot_password_screen.dart';
 
 class SignForm extends StatefulWidget {
-  const SignForm({Key? key}) : super(key: key);
+  const SignForm({Key key}) : super(key: key);
 
   @override
   _SignFormState createState() => _SignFormState();
@@ -23,11 +23,11 @@ class SignForm extends StatefulWidget {
 
 class _SignFormState extends State<SignForm> {
   // final AuthService authService = AuthService();
-  late final TextEditingController emailController;
-  late final TextEditingController passwordController;
+  TextEditingController emailController;
+  TextEditingController passwordController;
   final _formKey = GlobalKey<FormState>();
-  late String email;
-  late String password;
+  String email;
+  String password;
   bool remember = false;
 
   // late String snackbarMessage;
@@ -35,7 +35,7 @@ class _SignFormState extends State<SignForm> {
   bool isLoading = false;
 
   // bool chekBoxState = false;
-  late bool _passwordVisible;
+  bool _passwordVisible;
 
   @override
   void initState() {
@@ -83,7 +83,7 @@ class _SignFormState extends State<SignForm> {
                     activeColor: Color(0xFF09af00),
                     onChanged: (value) {
                       setState(() {
-                        remember = value!;
+                        remember = value;
                       });
                     },
                   ),
@@ -168,9 +168,9 @@ class _SignFormState extends State<SignForm> {
       controller: passwordController,
       // keyboardType: TextInputType.visiblePassword,
       obscureText: _passwordVisible,
-      onSaved: (newValue) => password = newValue!,
+      onSaved: (newValue) => password = newValue,
       validator: (value) {
-        if (value!.isEmpty) {
+        if (value.isEmpty) {
           return cPassNullError;
         } else if (value.length < 8) {
           return cShortPassError;
@@ -208,7 +208,7 @@ class _SignFormState extends State<SignForm> {
     return TextFormField(
       controller: emailController,
       keyboardType: TextInputType.emailAddress,
-      onSaved: (newValue) => email = newValue!,
+      onSaved: (newValue) => email = newValue,
       decoration: InputDecoration(
         labelText: "Email",
         hintText: "Enter Your Email",
@@ -232,10 +232,10 @@ class _SignFormState extends State<SignForm> {
 
   Future<void> signInUser() async {
     AuthService authService = AuthService();
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState.validate()) {
       //  && errors.length == 0
       String signInStatus = "";
-      _formKey.currentState!.save();
+      _formKey.currentState.save();
       print(email);
       print(password);
       setState(() {

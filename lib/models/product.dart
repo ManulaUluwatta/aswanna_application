@@ -112,24 +112,24 @@ enum ProductType {
 }
 
 class Product extends Model {
-  late List<String?>? images;
-  late String? title;
-  late String? subCategory;
-  late num? discountPrice;
-  late num? originalPrice;
-  late num? rating;
-  late String? highlights;
-  late String? description;
-  late bool? favourite;
-  late String? owner;
-  late num? minQuantity;
-  late num? availableQuantity;
-  late String? listedDate;
-  late String? exprieDate;
-  late ProductType? productType;
-  late List<String>? searchTags;
+  List<String> images;
+  String title;
+  String subCategory;
+  num discountPrice;
+  num originalPrice;
+  num rating;
+  String highlights;
+  String description;
+  bool favourite;
+  String owner;
+  num minQuantity;
+  num availableQuantity;
+  String listedDate;
+  String exprieDate;
+  ProductType productType;
+  List<String> searchTags;
   Product(
-    String? id, {
+    String id, {
     this.images,
     this.title,
     this.subCategory,
@@ -145,11 +145,11 @@ class Product extends Model {
     this.listedDate,
     this.exprieDate,
     this.productType,
-    this.searchTags, 
+    this.searchTags,
   }) : super(id);
 
-  factory Product.fromMap(Map<String, dynamic>? map, {required String id}) {
-    if (map!["search_tag"] == null) {
+  factory Product.fromMap(Map<String, dynamic> map, {String id}) {
+    if (map["search_tag"] == null) {
       map["search_tag"] = <String>[];
     }
     return Product(
@@ -198,27 +198,29 @@ class Product extends Model {
   @override
   Map<String, dynamic> toUpdateMap() {
     final map = <String, dynamic>{};
-    map["image"] = images;
-    map["title"] = title;
-    map["sub_category"] = subCategory;
-    map["discount_price"] = discountPrice;
-    map["original_price"] = originalPrice;
-    map["rating"] = rating;
-    map["highlight"] = highlights;
-    map["description"] = description;
-    map["owner"] = owner;
-    map["min_quantity"] = minQuantity;
-    map["available_quantity"] = availableQuantity;
-    map["listed_date"] = listedDate;
-    map["expire_date"] = exprieDate;
-    map["product_type"] = EnumToString.convertToString(productType);
-    map["search_tag"] = searchTags;
+    if (images != null) if (images != null) map["image"] = images;
+    if (title != null) map["title"] = title;
+    if (subCategory != null) map["sub_category"] = subCategory;
+    if (discountPrice != null) map["discount_price"] = discountPrice;
+    if (originalPrice != null) map["original_price"] = originalPrice;
+    if (rating != null) map["rating"] = rating;
+    if (highlights != null) map["highlight"] = highlights;
+    if (description != null) map["description"] = description;
+    if (owner != null) map["owner"] = owner;
+    if (minQuantity != null) map["min_quantity"] = minQuantity;
+    if (availableQuantity != null)
+      map["available_quantity"] = availableQuantity;
+    if (listedDate != null) map["listed_date"] = listedDate;
+    if (exprieDate != null) map["expire_date"] = exprieDate;
+    if (productType != null)
+      map["product_type"] = EnumToString.convertToString(productType);
+    if (searchTags != null) map["search_tag"] = searchTags;
     return map;
   }
 
   num calculateDiscountPrice() {
     num discoumt =
-        (((originalPrice! - discountPrice!) * 100) / originalPrice!).round();
+        (((originalPrice - discountPrice) * 100) / originalPrice).round();
     return discoumt;
   }
 }

@@ -26,7 +26,7 @@ class UserService{
     });
   }
 
-  Stream<QuerySnapshot> getAll({int? offset, int? limit}) {
+  Stream<QuerySnapshot> getAll({int offset, int limit}) {
     Stream<QuerySnapshot> snapshots = users.snapshots();
 
     if (offset != null) snapshots = snapshots.skip(offset);

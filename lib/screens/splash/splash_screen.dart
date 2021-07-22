@@ -5,7 +5,7 @@ import 'components/body.dart';
 
 class SplashScreen extends StatefulWidget {
   static String routeName = "/splash";
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({Key key}) : super(key: key);
 
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -14,7 +14,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  late final firebaseUser;
+  // final firebaseUser;
   // state, updateCurrentPage
 
   @override

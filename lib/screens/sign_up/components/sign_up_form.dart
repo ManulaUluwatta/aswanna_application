@@ -12,19 +12,19 @@ import '../../../components/default_button.dart';
 import '../../../components/custom_suffix_icon.dart';
 
 class SignUpForm extends StatefulWidget {
-  const SignUpForm({Key? key}) : super(key: key);
+  const SignUpForm({Key key}) : super(key: key);
 
   @override
   _SignUpFormState createState() => _SignUpFormState();
 }
 
 class _SignUpFormState extends State<SignUpForm> {
-  late final TextEditingController emailController;
-  late final TextEditingController passwordController;
+  TextEditingController emailController;
+  TextEditingController passwordController;
   final _formKey = GlobalKey<FormState>();
-  late String email;
-  late String password;
-  late String confirmPassword;
+  String email;
+  String password;
+  String confirmPassword;
   bool chekBoxState = false;
   bool obscureTextValue = true;
 
@@ -74,7 +74,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     value: chekBoxState,
                     onChanged: (value) {
                       setState(() {
-                        chekBoxState = value!;
+                        chekBoxState = value;
                         cchengeObcureTextState(chekBoxState);
                       });
                     })
@@ -97,12 +97,12 @@ class _SignUpFormState extends State<SignUpForm> {
     return TextFormField(
       // keyboardType: TextInputType.visiblePassword,
       obscureText: obscureTextValue,
-      onSaved: (newValue) => confirmPassword = newValue!,
+      onSaved: (newValue) => confirmPassword = newValue,
       onChanged: (value) {
         confirmPassword = value;
       },
       validator: (value) {
-        if (value!.isEmpty) {
+        if (value.isEmpty) {
           return cPassNullError;
         } else if (password != confirmPassword) {
           return cMatchPassError;
@@ -126,13 +126,13 @@ class _SignUpFormState extends State<SignUpForm> {
       controller: passwordController,
       keyboardType: TextInputType.visiblePassword,
       obscureText: obscureTextValue,
-      onSaved: (newValue) => password = newValue!,
+      onSaved: (newValue) => password = newValue,
       onChanged: (value) {
         password = value;
         return null;
       },
       validator: (value) {
-        if (value!.isEmpty) {
+        if (value.isEmpty) {
           return cPassNullError;
         } else if (value.length < 8) {
           return cShortPassError;
@@ -156,7 +156,7 @@ class _SignUpFormState extends State<SignUpForm> {
     return TextFormField(
       controller: emailController,
       keyboardType: TextInputType.emailAddress,
-      onSaved: (newValue) => email = newValue!,
+      onSaved: (newValue) => email = newValue,
       decoration: InputDecoration(
         labelText: "Email",
         hintText: "Enter Your Email",
@@ -180,9 +180,9 @@ class _SignUpFormState extends State<SignUpForm> {
 
   Future<void> signUpUser() async {
     AuthService authService = AuthService();
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState.validate()) {
       String signInStatus = "";
-      _formKey.currentState!.save();
+      _formKey.currentState.save();
       print(email);
       print(password);
       print(confirmPassword);

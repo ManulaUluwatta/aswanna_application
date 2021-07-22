@@ -6,12 +6,12 @@ import '../../../size_cofig.dart';
 
 class SplashContent extends StatelessWidget {
   const SplashContent({
-    Key? key,
+    Key key,
     this.text,
     this.text2,
     this.image,
   }) : super(key: key);
-  final String? text, text2, image;
+  final String text, text2, image;
 
   @override
   Widget build(BuildContext context) {
@@ -46,18 +46,18 @@ class SplashContent extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Image.asset(
-                image!,
+                image,
                 width: getProportionateScreenWidth(220),
                 height: getProportionateScreenHeight(220),
               ),
             )),
-        SizedBox(height: SizeConfig.screenWidth! * 0.05),
+        SizedBox(height: SizeConfig.screenWidth * 0.05),
         Container(
           child: Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
             child: Text(
-              text!,
+              text,
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
@@ -78,7 +78,7 @@ class SplashContent extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30.0),
             child: Text(
-              text2!,
+              text2,
               style: TextStyle(
                   fontSize: 17.0,
                   color: Colors.white,

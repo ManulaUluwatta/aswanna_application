@@ -4,7 +4,7 @@ import 'components/body.dart';
 
 class SignUpScreen extends StatelessWidget {
   static String routeName = "/signUpScreen";
-  const SignUpScreen({ Key? key }) : super(key: key);
+  const SignUpScreen({ Key key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
