@@ -1,6 +1,5 @@
 import 'package:aswanna_application/components/confirm_dialog.dart';
 import 'package:aswanna_application/screens/home/home_screen.dart';
-import 'package:aswanna_application/screens/sign_in/sign_in_screen.dart';
 import 'package:aswanna_application/services/auth/auth_service.dart';
 import 'package:aswanna_application/services/custom/user_service.dart';
 import 'package:flutter/material.dart';
@@ -245,7 +244,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   Future<void> completeProfileAction() async {
     String uid = FirebaseAuth.instance.currentUser.uid;
     AuthService authService = AuthService();
-
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    User user = await firebaseAuth.currentUser;
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       bool allowed = authService.currentUserVerified;
@@ -277,6 +277,9 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
             role: selectedRadio.toString(),
           ),
         );
+        await authService.updateCurrentUserDisplayName("${firstNameController.text} ${lastNameController.text}");
+        // user.updateDisplayName(firstNameController.text);
+        print("User Name : ${user.displayName}");
         // Navigator.pushNamed(context, HomeScreen.routeName);
         Navigator.pushAndRemoveUntil(
             context,

@@ -22,12 +22,7 @@ class Body extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: getProportionateScreenHeight(10)),
-                Text(
-                  "Fill Product Details",
-                  style: TextStyle(),
-                ),
-                SizedBox(height: getProportionateScreenHeight(30)),
-                EditProductForm(product: productToEdit),
+                AddProductForm(product: productToEdit),
                 SizedBox(height: getProportionateScreenHeight(30)),
               ],
             ),

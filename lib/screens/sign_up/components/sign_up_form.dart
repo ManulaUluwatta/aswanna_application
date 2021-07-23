@@ -189,6 +189,7 @@ class _SignUpFormState extends State<SignUpForm> {
       setState(() {
         isLoading = true;
       });
+      
       final signInFuture = authService.signUp(
           email: emailController.text.trim(),
           password: passwordController.text.trim());

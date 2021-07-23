@@ -16,21 +16,22 @@ import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_tags/flutter_tags.dart';
+import 'package:intl/intl.dart';
 
 import '../../../size_cofig.dart';
 
-class EditProductForm extends StatefulWidget {
+class AddProductForm extends StatefulWidget {
   final Product product;
-  EditProductForm({
+  AddProductForm({
     Key key,
     this.product,
   }) : super(key: key);
 
   @override
-  _EditProductFormState createState() => _EditProductFormState();
+  _AddProductFormState createState() => _AddProductFormState();
 }
 
-class _EditProductFormState extends State<EditProductForm> {
+class _AddProductFormState extends State<AddProductForm> {
   final _basicDetailsFormKey = GlobalKey<FormState>();
   final _describeProductFormKey = GlobalKey<FormState>();
   final _tagStateKey = GlobalKey<TagsState>();
@@ -46,9 +47,15 @@ class _EditProductFormState extends State<EditProductForm> {
   final TextEditingController desciptionFieldController =
       TextEditingController();
   final TextEditingController sellerFieldController = TextEditingController();
+  final TextEditingController availableQuantityController =
+      TextEditingController();
+  final TextEditingController minimumBulkQuantityController =
+      TextEditingController();
 
   bool newProduct = true;
   Product product;
+  DateTimeRange dateTimeRange;
+  ThemeData themeData;
 
   @override
   void dispose() {
@@ -59,6 +66,8 @@ class _EditProductFormState extends State<EditProductForm> {
     highlightsFieldController.dispose();
     desciptionFieldController.dispose();
     sellerFieldController.dispose();
+    availableQuantityController.dispose();
+    minimumBulkQuantityController.dispose();
 
     super.dispose();
   }
@@ -88,13 +97,15 @@ class _EditProductFormState extends State<EditProductForm> {
     SizeConfig().init(context);
     final column = Column(
       children: [
+        buildProductTypeDropdown(),
+        SizedBox(height: getProportionateScreenHeight(20)),
         buildBasicDetailsTile(context),
         SizedBox(height: getProportionateScreenHeight(10)),
         buildDescribeProductTile(context),
         SizedBox(height: getProportionateScreenHeight(10)),
-        buildUploadImagesTile(context),
+        buildDateRangeTile(context),
         SizedBox(height: getProportionateScreenHeight(20)),
-        buildProductTypeDropdown(),
+        buildUploadImagesTile(context),
         SizedBox(height: getProportionateScreenHeight(20)),
         buildProductSearchTagsTile(),
         SizedBox(height: getProportionateScreenHeight(80)),
@@ -114,6 +125,8 @@ class _EditProductFormState extends State<EditProductForm> {
       highlightsFieldController.text = product.highlights;
       desciptionFieldController.text = product.description;
       sellerFieldController.text = product.owner;
+      minimumBulkQuantityController.text = product.minQuantity as String;
+      availableQuantityController.text = product.availableQuantity as String;
     }
     return column;
   }
@@ -127,13 +140,14 @@ class _EditProductFormState extends State<EditProductForm> {
           heightHorizontalScroll: getProportionateScreenHeight(80),
           textField: TagsTextField(
             lowerCase: true,
-            width: getProportionateScreenWidth(120),
+            width: getProportionateScreenWidth(250),
             constraintSuggestion: true,
             hintText: "Add search tag",
             keyboardType: TextInputType.name,
             onSubmitted: (String str) {
               productDetails.addSearchTag(str.toLowerCase());
             },
+            textStyle: TextStyle(fontSize: 15),
           ),
           itemCount: productDetails.searchTags.length,
           itemBuilder: (index) {
@@ -142,11 +156,12 @@ class _EditProductFormState extends State<EditProductForm> {
               index: index,
               title: item,
               active: true,
-              activeColor: cPrimaryColor,
+              activeColor: Color(0xFF09af00),
               padding: EdgeInsets.symmetric(
                 horizontal: 12,
                 vertical: 8,
               ),
+              textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               alignment: MainAxisAlignment.spaceBetween,
               removeButton: ItemTagsRemoveButton(
                 backgroundColor: Colors.white,
@@ -186,7 +201,9 @@ class _EditProductFormState extends State<EditProductForm> {
           SizedBox(height: getProportionateScreenHeight(20)),
           buildDiscountPriceField(),
           SizedBox(height: getProportionateScreenHeight(20)),
-          buildSellerField(),
+          buildAvailableQuantityField(),
+          SizedBox(height: getProportionateScreenHeight(20)),
+          buildMinQuantityField(),
           SizedBox(height: getProportionateScreenHeight(20)),
         ],
       ),
@@ -200,7 +217,9 @@ class _EditProductFormState extends State<EditProductForm> {
       product.subCategory = variantFieldController.text;
       product.originalPrice = double.parse(originalPriceFieldController.text);
       product.discountPrice = double.parse(discountPriceFieldController.text);
-      // product.seller = sellerFieldController.text;
+      product.availableQuantity =
+          double.parse(availableQuantityController.text);
+      product.minQuantity = double.parse(minimumBulkQuantityController.text);
       return true;
     }
     return false;
@@ -243,12 +262,12 @@ class _EditProductFormState extends State<EditProductForm> {
   Widget buildProductTypeDropdown() {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: 24,
-        vertical: 6,
+        horizontal: getProportionateScreenWidth(100),
+        vertical: getProportionateScreenHeight(1),
       ),
       decoration: BoxDecoration(
-        border: Border.all(color: cTextColor, width: 1),
-        borderRadius: BorderRadius.all(Radius.circular(28)),
+        border: Border.all(color: Color(0xFF09af00), width: 2),
+        borderRadius: BorderRadius.all(Radius.circular(30)),
       ),
       child: Consumer<ProductDetails>(
         builder: (context, productDetails, child) {
@@ -271,15 +290,101 @@ class _EditProductFormState extends State<EditProductForm> {
               "Chose Product Type",
             ),
             style: TextStyle(
-              color: cTextColor,
-              fontSize: 16,
-            ),
-            elevation: 0,
-            underline: SizedBox(width: 0, height: 0),
+                color: cTextColor, fontSize: 16, fontWeight: FontWeight.w500),
+            elevation: 1,
+            // underline: SizedBox(width: 100, height: 100),
           );
         },
       ),
     );
+  }
+
+  Widget buildDateRangeTile(BuildContext context) {
+    return ExpansionTile(
+      title: Text(
+        "Select Date Range",
+        style: Theme.of(context).textTheme.headline6,
+      ),
+      leading: Icon(Icons.date_range),
+      children: [
+        TextButton(
+          onPressed: () => pickDateRange(context),
+          child: Text(
+            "${getListedDate()} To ${getExpiredDate()}",
+            style: TextStyle(
+                fontSize: 16, fontWeight: FontWeight.w500, color: cTextColor),
+          ),
+          style: ButtonStyle(
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+            ),
+            side: MaterialStateProperty.all(
+              BorderSide(
+                color: Color(0xFF09af00),
+                width: 2,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Future pickDateRange(BuildContext context) async {
+    final initialDateRange = DateTimeRange(
+      start: DateTime.now(),
+      end: DateTime.now().add(Duration(hours: 24 * 7)),
+    );
+    final newDateRange = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime(DateTime.now().year - 1),
+      lastDate: DateTime(DateTime.now().year + 1),
+      initialDateRange: dateTimeRange ?? initialDateRange,
+      builder: (context, Widget child) => Theme(
+          data: ThemeData.from(
+            colorScheme: ColorScheme(
+                primary: Color(0xFF09af00),
+                primaryVariant: Colors.green, //
+                secondary: Colors.white,
+                secondaryVariant: Colors.green, //
+                surface: Colors.green, //
+                background: Colors.white,
+                error: cTextColor,
+                onPrimary: Colors.white,
+                onSecondary: Colors.green,
+                onSurface: Color(0xFF09af00),
+                onBackground: Colors.green, //
+                onError: cTextColor,
+                brightness: Brightness.light),
+          ),
+          child: child),
+    );
+
+    if (newDateRange == null) return;
+
+    setState(() {
+      dateTimeRange = newDateRange;
+    });
+  }
+
+  String getListedDate() {
+    if (dateTimeRange == null) {
+      return "Listed Date";
+    } else {
+      product.listedDate = DateFormat('dd/MM/yyyy').format(dateTimeRange.start);
+      return DateFormat('dd/MM/yyyy').format(dateTimeRange.start);
+    }
+  }
+
+  String getExpiredDate() {
+    if (dateTimeRange == null) {
+      return "Expire Date";
+    } else {
+      product.exprieDate = DateFormat('dd/MM/yyyy').format(dateTimeRange.end);
+      return DateFormat('dd/MM/yyyy').format(dateTimeRange.end);
+    }
   }
 
   Widget buildProductSearchTagsTile() {
@@ -292,7 +397,10 @@ class _EditProductFormState extends State<EditProductForm> {
       childrenPadding:
           EdgeInsets.symmetric(vertical: getProportionateScreenHeight(20)),
       children: [
-        Text("Your product will be searched for this Tags"),
+        Text(
+          "Your Gigs will be searched for this Tags",
+          style: TextStyle(fontSize: 15),
+        ),
         SizedBox(height: getProportionateScreenHeight(15)),
         buildProductSearchTags(),
       ],
@@ -398,8 +506,7 @@ class _EditProductFormState extends State<EditProductForm> {
       controller: highlightsFieldController,
       keyboardType: TextInputType.multiline,
       decoration: InputDecoration(
-        hintText:
-            "e.g., fresh food",
+        hintText: "e.g., fresh food",
         labelText: "Highlights",
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
@@ -419,8 +526,7 @@ class _EditProductFormState extends State<EditProductForm> {
       controller: desciptionFieldController,
       keyboardType: TextInputType.multiline,
       decoration: InputDecoration(
-        hintText:
-            "e.g., ",
+        hintText: "e.g., ",
         labelText: "Description",
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
@@ -473,6 +579,44 @@ class _EditProductFormState extends State<EditProductForm> {
     );
   }
 
+  Widget buildAvailableQuantityField() {
+    return TextFormField(
+      controller: availableQuantityController,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        hintText: "e.g., 500",
+        labelText: "Availble Quantity(KG)",
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+      validator: (_) {
+        if (availableQuantityController.text.isEmpty) {
+          return cRequirdError;
+        }
+        return null;
+      },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+    );
+  }
+
+  Widget buildMinQuantityField() {
+    return TextFormField(
+      controller: minimumBulkQuantityController,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        hintText: "e.g., 500",
+        labelText: "Minimum Bulk Quantiy(KG)",
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+      validator: (_) {
+        if (minimumBulkQuantityController.text.isEmpty) {
+          return cRequirdError;
+        }
+        return null;
+      },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+    );
+  }
+
   Widget buildDiscountPriceField() {
     return TextFormField(
       controller: discountPriceFieldController,
@@ -496,7 +640,12 @@ class _EditProductFormState extends State<EditProductForm> {
     if (validateBasicDetailsForm() == false) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Erros in Basic Details Form"),
+          content: Text(
+            "Erros in Basic Details Form",
+            style: TextStyle(fontSize: 18),
+            textAlign: TextAlign.center,
+          ),
+          backgroundColor: Colors.red[300],
         ),
       );
       return;
@@ -504,7 +653,12 @@ class _EditProductFormState extends State<EditProductForm> {
     if (validateDescribeProductForm() == false) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Errors in Describe Product Form"),
+          content: Text(
+            "Errors in Describe Product Form",
+            style: TextStyle(fontSize: 18),
+            textAlign: TextAlign.center,
+          ),
+          backgroundColor: Colors.red[300],
         ),
       );
       return;
@@ -513,7 +667,12 @@ class _EditProductFormState extends State<EditProductForm> {
     if (productDetails.selectedImages.length < 1) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Upload atleast One Image of Product"),
+          content: Text(
+            "Upload atleast One Image of Product",
+            style: TextStyle(fontSize: 18),
+            textAlign: TextAlign.center,
+          ),
+          backgroundColor: Colors.red[300],
         ),
       );
       return;
@@ -522,7 +681,12 @@ class _EditProductFormState extends State<EditProductForm> {
     if (productDetails.productType == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Please select Product Type"),
+          content: Text(
+            "Please select Product Type",
+            style: TextStyle(fontSize: 18),
+            textAlign: TextAlign.center,
+          ),
+          backgroundColor: Colors.red[300],
         ),
       );
       return;
@@ -530,7 +694,12 @@ class _EditProductFormState extends State<EditProductForm> {
     if (productDetails.searchTags.length < 3) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Add atleast 3 search tags"),
+          content: Text(
+            "Add atleast 3 search tags",
+            style: TextStyle(fontSize: 18),
+            textAlign: TextAlign.center,
+          ),
+          backgroundColor: Colors.red[300],
         ),
       );
       return;
@@ -641,8 +810,7 @@ class _EditProductFormState extends State<EditProductForm> {
     final productDetails = Provider.of<ProductDetails>(context, listen: false);
     for (int i = 0; i < productDetails.selectedImages.length; i++) {
       if (productDetails.selectedImages[i].imgType == ImageType.local) {
-        print(
-            "Image being uploaded: " + productDetails.selectedImages[i].path);
+        print("Image being uploaded: " + productDetails.selectedImages[i].path);
         String downloadUrl;
         try {
           final imgUploadFuture = FirestoreFilesAccess().uploadFileToPath(
@@ -706,7 +874,12 @@ class _EditProductFormState extends State<EditProductForm> {
         Logger().i(snackbarMessage);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(snackbarMessage),
+            content: Text(
+              snackbarMessage,
+              style: TextStyle(fontSize: 18),
+              textAlign: TextAlign.center,
+            ),
+            backgroundColor: Colors.red[300],
           ),
         );
       }

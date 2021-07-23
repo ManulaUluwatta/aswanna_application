@@ -1,3 +1,4 @@
+import 'package:aswanna_application/size_cofig.dart';
 import 'package:flutter/material.dart';
 
 
@@ -20,8 +21,9 @@ class ProfileMenu extends StatelessWidget {
       child: TextButton(
         style: TextButton.styleFrom(
             primary: Color(0xFF61d800),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15))),
+            // shape: RoundedRectangleBorder(
+            //     borderRadius: BorderRadius.circular(15))
+                ),
         onPressed: press,
         child: Row(
           children: [
@@ -30,20 +32,22 @@ class ProfileMenu extends StatelessWidget {
               color: Color(0xFF41c300),
             ),
             SizedBox(
-              width: 20,
+              width: 32,
             ),
             Expanded(
               child: Text(
                 text,
-                style: TextStyle(
-                  color:Color(0xFF455A64),
-                  fontSize: 16
-                ),
+                // style: TextStyle(
+                //   color:Color(0xFF455A64),
+                //   fontSize: 16
+                // ),
+                style: Theme.of(context).textTheme.headline6,
               ),
             ),
             Icon(
               Icons.arrow_forward_ios,
               color: Color(0xFF41c300),
+              size: getProportionateScreenWidth(30),
             ),
           ],
         ),
