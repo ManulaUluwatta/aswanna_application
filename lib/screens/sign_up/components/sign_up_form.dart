@@ -1,6 +1,4 @@
-import 'package:aswanna_application/components/confirm_dialog.dart';
 import 'package:aswanna_application/screens/complete_profile/complete_profile_screen.dart';
-import 'package:aswanna_application/screens/sign_in/sign_in_screen.dart';
 import 'package:aswanna_application/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';

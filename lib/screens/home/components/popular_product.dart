@@ -1,6 +1,3 @@
-
-import 'package:aswanna_application/components/product_card.dart';
-import 'package:aswanna_application/models/product.dart';
 import 'package:flutter/material.dart';
 import '../../../size_cofig.dart';
 import 'package:aswanna_application/screens/home/components/selection_title.dart';
@@ -14,7 +11,7 @@ class PopularProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-         SectionTitle(text: "Best Selling", press: () {}),
+         SectionTitle(title: "Best Selling", press: () {}),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(

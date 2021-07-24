@@ -20,12 +20,15 @@ class DiscountBanner extends StatelessWidget {
       width: double.infinity,
       //height: 90,
       decoration: BoxDecoration(
-        color: Colors.green[800],
-        borderRadius: BorderRadius.circular(20),
+        color: Color(0xFF09af00),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Text.rich(
          TextSpan(text:"seasonal Offer\n",
-         style: TextStyle(color: Colors.white),
+         style: TextStyle(
+           color: Colors.white,
+           fontSize: 16
+           ),
          children: [
            TextSpan(
              text: "25% discount on Credit cards",

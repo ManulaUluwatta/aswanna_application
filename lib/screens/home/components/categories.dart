@@ -66,8 +66,8 @@ class CategoryCard extends StatelessWidget {
                   getProportionateScreenWidth(15),
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.white10,
-                  borderRadius: BorderRadius.circular(10),
+                  color: Color(0xFFE8F5E9),
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 child: Image.asset(icon),
               ),
@@ -77,7 +77,7 @@ class CategoryCard extends StatelessWidget {
               text,
               style: TextStyle(
                 fontSize: getProportionateScreenWidth(35),
-                fontWeight: FontWeight.w500
+                fontWeight: FontWeight.bold
               ),
               textAlign: TextAlign.center,
             ),

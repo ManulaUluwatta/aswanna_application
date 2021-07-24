@@ -1,5 +1,6 @@
 import 'package:aswanna_application/constrants.dart';
 import 'package:aswanna_application/screens/profile/profile_screen.dart';
+import 'package:aswanna_application/size_cofig.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -16,18 +17,18 @@ class CustomBottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color inActiveIconColor =Color(0xFFB6B6B6);
     return Container(
-      padding: EdgeInsets.symmetric(vertical:14 ),
+      padding: EdgeInsets.symmetric(vertical:getProportionateScreenHeight(10) ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(40),
-          topRight: Radius.circular(40),          
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),          
         ),
         boxShadow: [
           BoxShadow(
           offset: Offset(0, -15),
-          blurRadius: 20,
-          color: Color(0xFFDADADA).withOpacity(0.15),
+          blurRadius: 30,
+          color: Color(0xFFDADADA).withOpacity(0.5),
         ),
         ],
       ),
@@ -39,8 +40,7 @@ class CustomBottomNavBar extends StatelessWidget {
             color: MenuState.home == selectedMenu ?
             cPrimaryColor:
             inActiveIconColor,
-            ),
-            color: Colors.green[400],                          
+            ),                         
             onPressed: () =>
             Navigator.pushNamed(context, ProfileScreen.routeName),
           ), IconButton(
@@ -49,7 +49,6 @@ class CustomBottomNavBar extends StatelessWidget {
             cPrimaryColor:
             inActiveIconColor,
             ),
-            color: Colors.green[400],
             onPressed: () =>
             Navigator.pushNamed(context, ProfileScreen.routeName),
           ), IconButton(
@@ -58,7 +57,6 @@ class CustomBottomNavBar extends StatelessWidget {
             cPrimaryColor:
             inActiveIconColor,
             ),
-            color: Colors.green[400],
             onPressed: () =>
             Navigator.pushNamed(context, ProfileScreen.routeName),
           ), IconButton(
@@ -67,7 +65,6 @@ class CustomBottomNavBar extends StatelessWidget {
             cPrimaryColor:
             inActiveIconColor,
             ),
-            color: Colors.green[400],
             onPressed: () =>
             Navigator.pushNamed(context, ProfileScreen.routeName),
           ), 

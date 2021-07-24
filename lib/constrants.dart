@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-const cPrimaryColor = Color(0xFF00E676);
+const cPrimaryColor = Color(0xFF09af00);
 const cPrimaryLightColor = Color(0xFFFAFAFA);
 const cPrimaryGradiantCOlor = LinearGradient(
   begin: Alignment.topLeft,

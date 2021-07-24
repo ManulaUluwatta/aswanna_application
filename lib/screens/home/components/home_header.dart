@@ -13,7 +13,7 @@ class HomeHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: getProportionateScreenWidth(10),
+        horizontal: getProportionateScreenWidth(30),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

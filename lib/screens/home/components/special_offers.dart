@@ -13,7 +13,7 @@ class SpecialOffers extends StatelessWidget {
     return Column(
       children: [
         SectionTitle(
-          text: "Special for you",
+          title: "Special for you",
           press: () {}, //behaviour
         ),
         SizedBox(height: getProportionateScreenWidth(20),

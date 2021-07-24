@@ -1,4 +1,3 @@
-import 'package:aswanna_application/screens/complete_profile/complete_profile_screen.dart';
 import 'package:aswanna_application/screens/product/add_product_screen.dart';
 import 'package:aswanna_application/screens/profile/components/profile_menu_title.dart';
 import 'package:aswanna_application/screens/sign_in/sign_in_screen.dart';
@@ -7,7 +6,6 @@ import 'package:aswanna_application/services/custom/user_service.dart';
 import 'package:aswanna_application/size_cofig.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'profile_menu.dart';
 import 'profile_pic.dart';
 
 class Body extends StatelessWidget {

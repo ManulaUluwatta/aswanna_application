@@ -170,7 +170,7 @@ class Product extends Model {
       exprieDate: map["expire_date"],
       productType:
           EnumToString.fromString(ProductType.values, map["product_type"]),
-      searchTags: map["search_tag"],
+      searchTags: map["search_tag"].cast<String>(),
     );
   }
   @override

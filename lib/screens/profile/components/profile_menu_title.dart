@@ -6,7 +6,8 @@ class ProfileMenuTile extends StatelessWidget {
   const ProfileMenuTile({
     Key key,
     this.leading,
-    this.title, this.onTap,
+    this.title,
+    this.onTap,
   }) : super(key: key);
 
   final IconData leading;
@@ -21,9 +22,12 @@ class ProfileMenuTile extends StatelessWidget {
         style: Theme.of(context).textTheme.headline6,
       ),
       onTap: onTap,
-      leading: Icon(leading,color: Color(0xFF41c300)),
-      trailing: Icon(Icons.arrow_forward_ios,color: Color(0xFF41c300),
-              size: getProportionateScreenWidth(30),),
+      leading: Icon(leading, color: Color(0xFF41c300)),
+      trailing: Icon(
+        Icons.arrow_forward_ios,
+        color: Color(0xFF41c300),
+        size: getProportionateScreenWidth(30),
+      ),
     );
   }
 }

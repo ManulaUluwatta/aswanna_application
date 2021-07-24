@@ -1,87 +1,171 @@
+import 'package:aswanna_application/constrants.dart';
 import 'package:aswanna_application/models/product.dart';
+import 'package:aswanna_application/services/database/product_database_service.dart';
+import 'package:aswanna_application/size_cofig.dart';
 import 'package:flutter/material.dart';
-
-import '../constrants.dart';
-import '../size_cofig.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:logger/logger.dart';
 
 class ProductsCard extends StatelessWidget {
   const ProductsCard({
     Key key,
-    this.width = 400,
-    this.aspectRa = 1.2,
-    this.product,
+    @required this.productId,
+    @required this.press,
   }) : super(key: key);
-  final double width, aspectRa;
-  final Product product;
+  final String productId;
+  final GestureTapCallback press;
 
   @override
   Widget build(BuildContext context) {
-    return Container();
-    // return Padding(
-    //   padding: EdgeInsets.only(
-    //     left: getProportionateScreenWidth(20),
-    //   ),
-    //   child: SizedBox(
-    //     width: getProportionateScreenWidth(width),
-    //     child: Column(
-    //       children: [
-    //         AspectRatio(
-    //           aspectRatio: aspectRa,
-    //           child: Container(
-    //             padding: EdgeInsets.all(
-    //               getProportionateScreenWidth(20),
-    //             ),
-    //             decoration: BoxDecoration(
-    //               color: cSecondaryColor.withOpacity(0.5),
-    //               borderRadius: BorderRadius.circular(15),
-    //             ),
-    //             child: Image.asset(product.images[0]),
-    //           ),
-    //         ),
-    //         const SizedBox(height: 5),
-    //         Text(
-    //           product.title,
-    //           style: TextStyle(color: Colors.black),
-    //           maxLines: 2,
-    //         ),
-    //         Row(
-    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //           children: [
-    //             Text(
-    //               "\$${product.price}",
-    //               style: TextStyle(
-    //                 fontSize: getProportionateScreenWidth(18),
-    //                 fontWeight: FontWeight.w600,
-    //                 color: cPrimaryColor,
-    //               ),
-    //             ),
-    //           ],
-    //         ),
-    //         InkWell(
-    //           borderRadius: BorderRadius.circular(30),
-    //           onTap: (){},
-    //           child: Container(
-    //             padding: EdgeInsets.all(
-    //               getProportionateScreenWidth(8),
-    //             ),
-    //             width: getProportionateScreenWidth(28),
-    //             height: getProportionateScreenWidth(28),
-    //             decoration: BoxDecoration(
-    //               color:product.isFavourite 
-    //               ?cSecondaryColor.withOpacity(0.15)
-    //               :cSecondaryColor.withOpacity(0.1),
-    //               shape: BoxShape.circle,
-    //             ),
-    //             child: Icon(Icons.favorite,
-    //             color: product.isFavourite
-    //             ?Color(0xFFFF4848)
-    //             :Color(0xFFDBDEE4),
-    //             ),
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
+    return GestureDetector(
+      onTap: press,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(2)),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(
+              color: cTextColor.withOpacity(0.2)
+              ),
+            borderRadius: BorderRadius.all(
+              Radius.circular(14),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            child: FutureBuilder<Product>(
+              future: ProductDatabaseService().getProductWithID(productId),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final Product product = snapshot.data;
+                  return buildProductCardItems(product);
+                } else if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: Center(child: CircularProgressIndicator()),
+                  );
+                } else if (snapshot.hasError) {
+                  final error = snapshot.error.toString();
+                  Logger().e(error);
+                }
+                return Center(
+                  child: Icon(
+                    Icons.error,
+                    color: cTextColor,
+                    size: 60,
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Column buildProductCardItems(Product product) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Flexible(
+          flex: 3,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: getProportionateScreenHeight(2),horizontal: getProportionateScreenWidth(2)),
+            child: Image.network(
+              product.images[0],
+              fit: BoxFit.contain,
+            ),
+          ),
+        ),
+        SizedBox(height: SizeConfig.screenHeight*0.01),
+        Flexible(
+          flex: 2,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Flexible(
+                flex: 1,
+                child: Text(
+                  "${product.title}\n",
+                  style: TextStyle(
+                    color: cTextColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Flexible(
+                flex: 1,
+                child: Text(
+                  "${product.subCategory}\n",
+                  style: TextStyle(
+                    color: cTextColor,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Flexible(
+                flex: 1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      flex: 4,
+                      child: Text.rich(
+                        TextSpan(
+                          text: "LKR.${product.discountPrice}\n",
+                          style: TextStyle(
+                            color: cTextColor,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: "${product.originalPrice}",
+                              style: TextStyle(
+                                color: cTextColor,
+                                decoration: TextDecoration.lineThrough,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Flexible(
+                      flex: 1,
+                      child: Stack(
+                        children: [
+                          SvgPicture.asset(
+                            "assets/icons/DiscountTag.svg",
+                            color: Color(0xFF09af00),
+                          ),
+                          Center(
+                            child: Text(
+                              "${product.calculateDiscountPrice()}%\nOff",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: getProportionateScreenWidth(12),
+                                fontWeight: FontWeight.w900,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }
