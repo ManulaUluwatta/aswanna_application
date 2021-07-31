@@ -62,7 +62,7 @@ class _BodyState extends State<Body> {
               ),
               // PopularProduct(),
               SizedBox(
-                height: SizeConfig.screenHeight * 0.8,
+                height: SizeConfig.screenHeight * 0.85,
                 child: ProductSection(
                   sectionTitle: "Explore All Products",
                   productsSteamController: allProductsStream,

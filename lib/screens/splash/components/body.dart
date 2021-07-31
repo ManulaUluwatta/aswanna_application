@@ -113,7 +113,7 @@ class _BodyState extends State<Body> {
                         showBottomSheet(
                             context: context,
                             builder: (context) => Container(
-                                  height: 80.0,
+                                  height: 75.0,
                                   width: double.infinity,
                                   color: Colors.white,
                                   child: GestureDetector(

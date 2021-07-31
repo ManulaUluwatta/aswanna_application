@@ -19,43 +19,38 @@ class ProductsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: press,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(2)),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(
-              color: cTextColor.withOpacity(0.2)
-              ),
-            borderRadius: BorderRadius.all(
-              Radius.circular(14),
-            ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: cTextColor.withOpacity(0.2)),
+          borderRadius: BorderRadius.all(
+            Radius.circular(14),
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: FutureBuilder<Product>(
-              future: ProductDatabaseService().getProductWithID(productId),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  final Product product = snapshot.data;
-                  return buildProductCardItems(product);
-                } else if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: Center(child: CircularProgressIndicator()),
-                  );
-                } else if (snapshot.hasError) {
-                  final error = snapshot.error.toString();
-                  Logger().e(error);
-                }
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          child: FutureBuilder<Product>(
+            future: ProductDatabaseService().getProductWithID(productId),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final Product product = snapshot.data;
+                return buildProductCardItems(product);
+              } else if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
-                  child: Icon(
-                    Icons.error,
-                    color: cTextColor,
-                    size: 60,
-                  ),
+                  child: Center(child: CircularProgressIndicator()),
                 );
-              },
-            ),
+              } else if (snapshot.hasError) {
+                final error = snapshot.error.toString();
+                Logger().e(error);
+              }
+              return Center(
+                child: Icon(
+                  Icons.error,
+                  color: cTextColor,
+                  size: 60,
+                ),
+              );
+            },
           ),
         ),
       ),
@@ -68,15 +63,12 @@ class ProductsCard extends StatelessWidget {
       children: [
         Flexible(
           flex: 3,
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: getProportionateScreenHeight(2),horizontal: getProportionateScreenWidth(2)),
-            child: Image.network(
-              product.images[0],
-              fit: BoxFit.contain,
-            ),
+          child: Image.network(
+            product.images[0],
+            fit: BoxFit.contain,
           ),
         ),
-        SizedBox(height: SizeConfig.screenHeight*0.01),
+        SizedBox(height: SizeConfig.screenHeight * 0.01),
         Flexible(
           flex: 2,
           child: Column(
@@ -109,7 +101,7 @@ class ProductsCard extends StatelessWidget {
                 ),
               ),
               Flexible(
-                flex: 1,
+                flex: 2,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -138,7 +130,7 @@ class ProductsCard extends StatelessWidget {
                       ),
                     ),
                     Flexible(
-                      flex: 1,
+                      flex: 3,
                       child: Stack(
                         children: [
                           SvgPicture.asset(
@@ -150,7 +142,7 @@ class ProductsCard extends StatelessWidget {
                               "${product.calculateDiscountPrice()}%\nOff",
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: getProportionateScreenWidth(12),
+                                fontSize: getProportionateScreenWidth(25),
                                 fontWeight: FontWeight.w900,
                               ),
                               textAlign: TextAlign.center,

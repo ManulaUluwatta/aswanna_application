@@ -80,7 +80,7 @@ class SplashContent extends StatelessWidget {
             child: Text(
               text2,
               style: TextStyle(
-                  fontSize: 17.0,
+                  fontSize: getProportionateScreenWidth(35),
                   color: Colors.white,
                   fontWeight: FontWeight.w400),
               // textAlign: TextAlign.justify,
