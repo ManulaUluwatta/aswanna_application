@@ -1,5 +1,6 @@
 import 'package:aswanna_application/screens/home/components/popular_product.dart';
 import 'package:aswanna_application/screens/home/components/product_section.dart';
+import 'package:aswanna_application/screens/product_details/product_details_screen.dart';
 import 'package:aswanna_application/services/data_streem/all_products_stream.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -83,13 +84,13 @@ class _BodyState extends State<Body> {
   }
 
   void onProductCardTapped(String productId) {
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => ProductDetailsScreen(productId: productId),
-    //   ),
-    // ).then((_) async {
-    //   await refreshPage();
-    // });
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProductDetailsScreen(productId: productId),
+      ),
+    ).then((_) async {
+      await refreshPage();
+    });
   }
 }

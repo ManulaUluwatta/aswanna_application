@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebaseUser;
 import '../../models/user.dart';
 
 
@@ -7,8 +8,10 @@ CollectionReference users = FirebaseFirestore.instance.collection('users');
 class UserService{
 
    Future<User> create(User user) {
+    firebaseUser.FirebaseAuth firebaseAuth = firebaseUser.FirebaseAuth.instance; // newly added.. change default doc id to user id
+    String uid = firebaseAuth.currentUser.uid; // newly added.. change default doc id to user id
     final TransactionHandler createTransaction = (Transaction tx) async {
-      final DocumentSnapshot ds = await tx.get(users.doc());
+      final DocumentSnapshot ds = await tx.get(users.doc(uid));// newly added.. change default doc id to user id
 
       final Map<String, dynamic> data = user.toMap();
 

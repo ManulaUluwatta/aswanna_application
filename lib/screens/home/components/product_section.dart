@@ -57,6 +57,7 @@ class ProductSection extends StatelessWidget {
           if (snapshot.data.length == 0) {
             return Center(
               child: NothingToShowContainer(
+                iconPath: "assets/icons/empty_box.svg",
                 secondaryMessage: emptyMessage,
               ),
             );
