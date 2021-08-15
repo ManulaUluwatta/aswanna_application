@@ -1,3 +1,4 @@
+import 'package:aswanna_application/screens/my_products/my_products_screen.dart';
 import 'package:aswanna_application/screens/product/add_product_screen.dart';
 import 'package:aswanna_application/screens/profile/components/profile_menu_title.dart';
 import 'package:aswanna_application/screens/sign_in/sign_in_screen.dart';
@@ -164,12 +165,12 @@ class Body extends StatelessWidget {
                   //   }
                   //   return;
                   // }
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => MyProductsScreen(),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyProductsScreen(),
+                    ),
+                  );
                 },
               ),
             ],

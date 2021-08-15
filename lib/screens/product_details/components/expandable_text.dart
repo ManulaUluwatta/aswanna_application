@@ -4,6 +4,8 @@ import 'package:aswanna_application/screens/product_details/provider_models/Expa
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../size_cofig.dart';
+
 
 class ExpandableText extends StatelessWidget {
   final String title;
@@ -29,7 +31,7 @@ class ExpandableText extends StatelessWidget {
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w600,
-                fontSize: 16,
+                fontSize: getProportionateScreenWidth(35),
               ),
             ),
             Divider(
@@ -41,6 +43,9 @@ class ExpandableText extends StatelessWidget {
               content,
               maxLines: expandText.isExpanded ? null : maxLines,
               textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: getProportionateScreenWidth(30),
+              ),
             ),
             GestureDetector(
               onTap: () {

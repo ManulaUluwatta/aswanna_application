@@ -22,10 +22,10 @@ class TopRoundedContainer extends StatelessWidget {
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(64),
-          topRight: Radius.circular(64),
-          bottomRight: Radius.circular(24),
-          bottomLeft: Radius.circular(24),
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+          bottomLeft: Radius.circular(20),
         ),
       ),
       child: child,

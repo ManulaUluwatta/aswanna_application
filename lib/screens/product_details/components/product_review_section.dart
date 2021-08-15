@@ -21,21 +21,24 @@ class ProductReviewsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: getProportionateScreenHeight(320),
+      height: getProportionateScreenHeight(400),
       child: Stack(
         children: [
           TopRoundedContainer(
             child: Column(
               children: [
-                Text(
-                  "Product Reviews",
-                  style: TextStyle(
-                    fontSize: 21,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Product Reviews",
+                    style: TextStyle(
+                      fontSize: 21,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
-                SizedBox(height: getProportionateScreenHeight(20)),
+                SizedBox(height: getProportionateScreenHeight(10)),
                 Expanded(
                   child: StreamBuilder<List<Review>>(
                     stream: ProductDatabaseService()
@@ -50,7 +53,7 @@ class ProductReviewsSection extends StatelessWidget {
                                 SvgPicture.asset(
                                   "assets/icons/review.svg",
                                   color: cTextColor,
-                                  width: 40,
+                                  width: getProportionateScreenWidth(40),
                                 ),
                                 SizedBox(height: 8),
                                 Text(
@@ -105,7 +108,7 @@ class ProductReviewsSection extends StatelessWidget {
 
   Widget buildProductRatingWidget(num rating) {
     return Container(
-      width: getProportionateScreenWidth(80),
+      width: getProportionateScreenWidth(100),
       padding: EdgeInsets.all(getProportionateScreenWidth(10)),
       decoration: BoxDecoration(
         color: Colors.amber,
@@ -120,11 +123,11 @@ class ProductReviewsSection extends StatelessWidget {
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w900,
-                fontSize: getProportionateScreenWidth(10),
+                fontSize: getProportionateScreenWidth(35),
               ),
             ),
           ),
-          SizedBox(width: 5),
+          SizedBox(width: getProportionateScreenWidth(10)),
           Icon(
             Icons.star,
             color: Colors.white,

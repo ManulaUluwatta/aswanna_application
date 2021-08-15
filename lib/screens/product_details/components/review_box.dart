@@ -1,5 +1,6 @@
 import 'package:aswanna_application/constrants.dart';
 import 'package:aswanna_application/models/review.dart';
+import 'package:aswanna_application/size_cofig.dart';
 import 'package:flutter/material.dart';
 
 class ReviewBox extends StatelessWidget {
@@ -31,7 +32,7 @@ class ReviewBox extends StatelessWidget {
               review.feedback,
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 14,
+                fontSize: getProportionateScreenWidth(35),
               ),
             ),
           ),

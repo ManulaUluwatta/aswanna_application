@@ -1,11 +1,10 @@
-
-
 import 'package:aswanna_application/constrants.dart';
 import 'package:aswanna_application/models/product.dart';
 import 'package:aswanna_application/models/user.dart';
 import 'package:aswanna_application/services/database/user_database_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:logger/logger.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../size_cofig.dart';
@@ -36,8 +35,8 @@ class ProductDescription extends StatelessWidget {
               TextSpan(
                   text: product.title,
                   style: TextStyle(
-                    fontSize: 21,
-                    color: Colors.black,
+                    fontSize: getProportionateScreenWidth(50),
+                    color: Color(0xFF37474F),
                     fontWeight: FontWeight.w600,
                   ),
                   children: [
@@ -45,7 +44,7 @@ class ProductDescription extends StatelessWidget {
                       text: "\n${product.subCategory} ",
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
-                        fontSize: 15,
+                        fontSize: getProportionateScreenWidth(35),
                       ),
                     ),
                   ]),
@@ -116,28 +115,51 @@ class ProductDescription extends StatelessWidget {
               content: product.description,
             ),
             const SizedBox(height: 16),
-            Text.rich(
-              TextSpan(
-                text: "Sold by ",
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-                children: [
+            Row(
+              children: [
+                Text.rich(
                   TextSpan(
-                    text: "${sellerName}",
+                    text: "Sold by ",
                     style: TextStyle(
-                      decoration: TextDecoration.underline,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: "${sellerName}",
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                TextButton(
+                  onPressed: () {
+                    launch(('tel://$contact'));
+                  },
+                  child: Text(
+                    "Call",
+                  ),
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    side: MaterialStateProperty.all(
+                      BorderSide(
+                        color: Color(0xFF09af00),
+                        width: 2,
+                      ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            TextButton(onPressed: (){
-              launch(('tel://$contact'));
-            },
-             child: Text("Call"),
-             ),
           ],
         ),
       ],

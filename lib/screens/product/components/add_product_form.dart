@@ -125,8 +125,8 @@ class _AddProductFormState extends State<AddProductForm> {
       highlightsFieldController.text = product.highlights;
       desciptionFieldController.text = product.description;
       sellerFieldController.text = product.owner;
-      minimumBulkQuantityController.text = product.minQuantity as String;
-      availableQuantityController.text = product.availableQuantity as String;
+      minimumBulkQuantityController.text = product.minQuantity.toString();
+      availableQuantityController.text = product.availableQuantity.toString();
     }
     return column;
   }

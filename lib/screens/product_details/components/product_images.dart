@@ -44,7 +44,7 @@ class ProductImages extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.all(
-                        Radius.circular(30),
+                        Radius.circular(15),
                       ),
                     ),
                     child: SizedBox(
@@ -86,8 +86,8 @@ class ProductImages extends StatelessWidget {
         margin:
             EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(8)),
         padding: EdgeInsets.all(getProportionateScreenHeight(8)),
-        height: getProportionateScreenWidth(48),
-        width: getProportionateScreenWidth(48),
+        height: getProportionateScreenWidth(95),
+        width: getProportionateScreenWidth(95),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
