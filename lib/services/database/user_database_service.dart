@@ -365,12 +365,14 @@ class UserDatabaseService{
 
   //custom method not sure
   static String name;
+  static String contact;
   Future<String> getProductOwner(String owner) async {
     final userDocSnapshot =
         firestore.collection("users").doc(owner);
     final userDocData = (await userDocSnapshot.get()).data();
     final firstName = userDocData["firstName"];
     final lastName = userDocData["lastName"];
+    contact = userDocData["contact"];
     name= "$firstName $lastName";
     print(name);
     return name;

@@ -1,9 +1,12 @@
+
+
 import 'package:aswanna_application/constrants.dart';
 import 'package:aswanna_application/models/product.dart';
 import 'package:aswanna_application/models/user.dart';
 import 'package:aswanna_application/services/database/user_database_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../size_cofig.dart';
 import 'expandable_text.dart';
@@ -22,6 +25,7 @@ class ProductDescription extends StatelessWidget {
     UserDatabaseService userDatabaseService = UserDatabaseService();
     userDatabaseService.getProductOwner(sellerUID);
     String sellerName = UserDatabaseService.name;
+    String contact = UserDatabaseService.contact;
 
     return Stack(
       children: [
@@ -129,6 +133,11 @@ class ProductDescription extends StatelessWidget {
                 ],
               ),
             ),
+            TextButton(onPressed: (){
+              launch(('tel://$contact'));
+            },
+             child: Text("Call"),
+             ),
           ],
         ),
       ],
