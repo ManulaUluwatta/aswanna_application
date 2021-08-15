@@ -1,5 +1,6 @@
 import 'package:aswanna_application/models/CartItem.dart';
 import 'package:aswanna_application/models/OrderedProduct.dart';
+import 'package:aswanna_application/models/product.dart';
 import 'package:aswanna_application/models/user.dart';
 import 'package:aswanna_application/services/auth/auth_service.dart';
 import 'package:aswanna_application/services/database/product_database_service.dart';
@@ -363,15 +364,18 @@ class UserDatabaseService{
 
 
   //custom method not sure
-  Future<User> getProductOwner(String owner) async {
-    final docSnapshot = await firestore
-        .collection("user")
-        .doc(owner)
-        .get();
-
-    if (docSnapshot.exists) {
-      return User.fromMap(docSnapshot.data());
-    }
-    return null;
+  static String name;
+  Future<String> getProductOwner(String owner) async {
+    final userDocSnapshot =
+        firestore.collection("users").doc(owner);
+    final userDocData = (await userDocSnapshot.get()).data();
+    final firstName = userDocData["firstName"];
+    final lastName = userDocData["lastName"];
+    name= "$firstName $lastName";
+    print(name);
+    return name;
   }
+  
+
+  
 }

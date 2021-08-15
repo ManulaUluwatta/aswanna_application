@@ -18,6 +18,11 @@ class ProductDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String sellerUID = product.owner;
+    UserDatabaseService userDatabaseService = UserDatabaseService();
+    userDatabaseService.getProductOwner(sellerUID);
+    String sellerName = UserDatabaseService.name;
+
     return Stack(
       children: [
         Column(
@@ -51,7 +56,7 @@ class ProductDescription extends StatelessWidget {
                     flex: 4,
                     child: Text.rich(
                       TextSpan(
-                        text: "\₹${product.discountPrice}   ",
+                        text: "\LKR${product.discountPrice}   ",
                         style: TextStyle(
                           color: cPrimaryColor,
                           fontWeight: FontWeight.w900,
@@ -59,7 +64,7 @@ class ProductDescription extends StatelessWidget {
                         ),
                         children: [
                           TextSpan(
-                            text: "\n\₹${product.originalPrice}",
+                            text: "\n\LKR${product.originalPrice}",
                             style: TextStyle(
                               decoration: TextDecoration.lineThrough,
                               color: cPrimaryColor,
@@ -116,7 +121,7 @@ class ProductDescription extends StatelessWidget {
                 ),
                 children: [
                   TextSpan(
-                    // text: "${user.firstName} ${user.lastName}",
+                    text: "${sellerName}",
                     style: TextStyle(
                       decoration: TextDecoration.underline,
                     ),
