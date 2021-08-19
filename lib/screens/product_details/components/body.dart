@@ -22,7 +22,7 @@ class Body extends StatelessWidget {
         physics: BouncingScrollPhysics(),
         child: Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: getProportionateScreenWidth(10)),
+              horizontal: getProportionateScreenWidth(20)),
           child: FutureBuilder<Product>(
             future: ProductDatabaseService().getProductWithID(productId),
             builder: (context, snapshot) {

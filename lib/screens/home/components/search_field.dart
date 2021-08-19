@@ -3,8 +3,9 @@ import '../../../constrants.dart';
 import '../../../size_cofig.dart';
 
 class SearchField extends StatelessWidget {
+  final Function onSubmit;
   const SearchField({
-    Key key,
+    Key key, this.onSubmit,
   }) : super(key: key);
 
   @override
@@ -30,6 +31,7 @@ class SearchField extends StatelessWidget {
             vertical: getProportionateScreenWidth(30),
           ),
         ),
+        onSubmitted: onSubmit,
       ),
     );
   }
