@@ -108,7 +108,7 @@ class ProductReviewsSection extends StatelessWidget {
 
   Widget buildProductRatingWidget(num rating) {
     return Container(
-      width: getProportionateScreenWidth(100),
+      width: getProportionateScreenWidth(140),
       padding: EdgeInsets.all(getProportionateScreenWidth(10)),
       decoration: BoxDecoration(
         color: Colors.amber,
@@ -133,6 +133,7 @@ class ProductReviewsSection extends StatelessWidget {
             color: Colors.white,
           ),
         ],
+        
       ),
     );
   }

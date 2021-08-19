@@ -2,6 +2,7 @@ import 'package:aswanna_application/constrants.dart';
 import 'package:aswanna_application/models/product.dart';
 import 'package:aswanna_application/models/user.dart';
 import 'package:aswanna_application/services/database/user_database_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
@@ -20,12 +21,6 @@ class ProductDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String sellerUID = product.owner;
-    UserDatabaseService userDatabaseService = UserDatabaseService();
-    userDatabaseService.getProductOwner(sellerUID);
-    String sellerName = UserDatabaseService.name;
-    String contact = UserDatabaseService.contact;
-
     return Stack(
       children: [
         Column(
@@ -115,54 +110,75 @@ class ProductDescription extends StatelessWidget {
               content: product.description,
             ),
             const SizedBox(height: 16),
-            Row(
-              children: [
-                Text.rich(
-                  TextSpan(
-                    text: "Sold by ",
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: "${sellerName}",
-                        style: TextStyle(
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                TextButton(
-                  onPressed: () {
-                    launch(('tel://$contact'));
-                  },
-                  child: Text(
-                    "Call",
-                  ),
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                    side: MaterialStateProperty.all(
-                      BorderSide(
-                        color: Color(0xFF09af00),
-                        width: 2,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            getSellerDetails(),
           ],
         ),
       ],
     );
+  }
+
+  Widget getSellerDetails() {
+    String sellerUID = product.owner;
+    return StreamBuilder<DocumentSnapshot>(
+        stream: UserDatabaseService().getSellerDetails(sellerUID),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            final error = snapshot.error;
+            Logger().w(error.toString());
+          }
+          String firstName;
+          String lastName;
+          String contact;
+          if (snapshot.hasData && snapshot.data != null) {
+            firstName = snapshot.data["firstName"];
+            lastName = snapshot.data["lastName"];
+            contact = snapshot.data["contact"];
+          }
+          return Row(
+            children: [
+              Text.rich(
+                TextSpan(
+                  text: "Sold by ",
+                  style: TextStyle(
+                    fontSize: getProportionateScreenWidth(35),
+                    fontWeight: FontWeight.bold,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: "$firstName $lastName",
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              TextButton.icon(
+                onPressed: () {
+                  launch(('tel://$contact'));
+                },
+                icon: Icon(Icons.call),
+                label: Text("$contact"),
+                //  Icon(Icons.call,semanticLabel: contact,),
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  side: MaterialStateProperty.all(
+                    BorderSide(
+                      color: Color(0xFF09af00),
+                      width: 2,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
   }
 }

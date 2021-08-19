@@ -15,6 +15,7 @@ class UserDatabaseService{
   static const String PHONE_KEY = 'contact';
   static const String DP_KEY = "display_picture";
   static const String FAV_PRODUCTS_KEY = "favourite_products";
+  static const String USER_ROLE = "role";
 
   UserDatabaseService._privateConstructor();
   static UserDatabaseService _instance =
@@ -376,6 +377,14 @@ class UserDatabaseService{
     name= "$firstName $lastName";
     print(name);
     return name;
+  }
+
+  Stream<DocumentSnapshot> getSellerDetails(String owner) {
+    return firestore
+        .collection(USERS_COLLECTION_NAME)
+        .doc(owner)
+        .get()
+        .asStream();
   }
   
 
