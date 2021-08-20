@@ -4,9 +4,12 @@ import 'package:aswanna_application/screens/profile/components/profile_menu_titl
 import 'package:aswanna_application/screens/sign_in/sign_in_screen.dart';
 import 'package:aswanna_application/services/auth/auth_service.dart';
 import 'package:aswanna_application/services/custom/user_service.dart';
+import 'package:aswanna_application/services/database/user_database_service.dart';
 import 'package:aswanna_application/size_cofig.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'profile_pic.dart';
 
 class Body extends StatelessWidget {
@@ -46,7 +49,8 @@ class Body extends StatelessWidget {
                   leading: Icons.person,
                   onTap: () {},
                 ),
-                buildManageGigExpansionTile(context),
+                buildUserRoleBasedExpansionTitle(context),
+                // buildManageGigExpansionTile(context),
                 ProfileMenuTile(
                   leading: Icons.notifications,
                   title: "Notifications",
@@ -80,6 +84,83 @@ class Body extends StatelessWidget {
       ),
     );
   }
+  Widget buildUserRoleBasedExpansionTitle(BuildContext context){
+    return StreamBuilder<DocumentSnapshot>(
+      stream: UserDatabaseService().currentUserDataStream,
+      builder: (context,snapshot){
+        if(snapshot.hasError){
+            final error = snapshot.error;
+            Logger().w(error.toString());
+        }
+        String userRole;
+        if(snapshot.hasData && snapshot.data != null){
+          userRole = snapshot.data["role"];
+        }
+        if(userRole == "Buyer"){
+          return buildBuyerRequestExpansionTitele(context);
+        }
+        return buildManageGigExpansionTile(context);
+      }
+      );
+  }
+
+  Widget buildBuyerRequestExpansionTitele(BuildContext context){
+    return ExpansionTile(
+      leading: Icon(
+        Icons.business,
+        color: Color(0xFF41c300),
+      ),
+      title: Text(
+        "Manage Buyer Request",
+        style: Theme.of(context).textTheme.headline6,
+      ),
+      trailing: Icon(Icons.keyboard_arrow_down, color: Color(0xFF41c300),
+              size: getProportionateScreenWidth(50),),
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: getProportionateScreenWidth(120)),
+          child: Column(
+            children: [
+              ListTile(
+                title: Text(
+                  "Add Buyer Request",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: getProportionateScreenWidth(32),
+                      fontWeight: FontWeight.w500),
+                ),
+                onTap: () async {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AddProductScreen()));
+                },
+              ),
+              ListTile(
+                title: Text(
+                  "Manage Buyer Request",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: getProportionateScreenWidth(32),
+                      fontWeight: FontWeight.w500),
+                ),
+                onTap: () async {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyProductsScreen(),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+
+  }
 
   Widget buildManageGigExpansionTile(BuildContext context) {
     return ExpansionTile(
@@ -108,27 +189,6 @@ class Body extends StatelessWidget {
                       fontWeight: FontWeight.w500),
                 ),
                 onTap: () async {
-                  // bool allowed = AuthentificationService().currentUserVerified;
-                  // if (!allowed) {
-                  //   final reverify = await showConfirmationDialog(context,
-                  //       "You haven't verified your email address. This action is only allowed for verified users.",
-                  //       positiveResponse: "Resend verification email",
-                  //       negativeResponse: "Go back");
-                  //   if (reverify) {
-                  //     final future = AuthentificationService()
-                  //         .sendVerificationEmailToCurrentUser();
-                  //     await showDialog(
-                  //       context: context,
-                  //       builder: (context) {
-                  //         return FutureProgressDialog(
-                  //           future,
-                  //           message: Text("Resending verification email"),
-                  //         );
-                  //       },
-                  //     );
-                  //   }
-                  //   return;
-                  // }
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -144,27 +204,6 @@ class Body extends StatelessWidget {
                       fontWeight: FontWeight.w500),
                 ),
                 onTap: () async {
-                  // bool allowed = AuthentificationService().currentUserVerified;
-                  // if (!allowed) {
-                  //   final reverify = await showConfirmationDialog(context,
-                  //       "You haven't verified your email address. This action is only allowed for verified users.",
-                  //       positiveResponse: "Resend verification email",
-                  //       negativeResponse: "Go back");
-                  //   if (reverify) {
-                  //     final future = AuthentificationService()
-                  //         .sendVerificationEmailToCurrentUser();
-                  //     await showDialog(
-                  //       context: context,
-                  //       builder: (context) {
-                  //         return FutureProgressDialog(
-                  //           future,
-                  //           message: Text("Resending verification email"),
-                  //         );
-                  //       },
-                  //     );
-                  //   }
-                  //   return;
-                  // }
                   Navigator.push(
                     context,
                     MaterialPageRoute(

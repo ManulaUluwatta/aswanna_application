@@ -18,7 +18,7 @@ class Body extends StatefulWidget {
   _BodyState createState() => _BodyState();
 }
 
-class _BodyState extends State<Body> {
+class _BodyState extends State<Body>{
   final AllProductsStream allProductsStream = AllProductsStream();
 
   @override
@@ -32,6 +32,7 @@ class _BodyState extends State<Body> {
     allProductsStream.dispose();
     super.dispose();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +78,8 @@ class _BodyState extends State<Body> {
       ),
     );
   }
-   Future<void> refreshPage() {
+
+  Future<void> refreshPage() {
     // favouriteProductsStream.reload();
     allProductsStream.reload();
     return Future<void>.value();

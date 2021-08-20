@@ -127,6 +127,7 @@ class Product extends Model {
   String listedDate;
   String exprieDate;
   ProductType productType;
+  String status;
   List<String> searchTags;
   Product(
     String id, {
@@ -145,6 +146,7 @@ class Product extends Model {
     this.listedDate,
     this.exprieDate,
     this.productType,
+    this.status,
     this.searchTags,
   }) : super(id);
 
@@ -170,6 +172,7 @@ class Product extends Model {
       exprieDate: map["expire_date"],
       productType:
           EnumToString.fromString(ProductType.values, map["product_type"]),
+      status: map["status"],
       searchTags: map["search_tag"].cast<String>(),
     );
   }
@@ -190,6 +193,7 @@ class Product extends Model {
       "listed_date": listedDate,
       "expire_date": exprieDate,
       "product_type": EnumToString.convertToString(productType),
+      "status": status,
       "search_tag": searchTags,
     };
     return map;
@@ -198,7 +202,7 @@ class Product extends Model {
   @override
   Map<String, dynamic> toUpdateMap() {
     final map = <String, dynamic>{};
-    if (images != null) if (images != null) map["image"] = images;
+    if (images != null) map["image"] = images;
     if (title != null) map["title"] = title;
     if (subCategory != null) map["sub_category"] = subCategory;
     if (discountPrice != null) map["discount_price"] = discountPrice;
@@ -214,6 +218,7 @@ class Product extends Model {
     if (exprieDate != null) map["expire_date"] = exprieDate;
     if (productType != null)
       map["product_type"] = EnumToString.convertToString(productType);
+    if (status != null) map["status"] = status;
     if (searchTags != null) map["search_tag"] = searchTags;
     return map;
   }

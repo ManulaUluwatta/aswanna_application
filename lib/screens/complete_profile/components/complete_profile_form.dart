@@ -30,6 +30,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   String address;
   String role;
   Object selectedRadio;
+  String status = "active";
   TextEditingController firstNameController;
   TextEditingController lastNameController;
   TextEditingController phoneNumberController;
@@ -275,6 +276,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
             contact: phoneNumberController.text,
             address: addressController.text,
             role: selectedRadio.toString(),
+            status: status
           ),
         );
         await authService.updateCurrentUserDisplayName("${firstNameController.text} ${lastNameController.text}");

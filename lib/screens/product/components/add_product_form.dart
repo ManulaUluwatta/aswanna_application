@@ -56,6 +56,7 @@ class _AddProductFormState extends State<AddProductForm> {
   Product product;
   DateTimeRange dateTimeRange;
   ThemeData themeData;
+  String status = "active";
 
   @override
   void dispose() {
@@ -709,6 +710,7 @@ class _AddProductFormState extends State<AddProductForm> {
     try {
       product.productType = productDetails.productType;
       product.searchTags = productDetails.searchTags;
+      product.status = status;
       final productUploadFuture = newProduct
           ? ProductDatabaseService().addUsersProduct(product)
           : ProductDatabaseService().updateUsersProduct(product);
