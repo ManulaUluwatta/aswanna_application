@@ -136,7 +136,7 @@ class Product extends Model {
     this.subCategory,
     this.discountPrice,
     this.originalPrice,
-    this.rating,
+    this.rating = 0.0,
     this.highlights,
     this.description,
     this.favourite,
