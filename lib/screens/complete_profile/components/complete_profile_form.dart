@@ -246,7 +246,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
     String uid = FirebaseAuth.instance.currentUser.uid;
     AuthService authService = AuthService();
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-    User user = await firebaseAuth.currentUser;
+    User user = firebaseAuth.currentUser;
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       bool allowed = authService.currentUserVerified;

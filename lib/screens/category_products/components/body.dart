@@ -1,7 +1,6 @@
 import 'package:aswanna_application/components/nothing_to_show_container.dart';
 import 'package:aswanna_application/components/product_card.dart';
 import 'package:aswanna_application/components/rounded_icon_button.dart';
-import 'package:aswanna_application/constrants.dart';
 import 'package:aswanna_application/models/product.dart';
 import 'package:aswanna_application/screens/home/components/search_field.dart';
 import 'package:aswanna_application/screens/product_details/product_details_screen.dart';

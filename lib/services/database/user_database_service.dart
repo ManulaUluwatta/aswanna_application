@@ -1,7 +1,5 @@
 import 'package:aswanna_application/models/CartItem.dart';
 import 'package:aswanna_application/models/OrderedProduct.dart';
-import 'package:aswanna_application/models/product.dart';
-import 'package:aswanna_application/models/user.dart';
 import 'package:aswanna_application/services/auth/auth_service.dart';
 import 'package:aswanna_application/services/database/product_database_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -281,7 +279,7 @@ class UserDatabaseService{
         .doc(uid)
         .collection(ORDERED_PRODUCTS_COLLECTION_NAME)
         .get();
-    List orderedProductsId = List<String>();
+    List orderedProductsId = <String>[];
     for (final doc in orderedProductsSnapshot.docs) {
       orderedProductsId.add(doc.id);
     }

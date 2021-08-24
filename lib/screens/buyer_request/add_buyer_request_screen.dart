@@ -16,7 +16,7 @@ class AddBuyerRequestScreen extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => BuyerRequestDetails(),
       child: Scaffold(
-        appBar: AppBar(title: Text("Add Product Details"),),
+        appBar: AppBar(title: Text("Add Buyer Request Details"),),
         body: Body(
             buyerRequestToEdit:buyerRequestToEdit
           ),

@@ -1,6 +1,5 @@
 import 'package:aswanna_application/constrants.dart';
 import 'package:flutter/material.dart';
-import '../../../size_cofig.dart';
 
 class SectionTitle extends StatelessWidget {
   const SectionTitle({

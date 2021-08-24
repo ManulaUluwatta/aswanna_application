@@ -4,7 +4,6 @@ import 'package:aswanna_application/screens/product/add_product_screen.dart';
 import 'package:aswanna_application/screens/profile/components/profile_menu_title.dart';
 import 'package:aswanna_application/screens/sign_in/sign_in_screen.dart';
 import 'package:aswanna_application/services/auth/auth_service.dart';
-import 'package:aswanna_application/services/custom/user_service.dart';
 import 'package:aswanna_application/services/database/user_database_service.dart';
 import 'package:aswanna_application/size_cofig.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,15 +17,29 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userData =
-        UserService().getById(FirebaseAuth.instance.currentUser.uid);
+    // final userData =
+    //     UserService().getById(FirebaseAuth.instance.currentUser.uid);
     FirebaseAuth auth = FirebaseAuth.instance;
     return SingleChildScrollView(
       child: Column(
         children: [
           ProfilePic(),
-          Text("${auth.currentUser.displayName}"),
-          Text("${auth.currentUser.email}"),
+          SizedBox(
+            height: getProportionateScreenHeight(10),
+          ),
+          Text(
+            "${auth.currentUser.displayName}",
+            style: TextStyle(
+                fontSize: getProportionateScreenWidth(40),
+                fontWeight: FontWeight.w600),
+          ),
+          Text(
+            "${auth.currentUser.email}",
+            style: TextStyle(
+              fontSize: getProportionateScreenWidth(30),
+              fontWeight: FontWeight.w500
+            ),
+            ),
           SizedBox(
             height: 20,
           ),
@@ -85,27 +98,27 @@ class Body extends StatelessWidget {
       ),
     );
   }
-  Widget buildUserRoleBasedExpansionTitle(BuildContext context){
+
+  Widget buildUserRoleBasedExpansionTitle(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
-      stream: UserDatabaseService().currentUserDataStream,
-      builder: (context,snapshot){
-        if(snapshot.hasError){
+        stream: UserDatabaseService().currentUserDataStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
             final error = snapshot.error;
             Logger().w(error.toString());
-        }
-        String userRole;
-        if(snapshot.hasData && snapshot.data != null){
-          userRole = snapshot.data["role"];
-        }
-        if(userRole == "Buyer"){
-          return buildBuyerRequestExpansionTitele(context);
-        }
-        return buildManageGigExpansionTile(context);
-      }
-      );
+          }
+          String userRole;
+          if (snapshot.hasData && snapshot.data != null) {
+            userRole = snapshot.data["role"];
+          }
+          if (userRole == "Buyer") {
+            return buildBuyerRequestExpansionTitele(context);
+          }
+          return buildManageGigExpansionTile(context);
+        });
   }
 
-  Widget buildBuyerRequestExpansionTitele(BuildContext context){
+  Widget buildBuyerRequestExpansionTitele(BuildContext context) {
     return ExpansionTile(
       leading: Icon(
         Icons.business,
@@ -115,8 +128,11 @@ class Body extends StatelessWidget {
         "Manage Buyer Request",
         style: Theme.of(context).textTheme.headline6,
       ),
-      trailing: Icon(Icons.keyboard_arrow_down, color: Color(0xFF41c300),
-              size: getProportionateScreenWidth(50),),
+      trailing: Icon(
+        Icons.keyboard_arrow_down,
+        color: Color(0xFF41c300),
+        size: getProportionateScreenWidth(50),
+      ),
       children: [
         Padding(
           padding: EdgeInsets.symmetric(
@@ -160,7 +176,6 @@ class Body extends StatelessWidget {
         ),
       ],
     );
-
   }
 
   Widget buildManageGigExpansionTile(BuildContext context) {
@@ -173,8 +188,11 @@ class Body extends StatelessWidget {
         "Manage Gigs",
         style: Theme.of(context).textTheme.headline6,
       ),
-      trailing: Icon(Icons.keyboard_arrow_down, color: Color(0xFF41c300),
-              size: getProportionateScreenWidth(50),),
+      trailing: Icon(
+        Icons.keyboard_arrow_down,
+        color: Color(0xFF41c300),
+        size: getProportionateScreenWidth(50),
+      ),
       children: [
         Padding(
           padding: EdgeInsets.symmetric(

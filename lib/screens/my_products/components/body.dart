@@ -46,7 +46,7 @@ class _BodyState extends State<Body> {
           physics: AlwaysScrollableScrollPhysics(),
           child: Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: getProportionateScreenWidth(10)),
+                horizontal: getProportionateScreenWidth(20)),
             child: SizedBox(
               width: double.infinity,
               child: Column(

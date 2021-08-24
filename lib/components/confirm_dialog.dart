@@ -19,6 +19,7 @@ Future<bool> showConfirmationDialog(
         ),
         actions: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Center(
                 child: Padding(

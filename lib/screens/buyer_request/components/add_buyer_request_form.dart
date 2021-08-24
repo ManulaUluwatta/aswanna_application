@@ -5,6 +5,7 @@ import 'package:aswanna_application/screens/buyer_request/provider_models/buyer_
 import 'package:aswanna_application/services/database/buyer_request_database_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enum_to_string/enum_to_string.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:intl/intl.dart';
@@ -27,7 +28,6 @@ class AddProductForm extends StatefulWidget {
 
 class _AddProductFormState extends State<AddProductForm> {
   final _basicDetailsFormKey = GlobalKey<FormState>();
-  final _describeProductFormKey = GlobalKey<FormState>();
 
   final TextEditingController titleFieldController = TextEditingController();
   final TextEditingController desciptionFieldController =
@@ -69,12 +69,21 @@ class _AddProductFormState extends State<AddProductForm> {
     SizeConfig().init(context);
     final column = Column(
       children: [
+        Text(
+          "Fill Folowing Details to Add \nBuyer Request",
+          style: TextStyle(
+              fontSize: getProportionateScreenWidth(40),
+              color: Color(0xFF37474F),
+              fontWeight: FontWeight.w500),
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(height: getProportionateScreenHeight(20)),
         buildProductTypeDropdown(),
         SizedBox(height: getProportionateScreenHeight(20)),
         buildBasicDetailsTile(context),
         SizedBox(height: getProportionateScreenHeight(10)),
         DefaultButton(
-            text: "Save Product",
+            text: "Add Buyer Request",
             press: () {
               saveProductButtonCallback(context);
             }),
@@ -83,7 +92,7 @@ class _AddProductFormState extends State<AddProductForm> {
     );
     if (newBuyerRequest == false) {
       titleFieldController.text = buyerRequest.title;
-      desciptionFieldController.text = buyerRequest.description;;
+      desciptionFieldController.text = buyerRequest.description;
       quantityContoller.text = buyerRequest.quantity.toString();
     }
     return column;
@@ -94,10 +103,6 @@ class _AddProductFormState extends State<AddProductForm> {
       key: _basicDetailsFormKey,
       child: Column(
         children: [
-          Text(
-            "Fill Folowing Details \nto add buyer request",
-            style: Theme.of(context).textTheme.headline6,
-          ),
           SizedBox(
             height: getProportionateScreenHeight(10),
           ),
@@ -112,6 +117,22 @@ class _AddProductFormState extends State<AddProductForm> {
           buildQuantityField(),
           SizedBox(
             height: getProportionateScreenHeight(20),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: getProportionateScreenWidth(20),
+                  vertical: getProportionateScreenHeight(10)),
+              child: Text(
+                "Select Request valid period",
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                    fontSize: getProportionateScreenWidth(32),
+                    color: Color(0xFF37474F),
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
           ),
           buildSelectDateRangeButton(context),
           SizedBox(
@@ -134,23 +155,29 @@ class _AddProductFormState extends State<AddProductForm> {
   }
 
   Widget buildSelectDateRangeButton(BuildContext context) {
-    return TextButton(
-      onPressed: () => pickDateRange(context),
-      child: Text(
-        "${getListedDate()} To ${getExpiredDate()}",
-        style: TextStyle(
-            fontSize: 16, fontWeight: FontWeight.w500, color: cTextColor),
-      ),
-      style: ButtonStyle(
-        shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
+    return SizedBox(
+      width: getProportionateScreenWidth(550),
+      height: getProportionateScreenHeight(65),
+      child: TextButton(
+        onPressed: () => pickDateRange(context),
+        child: Text(
+          "${getListedDate()} To ${getExpiredDate()}",
+          style: TextStyle(
+              fontSize: getProportionateScreenWidth(30),
+              fontWeight: FontWeight.w500,
+              color: cTextColor),
         ),
-        side: MaterialStateProperty.all(
-          BorderSide(
-            color: Color(0xFF09af00),
-            width: 2,
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+          ),
+          side: MaterialStateProperty.all(
+            BorderSide(
+              color: Color(0xFF09af00),
+              width: 2,
+            ),
           ),
         ),
       ),
@@ -249,16 +276,18 @@ class _AddProductFormState extends State<AddProductForm> {
     if (dateTimeRange == null) {
       return "Listed Date";
     } else {
-      buyerRequest.listedDate = DateFormat('dd/MM/yyyy').format(dateTimeRange.start);
+      buyerRequest.listedDate =
+          DateFormat('dd/MM/yyyy').format(dateTimeRange.start);
       return DateFormat('dd/MM/yyyy').format(dateTimeRange.start);
     }
   }
 
   String getExpiredDate() {
     if (dateTimeRange == null) {
-      return "Expire Date";
+      return "Request expire Date";
     } else {
-      buyerRequest.expireDate = DateFormat('dd/MM/yyyy').format(dateTimeRange.end);
+      buyerRequest.expireDate =
+          DateFormat('dd/MM/yyyy').format(dateTimeRange.end);
       return DateFormat('dd/MM/yyyy').format(dateTimeRange.end);
     }
   }
@@ -268,8 +297,8 @@ class _AddProductFormState extends State<AddProductForm> {
       controller: titleFieldController,
       keyboardType: TextInputType.name,
       decoration: InputDecoration(
-        hintText: "e.g., Onion",
-        labelText: "Product Name",
+        hintText: "I want fesh cabbage",
+        labelText: "Request Title",
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
       validator: (_) {
@@ -307,8 +336,8 @@ class _AddProductFormState extends State<AddProductForm> {
       controller: quantityContoller,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
-        hintText: "e.g., 500",
-        labelText: "Minimum Bulk Quantiy(KG)",
+        hintText: "Enter quantity you expected to buy",
+        labelText: "Quantiy(KG)",
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
       validator: (_) {
@@ -326,7 +355,7 @@ class _AddProductFormState extends State<AddProductForm> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            "Erros in Basic Details Form",
+            "You must fill all the details",
             style: TextStyle(fontSize: 18),
             textAlign: TextAlign.center,
           ),

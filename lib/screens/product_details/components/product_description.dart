@@ -1,6 +1,5 @@
 import 'package:aswanna_application/constrants.dart';
 import 'package:aswanna_application/models/product.dart';
-import 'package:aswanna_application/models/user.dart';
 import 'package:aswanna_application/services/database/user_database_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

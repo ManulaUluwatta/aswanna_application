@@ -6,7 +6,6 @@ import 'package:logger/logger.dart';
 
 import '../size_cofig.dart';
 
-
 class ProductShortDetailCard extends StatelessWidget {
   final String productId;
   final VoidCallback onPressed;
@@ -25,66 +24,75 @@ class ProductShortDetailCard extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final product = snapshot.data;
-            return Row(
-              children: [
-                SizedBox(
-                  width: getProportionateScreenWidth(200),
-                  child: AspectRatio(
-                    aspectRatio: 0.88,
-                    child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: product.images.length > 0
-                          ? Image.network(
-                              product.images[0],
-                              fit: BoxFit.contain,
-                            )
-                          : Text("No Image"),
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: cPrimaryColor.withOpacity(0.2)),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(14),
+                ),
+              ),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: getProportionateScreenWidth(200),
+                    child: AspectRatio(
+                      aspectRatio: 0.88,
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: product.images.length > 0
+                            ? Image.network(
+                                product.images[0],
+                                fit: BoxFit.contain,
+                              )
+                            : Text("No Image"),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(width: getProportionateScreenWidth(20)),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        product.title,
-                        softWrap: true,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: getProportionateScreenWidth(40),
-                          fontWeight: FontWeight.bold,
-                          color: cTextColor,
+                  SizedBox(width: getProportionateScreenWidth(20)),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          product.title,
+                          softWrap: true,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: getProportionateScreenWidth(40),
+                            fontWeight: FontWeight.bold,
+                            color: cTextColor,
+                          ),
+                          maxLines: 2,
                         ),
-                        maxLines: 2,
-                      ),
-                      SizedBox(height: 10),
-                      Text.rich(
-                        TextSpan(
-                            text: "\LKR${product.discountPrice}    ",
-                            style: TextStyle(
-                              color: cPrimaryColor,
-                              fontWeight: FontWeight.w700,
-                              fontSize: getProportionateScreenWidth(35),
-                            ),
-                            children: [
-                              TextSpan(
-                                text: "\LKR${product.originalPrice}",
-                                style: TextStyle(
-                                  color: cTextColor,
-                                  decoration: TextDecoration.lineThrough,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: getProportionateScreenWidth(30),
-                                ),
+                        SizedBox(height: 10),
+                        Text.rich(
+                          TextSpan(
+                              text: "\LKR${product.discountPrice}    ",
+                              style: TextStyle(
+                                color: cPrimaryColor,
+                                fontWeight: FontWeight.w700,
+                                fontSize: getProportionateScreenWidth(35),
                               ),
-                            ]),
-                      ),
-                      Text("Available Quantity : ${product.availableQuantity.round()}")
-                    ],
-                    
+                              children: [
+                                TextSpan(
+                                  text: "\LKR${product.originalPrice}",
+                                  style: TextStyle(
+                                    color: cTextColor,
+                                    decoration: TextDecoration.lineThrough,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: getProportionateScreenWidth(30),
+                                  ),
+                                ),
+                              ]),
+                        ),
+                        Text(
+                            "Available Quantity : ${product.availableQuantity.round()}")
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             );
           } else if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
