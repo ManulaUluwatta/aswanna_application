@@ -123,7 +123,7 @@ class BuyerRequestShortDetailCard extends StatelessWidget {
           if (snapshot.hasData && snapshot.data != null) {
             userRole = snapshot.data["role"];
           }
-          if (userRole == "buyer") {
+          if (userRole == "Buyer") {
             return buildDisableOfferButton(context);
           }
           return buildOfferButton(context);

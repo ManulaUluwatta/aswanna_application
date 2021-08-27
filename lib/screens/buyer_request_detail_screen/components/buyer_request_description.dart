@@ -1,4 +1,5 @@
 import 'package:aswanna_application/models/buyer_request.dart';
+import 'package:aswanna_application/screens/profile_detail_screen/profile_detail_screen.dart';
 import 'package:aswanna_application/services/database/user_database_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -65,21 +66,30 @@ class BuyerRequestDecription extends StatelessWidget {
           }
           return Row(
             children: [
-              Text.rich(
-                TextSpan(
-                  text: "Request by ",
-                  style: TextStyle(
-                    fontSize: getProportionateScreenWidth(35),
-                    fontWeight: FontWeight.bold,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: "$firstName $lastName",
-                      style: TextStyle(
-                        decoration: TextDecoration.underline,
-                      ),
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProfileDetailScreen(userID: buyerUID),
+                    ));
+                },
+                child: Text.rich(
+                  TextSpan(
+                    text: "Request by ",
+                    style: TextStyle(
+                      fontSize: getProportionateScreenWidth(35),
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
+                    children: [
+                      TextSpan(
+                        text: "$firstName $lastName",
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(

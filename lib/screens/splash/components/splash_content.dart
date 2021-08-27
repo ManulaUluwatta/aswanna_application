@@ -59,7 +59,7 @@ class SplashContent extends StatelessWidget {
             child: Text(
               text,
               style: TextStyle(
-                fontSize: 24.0,
+                fontSize: getProportionateScreenWidth(50),
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
                 shadows: <Shadow>[

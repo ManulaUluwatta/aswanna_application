@@ -3,6 +3,7 @@ import 'package:aswanna_application/screens/my_buyer_request/my_buyer_request_sc
 import 'package:aswanna_application/screens/my_products/my_products_screen.dart';
 import 'package:aswanna_application/screens/product/add_product_screen.dart';
 import 'package:aswanna_application/screens/profile/components/profile_menu_title.dart';
+import 'package:aswanna_application/screens/profile_detail_screen/profile_detail_screen.dart';
 import 'package:aswanna_application/screens/sign_in/sign_in_screen.dart';
 import 'package:aswanna_application/services/auth/auth_service.dart';
 import 'package:aswanna_application/services/database/user_database_service.dart';
@@ -21,6 +22,7 @@ class Body extends StatelessWidget {
     // final userData =
     //     UserService().getById(FirebaseAuth.instance.currentUser.uid);
     FirebaseAuth auth = FirebaseAuth.instance;
+    final String userID = auth.currentUser.uid;
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -62,7 +64,14 @@ class Body extends StatelessWidget {
                 ProfileMenuTile(
                   title: "My Account",
                   leading: Icons.person,
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProfileDetailScreen(userID: userID),
+                    ),
+                  );
+                  },
                 ),
                 buildUserRoleBasedExpansionTitle(context),
                 // buildManageGigExpansionTile(context),
