@@ -40,4 +40,45 @@ class BuyerRequestDatabaseSerivce {
     await docRef.update(buyerRequestMap);
     return docRef.id;
   }
+
+  Future<List<dynamic>> get usersBuyerRequestList async {
+    String uid = authService.currentUser.uid;
+    final buyerRequestCollectionReference =
+        firestore.collection(buyerRequestCollectionName);
+    final querySnapshot = await buyerRequestCollectionReference
+        .where("buyerID", isEqualTo: uid)
+        .get();
+    List usersBuyerRequest = <String>[];
+    querySnapshot.docs.forEach((doc) {
+      usersBuyerRequest.add(doc.id);
+    });
+    return usersBuyerRequest;
+  }
+   Future<bool> deleteBuyerRequest(String buyerRequestID) async {
+    final buyerRequestCollectionReference =
+        firestore.collection(buyerRequestCollectionName);
+    await buyerRequestCollectionReference.doc(buyerRequestID).delete();
+    return true;
+  }
+
+  Future<BuyerRequest> getBuyerRequestWithID(String buyerRequestID) async {
+    final docSnapshot = await firestore
+        .collection(buyerRequestCollectionName)
+        .doc(buyerRequestID)
+        .get();
+
+    if (docSnapshot.exists) {
+      return BuyerRequest.fromMap(docSnapshot.data(), id: docSnapshot.id);
+    }
+    return null;
+  }
+  Future<List<dynamic>> get allBuyerRequestList async {
+    final buyerRequest = await firestore.collection(buyerRequestCollectionName).get();
+    List buyerRequestID = <String>[];
+    for (final buyerRequest in buyerRequest.docs) {
+      final id = buyerRequest.id;
+      buyerRequestID.add(id);
+    }
+    return buyerRequestID;
+  }
 }

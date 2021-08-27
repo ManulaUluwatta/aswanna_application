@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import '../../enums.dart';
 import 'components/body.dart';
 
-class MyProductsScreen extends StatelessWidget {
-  static String routeName = "/my_product_screen";
+class ChangeDisplayPictureScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Manage Products"),),
-      body: Body(),
+      appBar: AppBar(
+        title: Text("Edit Profile Picture"),
+      ),
       bottomNavigationBar: CustomBottomNavBar(
-    selectedMenu: MenuState.my_products,
-    ),
-      //body: Body(),
+        selectedMenu: MenuState.profile,
+      ),
+      body: Body(),
     );
   }
 }

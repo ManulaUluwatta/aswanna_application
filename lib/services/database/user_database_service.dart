@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserDatabaseService{
   static const String USERS_COLLECTION_NAME = "users";
-  static const String ADDRESSES_COLLECTION_NAME = "addresses";
+  static const String ADDRESSES_COLLECTION_NAME = "address";
   static const String CART_COLLECTION_NAME = "cart";
   static const String ORDERED_PRODUCTS_COLLECTION_NAME = "ordered_products";
 

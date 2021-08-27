@@ -1,6 +1,6 @@
 //import 'dart:html';
 
-import 'package:aswanna_application/screens/change_display_picture%20copy/change_display_picture_screen.dart';
+import 'package:aswanna_application/screens/change_display_picture/change_display_picture_screen.dart';
 import 'package:aswanna_application/services/database/user_database_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

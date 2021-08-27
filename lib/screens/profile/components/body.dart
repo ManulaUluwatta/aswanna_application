@@ -1,4 +1,5 @@
 import 'package:aswanna_application/screens/buyer_request/add_buyer_request_screen.dart';
+import 'package:aswanna_application/screens/my_buyer_request/my_buyer_request_screen.dart';
 import 'package:aswanna_application/screens/my_products/my_products_screen.dart';
 import 'package:aswanna_application/screens/product/add_product_screen.dart';
 import 'package:aswanna_application/screens/profile/components/profile_menu_title.dart';
@@ -166,7 +167,7 @@ class Body extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MyProductsScreen(),
+                      builder: (context) => MyBuyerRequestScreen(),
                     ),
                   );
                 },

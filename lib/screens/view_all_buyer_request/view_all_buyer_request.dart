@@ -1,17 +1,18 @@
 import 'package:aswanna_application/components/custom_bottom_nav_bar.dart';
+import 'package:aswanna_application/screens/view_all_buyer_request/components/body.dart';
 import 'package:flutter/material.dart';
-import '../../enums.dart';
-import 'components/body.dart';
 
-class MyProductsScreen extends StatelessWidget {
-  static String routeName = "/my_product_screen";
+import '../../enums.dart';
+
+class ViewAllBuyerRequestScreen extends StatelessWidget {
+  static String routeName = "/view_all_buyer_request_screen";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Manage Products"),),
+      appBar: AppBar(title: Text("All Buyer Requests"),),
       body: Body(),
       bottomNavigationBar: CustomBottomNavBar(
-    selectedMenu: MenuState.my_products,
+    selectedMenu: MenuState.favourite,
     ),
       //body: Body(),
     );
