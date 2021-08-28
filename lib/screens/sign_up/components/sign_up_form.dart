@@ -213,6 +213,7 @@ class _SignUpFormState extends State<SignUpForm> {
           ),
           backgroundColor: Colors.green[300],
         ));
+        // String email = emailController.text.trim();
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => CompleteProfileScreen()),

@@ -1,5 +1,6 @@
 import 'package:aswanna_application/models/CartItem.dart';
 import 'package:aswanna_application/models/OrderedProduct.dart';
+import 'package:aswanna_application/models/address.dart';
 import 'package:aswanna_application/services/auth/auth_service.dart';
 import 'package:aswanna_application/services/database/product_database_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -116,49 +117,75 @@ class UserDatabaseService{
     return addresses;
   }
 
-  // Future<Address> getAddressFromId(String id) async {
-  //   String uid = AuthentificationService().currentUser.uid;
-  //   final doc = await firestore
-  //       .collection(USERS_COLLECTION_NAME)
-  //       .doc(uid)
-  //       .collection(ADDRESSES_COLLECTION_NAME)
-  //       .doc(id)
-  //       .get();
-  //   final address = Address.fromMap(doc.data(), id: doc.id);
-  //   return address;
-  // }
+  Future<List<String>> getCurrentUserAddressID(String userID) async {
+    // String uid = AuthService().currentUser.uid;
+    final snapshot = await firestore
+        .collection(USERS_COLLECTION_NAME)
+        .doc(userID)
+        .collection(ADDRESSES_COLLECTION_NAME)
+        .get();
+    final addresses = <String>[];
+    snapshot.docs.forEach((doc) {
+      addresses.add(doc.id);
+    });
 
-  // Future<bool> addAddressForCurrentUser(Address address) async {
-  //   String uid = AuthentificationService().currentUser.uid;
-  //   final addressesCollectionReference = firestore
-  //       .collection(USERS_COLLECTION_NAME)
-  //       .doc(uid)
-  //       .collection(ADDRESSES_COLLECTION_NAME);
-  //   await addressesCollectionReference.add(address.toMap());
-  //   return true;
-  // }
+    return addresses;
+  }
 
-  // Future<bool> deleteAddressForCurrentUser(String id) async {
-  //   String uid = AuthentificationService().currentUser.uid;
-  //   final addressDocReference = firestore
-  //       .collection(USERS_COLLECTION_NAME)
-  //       .doc(uid)
-  //       .collection(ADDRESSES_COLLECTION_NAME)
-  //       .doc(id);
-  //   await addressDocReference.delete();
-  //   return true;
-  // }
+  Future<Address> getAddressFromId(String id) async {
+    String uid = AuthService().currentUser.uid;
+    final doc = await firestore
+        .collection(USERS_COLLECTION_NAME)
+        .doc(uid)
+        .collection(ADDRESSES_COLLECTION_NAME)
+        .doc(id)
+        .get();
+    final address = Address.fromMap(doc.data(), id: doc.id);
+    return address;
+  }
+  Future<Address> getAddressCurrentUser(String userID, String addressID) async {
+    String uid = AuthService().currentUser.uid;
+    final doc = await firestore
+        .collection(USERS_COLLECTION_NAME)
+        .doc(userID)
+        .collection(ADDRESSES_COLLECTION_NAME)
+        .doc(addressID)
+        .get();
+    final address = Address.fromMap(doc.data(), id: doc.id);
+    return address;
+  }
 
-  // Future<bool> updateAddressForCurrentUser(Address address) async {
-  //   String uid = AuthentificationService().currentUser.uid;
-  //   final addressDocReference = firestore
-  //       .collection(USERS_COLLECTION_NAME)
-  //       .doc(uid)
-  //       .collection(ADDRESSES_COLLECTION_NAME)
-  //       .doc(address.id);
-  //   await addressDocReference.update(address.toMap());
-  //   return true;
-  // }
+  Future<bool> addAddressForCurrentUser(Address address) async {
+    String uid = AuthService().currentUser.uid;
+    final addressesCollectionReference = firestore
+        .collection(USERS_COLLECTION_NAME)
+        .doc(uid)
+        .collection(ADDRESSES_COLLECTION_NAME);
+    await addressesCollectionReference.add(address.toMap());
+    return true;
+  }
+
+  Future<bool> deleteAddressForCurrentUser(String id) async {
+    String uid = AuthService().currentUser.uid;
+    final addressDocReference = firestore
+        .collection(USERS_COLLECTION_NAME)
+        .doc(uid)
+        .collection(ADDRESSES_COLLECTION_NAME)
+        .doc(id);
+    await addressDocReference.delete();
+    return true;
+  }
+
+  Future<bool> updateAddressForCurrentUser(Address address) async {
+    String uid = AuthService().currentUser.uid;
+    final addressDocReference = firestore
+        .collection(USERS_COLLECTION_NAME)
+        .doc(uid)
+        .collection(ADDRESSES_COLLECTION_NAME)
+        .doc(address.id);
+    await addressDocReference.update(address.toMap());
+    return true;
+  }
 
   Future<CartItem> getCartItemFromId(String id) async {
     String uid = AuthService().currentUser.uid;

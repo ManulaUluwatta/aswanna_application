@@ -1,3 +1,4 @@
+import 'package:aswanna_application/constrants.dart';
 import 'package:aswanna_application/models/buyer_request.dart';
 import 'package:aswanna_application/screens/profile_detail_screen/profile_detail_screen.dart';
 import 'package:aswanna_application/services/database/user_database_service.dart';
@@ -34,12 +35,70 @@ class BuyerRequestDecription extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: getProportionateScreenHeight(15)),
             BuyerRequestExpandableText(
               title: "Description",
               content: buyerRequest.description,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: getProportionateScreenHeight(15)),
+            Row(
+              children: [
+                Text(
+                  "Listed Date : ",
+                  style: TextStyle(
+                      fontSize: getProportionateScreenHeight(20),
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF37474F)),
+                ),
+                Text(
+                  "${buyerRequest.listedDate}",
+                  style: TextStyle(
+                      fontSize: getProportionateScreenHeight(20),
+                      fontWeight: FontWeight.w500,
+                      color: cPrimaryColor),
+                ),
+              ],
+            ),
+            SizedBox(height: getProportionateScreenHeight(7)),
+            Row(
+              children: [
+                Text(
+                  "Request expired Date : ",
+                  style: TextStyle(
+                      fontSize: getProportionateScreenHeight(20),
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF37474F)),
+                ),
+                Text(
+                  "${buyerRequest.expireDate}",
+                  style: TextStyle(
+                      fontSize: getProportionateScreenHeight(20),
+                      fontWeight: FontWeight.w500,
+                      color: cPrimaryColor),
+                ),
+              ],
+            ),
+            SizedBox(height: getProportionateScreenHeight(15)),
+            Row(
+              children: [
+                Text(
+                  "Buyer expected quantity : ",
+                  style: TextStyle(
+                      fontSize: getProportionateScreenHeight(20),
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF37474F)),
+                ),
+                Text(
+                  "${buyerRequest.quantity.round()}KG",
+                  style: TextStyle(
+                      fontSize: getProportionateScreenHeight(20),
+                      fontWeight: FontWeight.w500,
+                      color: cPrimaryColor),
+                ),
+              ],
+            ),
+            
+            SizedBox(height: getProportionateScreenHeight(15)),
             getBuyerDetails(),
           ],
         ),
@@ -67,12 +126,13 @@ class BuyerRequestDecription extends StatelessWidget {
           return Row(
             children: [
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ProfileDetailScreen(userID: buyerUID),
-                    ));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ProfileDetailScreen(userID: buyerUID),
+                      ));
                 },
                 child: Text.rich(
                   TextSpan(

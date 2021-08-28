@@ -24,9 +24,9 @@ class BuyerRequestOfferSection extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    "Product Reviews",
+                    "Offer Section",
                     style: TextStyle(
-                      fontSize: 21,
+                      fontSize: getProportionateScreenHeight(25),
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
                     ),

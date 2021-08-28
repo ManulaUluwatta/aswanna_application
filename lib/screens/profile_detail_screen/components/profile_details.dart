@@ -1,4 +1,5 @@
 import 'package:aswanna_application/constrants.dart';
+import 'package:aswanna_application/models/address.dart';
 import 'package:aswanna_application/services/database/user_database_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -8,10 +9,12 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../size_cofig.dart';
 
 class ProfileDetail extends StatelessWidget {
+  final String addressId;
   final String userID;
   const ProfileDetail({
     Key key,
     @required this.userID,
+    @required this.addressId,
   }) : super(key: key);
 
   @override
@@ -41,47 +44,14 @@ class ProfileDetail extends StatelessWidget {
           String lastName;
           String contact;
           String email;
-          String address;
+          // String address;
           if (snapshot.hasData && snapshot.data != null) {
             firstName = snapshot.data["firstName"];
             lastName = snapshot.data["lastName"];
             contact = snapshot.data["contact"];
             email = snapshot.data["email"];
-            address = snapshot.data["address"];
+            // address = snapshot.data["address"];
           }
-          // return Row(
-          //   children: [
-          //     // SizedBox(height: getProportionateScreenHeight(300),),
-          //     Column(
-          //       children: [
-          //         Text.rich(
-          //           TextSpan(
-          //               text: "$firstName $lastName",
-          //               style: TextStyle(
-          //                 fontSize: getProportionateScreenWidth(50),
-          //                 color: Color(0xFF37474F),
-          //                 fontWeight: FontWeight.w600,
-          //               ),
-          //               children: [
-          //                 TextSpan(
-          //                   text: "\n$email ",
-          //                   style: TextStyle(
-          //                     fontWeight: FontWeight.normal,
-          //                     fontSize: getProportionateScreenWidth(35),
-          //                   ),
-          //                 ),
-          //               ]),
-          //         ),
-
-          //       ],
-          //     ),
-          //     SizedBox(
-          //       child: Container(
-          //         color: Colors.amber,
-          //       ),
-          //     )
-          //   ],
-          // );
           return Container(
             child: Column(
               children: [
@@ -119,13 +89,107 @@ class ProfileDetail extends StatelessWidget {
                         color: cPrimaryColor),
                   ),
                 ),
+                // SizedBox(
+                //   width: double.infinity,
+                //   child: Text(
+                //     "$address",
+                //   ),
+                // ),
                 SizedBox(
                   width: double.infinity,
-                  child: Text(
-                    "$address",
+                  child: FutureBuilder<Address>(
+                    future: UserDatabaseService()
+                        .getAddressCurrentUser(userID, addressId),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        final address = snapshot.data;
+                        return Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(10, 5, 0, 0),
+                              child: SizedBox(
+                                  width: double.infinity,
+                                  child: SelectableText(
+                                    "${address.addresLine1},",
+                                    style: TextStyle(
+                                        fontSize:
+                                            getProportionateScreenHeight(20),
+                                        fontWeight: FontWeight.w500),
+                                  )),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                              child: SizedBox(
+                                  width: double.infinity,
+                                  child: SelectableText(
+                                    "${address.addresLine2},",
+                                    style: TextStyle(
+                                        fontSize:
+                                            getProportionateScreenHeight(20),
+                                        fontWeight: FontWeight.w500),
+                                  )),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                              child: SizedBox(
+                                  width: double.infinity,
+                                  child: SelectableText(
+                                    "${address.city},",
+                                    style: TextStyle(
+                                        fontSize:
+                                            getProportionateScreenHeight(20),
+                                        fontWeight: FontWeight.w500),
+                                  )),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                              child: SizedBox(
+                                  width: double.infinity,
+                                  child: SelectableText(
+                                    "${address.district} district,",
+                                    style: TextStyle(
+                                        fontSize:
+                                            getProportionateScreenHeight(20),
+                                        fontWeight: FontWeight.w500),
+                                  )),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(10, 0, 0, 10),
+                              child: SizedBox(
+                                  width: double.infinity,
+                                  child: SelectableText(
+                                    "${address.province} province,",
+                                    style: TextStyle(
+                                        fontSize:
+                                            getProportionateScreenHeight(20),
+                                        fontWeight: FontWeight.w500),
+                                  )),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            )
+                          ],
+                        );
+                      } else if (snapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        final error = snapshot.error.toString();
+                        Logger().e(error);
+                      }
+                      return Center(
+                        child: Icon(
+                          Icons.error,
+                          size: 40,
+                          color: cTextColor,
+                        ),
+                      );
+                    },
                   ),
                 ),
-                SizedBox(height: getProportionateScreenHeight(10),),
+                SizedBox(
+                  height: getProportionateScreenHeight(15),
+                ),
                 SizedBox(
                   width: double.infinity,
                   child: TextButton.icon(

@@ -116,38 +116,38 @@ class _SignFormState extends State<SignForm> {
             SizedBox(
               height: getProportionateScreenHeight(20.0),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "To View, ",
-                  style: TextStyle(
-                    fontSize: getProportionateScreenWidth(35),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    // dynamic result = authService.signInAnonymously();
-                    // dynamic result =
-                    //     context.read<AuthService>().signInAnonymously();
-                    // if (result == null) {
-                    //   print("error signing in");
-                    // } else {
-                    //   Navigator.pushNamed(context, HomeScreen.routeName);
-                    //   print("sign in");
-                    //   print(result);
-                    // }
-                  },
-                  child: Text(
-                    "Anonymous Sign In",
-                    style: TextStyle(
-                        fontSize: getProportionateScreenWidth(35),
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF09af00)),
-                  ),
-                ),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     Text(
+            //       "To View, ",
+            //       style: TextStyle(
+            //         fontSize: getProportionateScreenWidth(35),
+            //       ),
+            //     ),
+            //     GestureDetector(
+            //       onTap: () {
+            //         // dynamic result = authService.signInAnonymously();
+            //         // dynamic result =
+            //         //     context.read<AuthService>().signInAnonymously();
+            //         // if (result == null) {
+            //         //   print("error signing in");
+            //         // } else {
+            //         //   Navigator.pushNamed(context, HomeScreen.routeName);
+            //         //   print("sign in");
+            //         //   print(result);
+            //         // }
+            //       },
+            //       child: Text(
+            //         "Anonymous Sign In",
+            //         style: TextStyle(
+            //             fontSize: getProportionateScreenWidth(35),
+            //             fontWeight: FontWeight.w500,
+            //             color: Color(0xFF09af00)),
+            //       ),
+            //     ),
+            //   ],
+            // ),
             SizedBox(
               height: getProportionateScreenHeight(10.0),
             ),

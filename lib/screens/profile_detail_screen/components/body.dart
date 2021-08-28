@@ -16,7 +16,7 @@ class Body extends StatelessWidget {
       child: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Padding(padding: EdgeInsets.symmetric(
-              horizontal: getProportionateScreenWidth(20),), 
+              horizontal: getProportionateScreenWidth(20), vertical: getProportionateScreenHeight(40)), 
         child: Column(
           children: [
             ProfileActionsSection(userID: userID),
