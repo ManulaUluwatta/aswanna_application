@@ -27,9 +27,9 @@ class IconBtnWithCounter extends StatelessWidget {
               getProportionateScreenWidth(0),
             ),
             height: getProportionateScreenWidth(80),
-            width: getProportionateScreenWidth(60),
+            width: getProportionateScreenWidth(80),
             decoration: BoxDecoration(
-              color: cSecondaryColor.withOpacity(0.1),
+              color: cSecondaryColor.withOpacity(0.9),
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -42,8 +42,8 @@ class IconBtnWithCounter extends StatelessWidget {
               top: -3,
               right: 0,
               child: Container(
-                height: getProportionateScreenWidth(30),
-                width: getProportionateScreenWidth(30),
+                height: getProportionateScreenWidth(35),
+                width: getProportionateScreenWidth(35),
                 decoration: BoxDecoration(
                   color: Color(0xFF09af00),
                   shape: BoxShape.circle,

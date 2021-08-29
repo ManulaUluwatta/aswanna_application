@@ -44,7 +44,7 @@ class ProductDescription extends StatelessWidget {
                     ),
                   ]),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: getProportionateScreenHeight(20)),
             SizedBox(
               height: getProportionateScreenHeight(64),
               child: Row(
@@ -58,7 +58,7 @@ class ProductDescription extends StatelessWidget {
                         style: TextStyle(
                           color: cPrimaryColor,
                           fontWeight: FontWeight.w900,
-                          fontSize: 24,
+                          fontSize: getProportionateScreenHeight(30),
                         ),
                         children: [
                           TextSpan(
@@ -67,7 +67,7 @@ class ProductDescription extends StatelessWidget {
                               decoration: TextDecoration.lineThrough,
                               color: cPrimaryColor,
                               fontWeight: FontWeight.normal,
-                              fontSize: 16,
+                              fontSize: getProportionateScreenHeight(20),
                             ),
                           ),
                         ],
@@ -99,17 +99,69 @@ class ProductDescription extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: getProportionateScreenHeight(20)),
             ExpandableText(
               title: "Highlights",
               content: product.highlights,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: getProportionateScreenHeight(20)),
             ExpandableText(
               title: "Description",
               content: product.description,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: getProportionateScreenHeight(20)),
+            Column(
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      "Minimum Bulk ",
+                      style: TextStyle(
+                          fontSize: getProportionateScreenHeight(25),
+                          fontWeight: FontWeight.w500),
+                    ),
+                    Text(
+                      "${product.minQuantity.round()} KG",
+                      style: TextStyle(
+                          fontSize: getProportionateScreenHeight(30),
+                          fontWeight: FontWeight.w900,
+                          color: cPrimaryColor),
+                    ),
+                  ],
+                ),
+                SizedBox(height: getProportionateScreenHeight(5)),
+                Row(
+                  children: [
+                    Text(
+                      "Listed Date : ",
+                      style:
+                          TextStyle(fontSize: getProportionateScreenHeight(20)),
+                    ),
+                    Text(
+                      "${product.listedDate}",
+                      style:
+                          TextStyle(fontSize: getProportionateScreenHeight(20), fontWeight: FontWeight.w500),
+                    )
+                  ],
+                ),
+                SizedBox(height: getProportionateScreenHeight(5)),
+                Row(
+                  children: [
+                    Text(
+                      "Expire Date : ",
+                      style:
+                          TextStyle(fontSize: getProportionateScreenHeight(20)),
+                    ),
+                    Text(
+                      "${product.exprieDate}",
+                      style:
+                          TextStyle(fontSize: getProportionateScreenHeight(20), fontWeight: FontWeight.w500),
+                    )
+                  ],
+                )
+              ],
+            ),
+            SizedBox(height: getProportionateScreenHeight(20)),
             getSellerDetails(),
           ],
         ),
@@ -141,7 +193,8 @@ class ProductDescription extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ProfileDetailScreen(userID: sellerUID),
+                      builder: (context) =>
+                          ProfileDetailScreen(userID: sellerUID),
                     ),
                   );
                 },

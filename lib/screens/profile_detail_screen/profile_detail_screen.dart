@@ -1,3 +1,4 @@
+import 'package:aswanna_application/components/custom_bottom_nav_bar.dart';
 import 'package:aswanna_application/screens/profile_detail_screen/components/body.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,9 @@ class ProfileDetailScreen extends StatelessWidget {
       body: Body(
         userID: userID,
       ),
+      bottomNavigationBar: CustomBottomNavBar(
+          // selectedMenu: MenuState.home,
+        ),
     );
   }
 }

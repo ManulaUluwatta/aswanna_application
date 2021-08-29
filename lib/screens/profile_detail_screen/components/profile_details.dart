@@ -82,9 +82,9 @@ class ProfileDetail extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: Text(
-                    "Address",
+                    "ADDRESS",
                     style: TextStyle(
-                        fontSize: getProportionateScreenWidth(35),
+                        fontSize: getProportionateScreenHeight(20),
                         fontWeight: FontWeight.w500,
                         color: cPrimaryColor),
                   ),
@@ -110,7 +110,7 @@ class ProfileDetail extends StatelessWidget {
                               child: SizedBox(
                                   width: double.infinity,
                                   child: SelectableText(
-                                    "${address.addresLine1},",
+                                    "${address.addresLine1}",
                                     style: TextStyle(
                                         fontSize:
                                             getProportionateScreenHeight(20),
@@ -122,7 +122,7 @@ class ProfileDetail extends StatelessWidget {
                               child: SizedBox(
                                   width: double.infinity,
                                   child: SelectableText(
-                                    "${address.addresLine2},",
+                                    "${address.addresLine2}",
                                     style: TextStyle(
                                         fontSize:
                                             getProportionateScreenHeight(20),
@@ -134,7 +134,7 @@ class ProfileDetail extends StatelessWidget {
                               child: SizedBox(
                                   width: double.infinity,
                                   child: SelectableText(
-                                    "${address.city},",
+                                    "${address.city}",
                                     style: TextStyle(
                                         fontSize:
                                             getProportionateScreenHeight(20),
@@ -142,27 +142,76 @@ class ProfileDetail extends StatelessWidget {
                                   )),
                             ),
                             Padding(
-                              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                              padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                               child: SizedBox(
                                   width: double.infinity,
-                                  child: SelectableText(
-                                    "${address.district} district,",
-                                    style: TextStyle(
-                                        fontSize:
-                                            getProportionateScreenHeight(20),
-                                        fontWeight: FontWeight.w500),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "POSTAL CODE : ",
+                                        style: TextStyle(
+                                            fontSize:getProportionateScreenHeight(20),
+                                            fontWeight: FontWeight.w500,
+                                            color: cPrimaryColor
+                                            ),
+                                      ),
+                                      SelectableText(
+                                        "${address.postalCode}",
+                                        style: TextStyle(
+                                            fontSize:
+                                                getProportionateScreenHeight(
+                                                    20),
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ],
                                   )),
                             ),
                             Padding(
-                              padding: EdgeInsets.fromLTRB(10, 0, 0, 10),
+                              padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
                               child: SizedBox(
                                   width: double.infinity,
-                                  child: SelectableText(
-                                    "${address.province} province,",
-                                    style: TextStyle(
-                                        fontSize:
-                                            getProportionateScreenHeight(20),
-                                        fontWeight: FontWeight.w500),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "DISTRICT : ",
+                                        style: TextStyle(
+                                            fontSize:getProportionateScreenHeight(20),
+                                            fontWeight: FontWeight.w500,
+                                            color: cPrimaryColor
+                                            ),
+                                      ),
+                                      SelectableText(
+                                        "${address.district}",
+                                        style: TextStyle(
+                                            fontSize:
+                                                getProportionateScreenHeight(20),
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ],
+                                  )),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
+                              child: SizedBox(
+                                  width: double.infinity,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "PROVINCE : ",
+                                        style: TextStyle(
+                                            fontSize:getProportionateScreenHeight(20),
+                                            fontWeight: FontWeight.w500,
+                                            color: cPrimaryColor
+                                            ),
+                                      ),
+                                      SelectableText(
+                                        "${address.province}",
+                                        style: TextStyle(
+                                            fontSize:
+                                                getProportionateScreenHeight(20),
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ],
                                   )),
                             ),
                             SizedBox(

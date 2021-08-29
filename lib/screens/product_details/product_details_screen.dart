@@ -1,5 +1,4 @@
-
-
+import 'package:aswanna_application/components/custom_bottom_nav_bar.dart';
 import 'package:aswanna_application/screens/product_details/components/body.dart';
 import 'package:aswanna_application/services/database/user_database_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
+import '../../enums.dart';
 import 'components/fab.dart';
 import 'provider_models/ProductActions.dart';
 
@@ -20,7 +20,6 @@ class ProductDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      
       create: (context) => ProductActions(),
       child: Scaffold(
         backgroundColor: Color(0xFFF5F6F9),
@@ -30,6 +29,9 @@ class ProductDetailsScreen extends StatelessWidget {
         body: Body(
           productId: productId,
         ),
+        bottomNavigationBar: CustomBottomNavBar(
+          // selectedMenu: MenuState.home,
+        ),
         floatingActionButton: buildUserDate(),
         // floatingActionButton: AddToCartFAB(productId: productId),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -37,23 +39,22 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget buildUserDate(){
+  Widget buildUserDate() {
     return StreamBuilder<DocumentSnapshot>(
       stream: UserDatabaseService().currentUserDataStream,
-      builder: (context,snapshot){
-        if(snapshot.hasError){
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
           final error = snapshot.error;
           Logger().w(error.toString());
         }
         String userRole;
-        if(snapshot.hasData && snapshot.data != null)
+        if (snapshot.hasData && snapshot.data != null)
           userRole = snapshot.data[UserDatabaseService.USER_ROLE];
-        if(userRole == "Buyer"){
+        if (userRole == "Buyer") {
           return AddToCartFAB(productId: productId);
         }
         return SizedBox();
-
       },
-      );
+    );
   }
 }

@@ -22,7 +22,9 @@ class ProductSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(15),vertical: getProportionateScreenHeight(15)),
+      padding: EdgeInsets.symmetric(
+          horizontal: getProportionateScreenWidth(15),
+          vertical: getProportionateScreenHeight(15)),
       child: Container(
         padding: EdgeInsets.symmetric(
             horizontal: getProportionateScreenWidth(20),
@@ -50,7 +52,7 @@ class ProductSection extends StatelessWidget {
   }
 
   Widget buildProductList() {
-     return StreamBuilder<List<String>>(
+    return StreamBuilder<List<String>>(
       stream: productsSteamController.stream,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
@@ -88,9 +90,9 @@ class ProductSection extends StatelessWidget {
       physics: BouncingScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 0.6,
-        crossAxisSpacing: 5,
-        mainAxisSpacing: 7,
+        childAspectRatio: getProportionateScreenHeight(0.7),
+        crossAxisSpacing: getProportionateScreenWidth(8),
+        mainAxisSpacing: getProportionateScreenHeight(8),
       ),
       itemCount: productsId.length,
       itemBuilder: (context, index) {

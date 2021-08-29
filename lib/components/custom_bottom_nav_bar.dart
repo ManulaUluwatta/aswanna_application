@@ -1,4 +1,5 @@
 import 'package:aswanna_application/constrants.dart';
+import 'package:aswanna_application/screens/favourites_product/favourites_product_screen.dart';
 import 'package:aswanna_application/screens/home/home_screen.dart';
 import 'package:aswanna_application/screens/my_buyer_request/my_buyer_request_screen.dart';
 import 'package:aswanna_application/screens/my_products/my_products_screen.dart';
@@ -119,7 +120,7 @@ class CustomBottomNavBar extends StatelessWidget {
             ? cPrimaryColor
             : inActiveIconColor,
       ),
-      onPressed: () => Navigator.pushNamed(context, MyProductsScreen.routeName),
+      onPressed: () => Navigator.pushNamed(context, FavouritesProductsScreen.routeName),
     );
   }
 

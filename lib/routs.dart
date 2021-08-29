@@ -1,6 +1,7 @@
 
 import 'package:aswanna_application/main.dart';
 import 'package:aswanna_application/screens/complete_profile/complete_profile_screen.dart';
+import 'package:aswanna_application/screens/favourites_product/favourites_product_screen.dart';
 import 'package:aswanna_application/screens/forgot_password/forgot_password_screen.dart';
 import 'package:aswanna_application/screens/home/home_screen.dart';
 import 'package:aswanna_application/screens/my_buyer_request/my_buyer_request_screen.dart';
@@ -26,4 +27,5 @@ final Map<String, WidgetBuilder> routes = {
   MyProductsScreen.routeName : (context) => MyProductsScreen(),
   MyBuyerRequestScreen.routeName : (context) => MyBuyerRequestScreen(),
   ViewAllBuyerRequestScreen.routeName : (context) => ViewAllBuyerRequestScreen(),
+  FavouritesProductsScreen.routeName : (context) => FavouritesProductsScreen(),
 };

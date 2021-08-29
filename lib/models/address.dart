@@ -6,12 +6,14 @@ class Address extends Model {
   static const String CITY_KEY = "city";
   static const String DISTRICT_KEY = "district";
   static const String PROVINCE_KEY = "province";
+  static const String POSTAL_CODE_KEY = "postal_code";
 
   String addresLine1;
   String addresLine2;
   String city;
   String district;
   String province;
+  String postalCode;
 
   Address({
     String id,
@@ -20,6 +22,7 @@ class Address extends Model {
     this.city,
     this.district,
     this.province,
+    this.postalCode,
   }) : super(id);
 
   factory Address.fromMap(Map<String, dynamic> map, {String id}) {
@@ -30,6 +33,7 @@ class Address extends Model {
       city: map[CITY_KEY],
       district: map[DISTRICT_KEY],
       province: map[PROVINCE_KEY],
+      postalCode: map[POSTAL_CODE_KEY],
     );
   }
   @override
@@ -40,6 +44,7 @@ class Address extends Model {
       CITY_KEY: city,
       DISTRICT_KEY: district,
       PROVINCE_KEY: province,
+      POSTAL_CODE_KEY: postalCode,
     };
     return map;
   }
@@ -52,6 +57,7 @@ class Address extends Model {
     if (city != null) map[CITY_KEY] = city;
     if (district != null) map[DISTRICT_KEY] = district;
     if (province != null) map[PROVINCE_KEY] = province;
+    if (postalCode != null) map[POSTAL_CODE_KEY] = postalCode;
     return map;
   }
 }

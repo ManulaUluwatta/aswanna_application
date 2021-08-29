@@ -17,7 +17,9 @@ import '../../../components/custom_suffix_icon.dart';
 import '../../../components/form_error.dart';
 
 class CompleteProfileForm extends StatefulWidget {
-  const CompleteProfileForm({Key key,}) : super(key: key);
+  const CompleteProfileForm({
+    Key key,
+  }) : super(key: key);
 
   @override
   _CompleteProfileFormState createState() => _CompleteProfileFormState();
@@ -41,6 +43,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   String city;
   String district;
   String provice;
+  String postalCode;
   TextEditingController firstNameController;
   TextEditingController lastNameController;
   TextEditingController phoneNumberController;
@@ -51,6 +54,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   TextEditingController cityController;
   TextEditingController districtController;
   TextEditingController proviceController;
+  TextEditingController postalCodeController;
   @override
   void initState() {
     firstNameController = TextEditingController();
@@ -62,6 +66,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
     cityController = TextEditingController();
     districtController = TextEditingController();
     proviceController = TextEditingController();
+    postalCodeController = TextEditingController();
+
     super.initState();
     selectedRadio = 0;
   }
@@ -109,8 +115,10 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Select Your User Role :",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+                "Select Role :",
+                style: TextStyle(
+                    fontSize: getProportionateScreenWidth(37),
+                    fontWeight: FontWeight.w800),
               ),
               Radio(
                 value: "Seller",
@@ -124,7 +132,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
               ),
               Text(
                 "Seller",
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: getProportionateScreenWidth(37)),
               ),
               Radio(
                 value: "Buyer",
@@ -136,7 +144,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
               ),
               Text(
                 "Buyer",
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: getProportionateScreenWidth(37)),
               ),
             ],
           ),
@@ -180,6 +188,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           SizedBox(height: getProportionateScreenHeight(20)),
           buildCityField(),
           SizedBox(height: getProportionateScreenHeight(20)),
+          buildPostalCodeField(),
+          SizedBox(height: getProportionateScreenHeight(20)),
           buildDistrictField(),
           SizedBox(height: getProportionateScreenHeight(20)),
           buildProviceField(),
@@ -197,6 +207,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
       city = cityController.text;
       district = districtController.text;
       provice = proviceController.text;
+      postalCode = postalCodeController.text;
       return true;
     }
     return false;
@@ -251,6 +262,25 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
       ),
       validator: (_) {
         if (cityController.text.isEmpty) {
+          return cRequirdError;
+        }
+        return null;
+      },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+    );
+  }
+
+  Widget buildPostalCodeField() {
+    return TextFormField(
+      controller: postalCodeController,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        hintText: "Enter postal code",
+        labelText: "Postal Code",
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+      validator: (_) {
+        if (postalCodeController.text.isEmpty) {
           return cRequirdError;
         }
         return null;
@@ -495,12 +525,14 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
 
   Address generateAddressObject({String id}) {
     return Address(
-        id: id,
-        addresLine1: adderssLine1,
-        addresLine2: adderssLine2,
-        city: city,
-        district: district,
-        province: provice);
+      id: id,
+      addresLine1: adderssLine1,
+      addresLine2: adderssLine2,
+      city: city,
+      district: district,
+      province: provice,
+      postalCode: postalCode,
+    );
   }
 }
 
