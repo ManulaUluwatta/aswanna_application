@@ -21,14 +21,16 @@ class BuyerRequestOfferSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: getProportionateScreenHeight(400),
+      height: getProportionateScreenHeight(500),
       child: Stack(
         children: [
           TopRoundedContainer(
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: getProportionateScreenWidth(1),
+                      vertical: getProportionateScreenHeight(10)),
                   child: Text(
                     "Offer Section",
                     style: TextStyle(
@@ -56,7 +58,7 @@ class BuyerRequestOfferSection extends StatelessWidget {
                                   color: cTextColor,
                                   width: getProportionateScreenWidth(40),
                                 ),
-                                SizedBox(height: 8),
+                                SizedBox(height: getProportionateScreenHeight(10)),
                                 Text(
                                   "No Offers yet",
                                   style: TextStyle(
@@ -89,7 +91,7 @@ class BuyerRequestOfferSection extends StatelessWidget {
                         child: Icon(
                           Icons.error,
                           color: cTextColor,
-                          size: 50,
+                          size: getProportionateScreenWidth(50),
                         ),
                       );
                     },
@@ -103,38 +105,6 @@ class BuyerRequestOfferSection extends StatelessWidget {
           //   child: buildProductRatingWidget(product.rating),
           // ),
         ],
-      ),
-    );
-  }
-
-  Widget buildProductRatingWidget(num rating) {
-    return Container(
-      width: getProportionateScreenWidth(140),
-      padding: EdgeInsets.all(getProportionateScreenWidth(10)),
-      decoration: BoxDecoration(
-        color: Colors.amber,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Text(
-              "$rating",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w900,
-                fontSize: getProportionateScreenWidth(35),
-              ),
-            ),
-          ),
-          SizedBox(width: getProportionateScreenWidth(10)),
-          Icon(
-            Icons.star,
-            color: Colors.white,
-          ),
-        ],
-        
       ),
     );
   }
