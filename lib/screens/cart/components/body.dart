@@ -5,9 +5,12 @@ import 'package:aswanna_application/components/product_short_detail_card.dart';
 import 'package:aswanna_application/constrants.dart';
 import 'package:aswanna_application/models/CartItem.dart';
 import 'package:aswanna_application/models/OrderedProduct.dart';
+import 'package:aswanna_application/models/address.dart';
 import 'package:aswanna_application/models/product.dart';
 import 'package:aswanna_application/screens/home/components/body.dart';
 import 'package:aswanna_application/screens/product_details/product_details_screen.dart';
+import 'package:aswanna_application/services/auth/auth_service.dart';
+import 'package:aswanna_application/services/data_streem/address_steam.dart';
 import 'package:aswanna_application/services/data_streem/cart_items_stream.dart';
 import 'package:aswanna_application/services/database/product_database_service.dart';
 import 'package:aswanna_application/services/database/user_database_service.dart';
@@ -16,10 +19,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:logger/logger.dart';
+import 'package:payhere_mobilesdk_flutter/payhere_mobilesdk_flutter.dart';
 
 import '../../../size_cofig.dart';
 import 'checkout_card.dart';
-
 
 class Body extends StatefulWidget {
   @override
@@ -28,11 +31,28 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   final CartItemsStream cartItemsStream = CartItemsStream();
+
+  final AddressesStream addressesStream =
+      AddressesStream(AuthService().currentUser.uid);
   PersistentBottomSheetController bottomSheetHandler;
+
+  static String firstName;
+  static String lastName;
+  static String email;
+  static String contact;
+  static String addressLine1;
+  static String addressLine2;
+  static String city;
+  String district;
+  String province;
+  double cartTatal;
+  static String addressID;
+
   @override
   void initState() {
     super.initState();
     cartItemsStream.init();
+    addressesStream.init();
   }
 
   @override
@@ -355,13 +375,16 @@ class _BodyState extends State<Body> {
 
   Future<void> checkoutButtonCallback() async {
     shutBottomSheet();
-    final confirmation = await showConfirmationDialog(
-      context,
-      "This is just a Project Testing App so, no actual Payment Interface is available.\nDo you want to proceed for Mock Ordering of Products?",
-    );
-    if (confirmation == false) {
-      return;
-    }
+    // final confirmation = await showConfirmationDialog(
+    //   context,
+    //   "This is just a Project Testing App so, no actual Payment Interface is available.\nDo you want to proceed for Mock Ordering of Products?",
+    // );
+    // if (confirmation == false) {
+    //   return;
+    // }
+    getSellerDetails();
+    initializedAddress();
+    startOneTimePayment(context);
     final orderFuture = UserDatabaseService().emptyCart();
     orderFuture.then((orderedProductsUid) async {
       if (orderedProductsUid != null) {
@@ -482,6 +505,151 @@ class _BodyState extends State<Body> {
           future,
           message: Text("Please wait"),
         );
+      },
+    );
+  }
+
+  void startOneTimePayment(BuildContext context) async {
+    Map paymentObject = {
+      "sandbox": true, // true if using Sandbox Merchant ID
+      "merchant_id": "1217291", // Replace your Merchant ID
+      "merchant_secret": "4DyNZzU8ela8gls8nfPClh4fXmcbxoFPQ4ZBXKQ7ySLD",
+      "notify_url": "https://ent13zfovoz7d.x.pipedream.net/",
+      "order_id": "ItemNo12345",
+      "items": "Aswanna Application",
+      "amount": "50.0",
+      "currency": "LKR",
+      "first_name": "Shashila",
+      "last_name": "Shashila",
+      "email": "shashila@gmail.com",
+      "phone": "0771213234",
+      "address": "No 245 , blagolla kandy",
+      "city": "Kandy",
+      "country": "Sri Lanka",
+      "delivery_address": "No 245 , blagolla kandy", //4916217501611292
+      "delivery_city": "Kandy",
+      "delivery_country": "Sri Lanka",
+      "custom_1": "",
+      "custom_2": ""
+    };
+
+    PayHere.startPayment(paymentObject, (paymentId) {
+      print("One Time Payment Success. Payment Id: $paymentId");
+      showAlert(context, "Payment Success!", "Payment Id: $paymentId");
+    }, (error) {
+      print("One Time Payment Failed. Error: $error");
+      showAlert(context, "Payment Failed", "$error");
+    }, () {
+      print("One Time Payment Dismissed");
+      showAlert(context, "Payment Dismissed", "");
+    });
+  }
+
+  void showAlert(BuildContext context, String title, String msg) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text(title),
+      content: Text(msg),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void getSellerDetails() {
+    String buyerUID = AuthService().currentUser.uid;
+    StreamBuilder<DocumentSnapshot>(
+      stream: UserDatabaseService().getSellerDetails(buyerUID),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          final error = snapshot.error;
+          Logger().w(error.toString());
+        }
+        // String address;
+        if (snapshot.hasData && snapshot.data != null) {
+          firstName = snapshot.data["firstName"];
+          lastName = snapshot.data["lastName"];
+          contact = snapshot.data["contact"];
+          email = snapshot.data["email"];
+          // address = snapshot.data["address"];
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          final error = snapshot.error.toString();
+          Logger().e(error);
+        }
+        return Center(
+          child: Icon(
+            Icons.error,
+            size: 40,
+            color: cTextColor,
+          ),
+        );
+      },
+    );
+  }
+
+  String initializedAddressID() {
+    StreamBuilder<List<String>>(
+        stream: addressesStream.stream,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final addresses = snapshot.data;
+
+            if (addresses.length == 0) {
+              return null;
+            }
+            addressID = addresses[0];
+            ;
+          }
+          return null;
+        });
+    return addressID;
+  }
+
+  void initializedAddress() {
+    String address = initializedAddressID();
+    String userID = AuthService().currentUser.uid;
+    FutureBuilder<Address>(
+        future: UserDatabaseService().getAddressCurrentUser(userID, address),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final address = snapshot.data;
+            addressLine1 = address.addresLine1;
+            addressLine2 = address.addresLine2;
+            city = address.city;
+            district = address.district;
+            province = address.province;
+          }
+          return null;
+        });
+  }
+
+  void initializedCheckOutTotal() {
+    FutureBuilder<num>(
+      future: UserDatabaseService().cartTotal,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final cartTotal = snapshot.data;
+          cartTatal = cartTotal;
+        }
+        return null;
       },
     );
   }

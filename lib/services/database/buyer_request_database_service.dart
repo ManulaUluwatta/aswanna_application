@@ -96,42 +96,10 @@ class BuyerRequestDatabaseSerivce {
     if ((await offerDoc.get()).exists == false) {
       offerDoc.set(offer.toMap());
       return true;
-      // return await addUsersRatingForProduct(
-      //   productId,
-      //   review.rating,
-      // );
     }
     return true;
-    //  else {
-    //   int oldRating = 0;
-    //   oldRating = (await reviewDoc.get()).data()[Product.RATING_KEY];
-    //   reviewDoc.update(review.toUpdateMap());
-    //   return await addUsersRatingForProduct(productId, review.rating,
-    //       oldRating: oldRating);
-    // }
   }
 
-  // Future<bool> addUsersRatingForProduct(String productId, int rating,
-  //     {int oldRating}) async {
-  //   final productDocRef =
-  //       firestore.collection(PRODUCTS_COLLECTION_NAME).doc(productId);
-  //   final ratingsCount =
-  //       (await productDocRef.collection(REVIEWS_COLLECTOIN_NAME).get())
-  //           .docs
-  //           .length;
-  //   final productDoc = await productDocRef.get();
-  //   final prevRating = productDoc.data()[Review.RATING_KEY];
-  //   double newRating;
-  //   if (oldRating == null) {
-  //     newRating = (prevRating * (ratingsCount - 1) + rating) / ratingsCount;
-  //   } else {
-  //     newRating =
-  //         (prevRating * (ratingsCount) + rating - oldRating) / ratingsCount;
-  //   }
-  //   final newRatingRounded = double.parse(newRating.toStringAsFixed(1));
-  //   await productDocRef.update({Product.RATING_KEY: newRatingRounded});
-  //   return true;
-  // }
 
   Future<Offer> getRequestOfferWithID(String requestID, String sellerID) async {
     final offersCollectionRef = firestore

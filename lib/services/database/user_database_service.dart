@@ -1,6 +1,7 @@
 import 'package:aswanna_application/models/CartItem.dart';
 import 'package:aswanna_application/models/OrderedProduct.dart';
 import 'package:aswanna_application/models/address.dart';
+import 'package:aswanna_application/models/user.dart';
 import 'package:aswanna_application/services/auth/auth_service.dart';
 import 'package:aswanna_application/services/database/product_database_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -30,12 +31,20 @@ class UserDatabaseService{
     return _firebaseFirestore;
   }
 
-  Future<void> createNewUser(String uid) async {
-    await firestore.collection(USERS_COLLECTION_NAME).doc(uid).set({
-      DP_KEY: null,
-      PHONE_KEY: null,
-      FAV_PRODUCTS_KEY: <String>[],
-    });
+  // Future<void> createNewUser(String uid) async {
+  //   await firestore.collection(USERS_COLLECTION_NAME).doc(uid).set({
+  //     DP_KEY: null,
+  //     PHONE_KEY: null,
+  //     FAV_PRODUCTS_KEY: <String>[],
+  //   });
+  // }
+  Future<String> updateUser(User user) async {
+    final userMap = user.toUpdateMap();
+    final userCollectionReference =
+        firestore.collection("users");
+    final docRef = userCollectionReference.doc(user.uid);
+    await docRef.update(userMap);
+    return docRef.id;
   }
 
   Future<void> deleteCurrentUserData() async {

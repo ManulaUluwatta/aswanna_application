@@ -1,4 +1,4 @@
-class User {
+class User  {
   String uid;
   String firstName;
   String lastName;
@@ -53,6 +53,13 @@ class User {
     this.role = map['role'];
     this.status = map['status'];
     this.email = map['email'];
+  }
+  Map<String, dynamic> toUpdateMap() {
+    final map = <String, dynamic>{};
+    if (firstName != null) map["firstName"] = firstName;
+    if (lastName != null) map["lastName"] = lastName;
+    if (contact != null) map["contact"] = contact;
+    return map;
   }
 
 }
