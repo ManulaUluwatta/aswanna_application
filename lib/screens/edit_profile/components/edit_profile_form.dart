@@ -1,6 +1,5 @@
 import 'package:aswanna_application/components/custom_suffix_icon.dart';
 import 'package:aswanna_application/components/default_button.dart';
-import 'package:aswanna_application/screens/profile/profile_screen.dart';
 import 'package:aswanna_application/services/auth/auth_service.dart';
 import 'package:aswanna_application/services/database/user_database_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -205,7 +204,34 @@ class _EditProfileFormState extends State<EditProfileForm> {
   }
 
   Future<void> completeProfileAction() async {
-    
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+
+      bool status = false;
+      String snackbarMessage;
+      try {
+        status = await UserDatabaseService()
+            .updateCurentUserDetails(firstNameController.text,lastNameController.text,phoneNumberController.text);
+        if (status == true) {
+          snackbarMessage = "Phone updated successfully";
+        } else {
+          throw "Coulnd't update phone due to unknown reason";
+        }
+      } on FirebaseException catch (e) {
+        Logger().w("Firebase Exception: $e");
+        snackbarMessage = "Something went wrong";
+      } catch (e) {
+        Logger().w("Unknown Exception: $e");
+        snackbarMessage = "Something went wrong";
+      } finally {
+        Logger().i(snackbarMessage);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(snackbarMessage),
+          ),
+        );
+      }
+    }
 
   }
 }
