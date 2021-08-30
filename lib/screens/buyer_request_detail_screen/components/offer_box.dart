@@ -23,9 +23,9 @@ class OfferBox extends StatelessWidget {
         horizontal: getProportionateScreenWidth(20),
         vertical: getProportionateScreenHeight(20),
       ),
-      // margin: EdgeInsets.symmetric(
-      //   vertical: getProportionateScreenHeight(10),
-      // ),
+      margin: EdgeInsets.symmetric(
+        vertical: getProportionateScreenHeight(10),
+      ),
       decoration: BoxDecoration(
         color: cTextColor.withOpacity(0.075),
         borderRadius: BorderRadius.circular(10),

@@ -4,6 +4,7 @@ import 'package:aswanna_application/constrants.dart';
 import 'package:aswanna_application/models/OrderedProduct.dart';
 import 'package:aswanna_application/models/product.dart';
 import 'package:aswanna_application/models/review.dart';
+import 'package:aswanna_application/screens/my_orders/components/order_product_shot_detail_card.dart';
 import 'package:aswanna_application/screens/my_orders/components/product_review_dialog.dart';
 import 'package:aswanna_application/screens/product_details/product_details_screen.dart';
 import 'package:aswanna_application/services/auth/auth_service.dart';
@@ -188,7 +189,7 @@ class _BodyState extends State<Body> {
                       ),
                     ),
                   ),
-                  child: ProductShortDetailCard(
+                  child: OrderProductShortDetailCard(
                     productId: product.id,
                     onPressed: () {
                       Navigator.push(
@@ -302,4 +303,5 @@ class _BodyState extends State<Body> {
       },
     );
   }
+
 }

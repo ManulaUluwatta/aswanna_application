@@ -382,8 +382,8 @@ class _BodyState extends State<Body> {
     // if (confirmation == false) {
     //   return;
     // }
-    getSellerDetails();
-    initializedAddress();
+    // getSellerDetails();
+    // initializedAddress();
     startOneTimePayment(context);
     final orderFuture = UserDatabaseService().emptyCart();
     orderFuture.then((orderedProductsUid) async {
