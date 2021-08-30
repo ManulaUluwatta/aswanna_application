@@ -1,5 +1,7 @@
 import 'package:aswanna_application/models/CartItem.dart';
 import 'package:aswanna_application/models/OrderedProduct.dart';
+import 'package:aswanna_application/models/address.dart';
+import 'package:aswanna_application/models/user.dart';
 import 'package:aswanna_application/services/auth/auth_service.dart';
 import 'package:aswanna_application/services/database/product_database_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -29,12 +31,20 @@ class UserDatabaseService{
     return _firebaseFirestore;
   }
 
-  Future<void> createNewUser(String uid) async {
-    await firestore.collection(USERS_COLLECTION_NAME).doc(uid).set({
-      DP_KEY: null,
-      PHONE_KEY: null,
-      FAV_PRODUCTS_KEY: <String>[],
-    });
+  // Future<void> createNewUser(String uid) async {
+  //   await firestore.collection(USERS_COLLECTION_NAME).doc(uid).set({
+  //     DP_KEY: null,
+  //     PHONE_KEY: null,
+  //     FAV_PRODUCTS_KEY: <String>[],
+  //   });
+  // }
+  Future<String> updateUser(User user) async {
+    final userMap = user.toUpdateMap();
+    final userCollectionReference =
+        firestore.collection("users");
+    final docRef = userCollectionReference.doc(user.uid);
+    await docRef.update(userMap);
+    return docRef.id;
   }
 
   Future<void> deleteCurrentUserData() async {
@@ -116,49 +126,75 @@ class UserDatabaseService{
     return addresses;
   }
 
-  // Future<Address> getAddressFromId(String id) async {
-  //   String uid = AuthentificationService().currentUser.uid;
-  //   final doc = await firestore
-  //       .collection(USERS_COLLECTION_NAME)
-  //       .doc(uid)
-  //       .collection(ADDRESSES_COLLECTION_NAME)
-  //       .doc(id)
-  //       .get();
-  //   final address = Address.fromMap(doc.data(), id: doc.id);
-  //   return address;
-  // }
+  Future<List<String>> getCurrentUserAddressID(String userID) async {
+    // String uid = AuthService().currentUser.uid;
+    final snapshot = await firestore
+        .collection(USERS_COLLECTION_NAME)
+        .doc(userID)
+        .collection(ADDRESSES_COLLECTION_NAME)
+        .get();
+    final addresses = <String>[];
+    snapshot.docs.forEach((doc) {
+      addresses.add(doc.id);
+    });
 
-  // Future<bool> addAddressForCurrentUser(Address address) async {
-  //   String uid = AuthentificationService().currentUser.uid;
-  //   final addressesCollectionReference = firestore
-  //       .collection(USERS_COLLECTION_NAME)
-  //       .doc(uid)
-  //       .collection(ADDRESSES_COLLECTION_NAME);
-  //   await addressesCollectionReference.add(address.toMap());
-  //   return true;
-  // }
+    return addresses;
+  }
 
-  // Future<bool> deleteAddressForCurrentUser(String id) async {
-  //   String uid = AuthentificationService().currentUser.uid;
-  //   final addressDocReference = firestore
-  //       .collection(USERS_COLLECTION_NAME)
-  //       .doc(uid)
-  //       .collection(ADDRESSES_COLLECTION_NAME)
-  //       .doc(id);
-  //   await addressDocReference.delete();
-  //   return true;
-  // }
+  Future<Address> getAddressFromId(String id) async {
+    String uid = AuthService().currentUser.uid;
+    final doc = await firestore
+        .collection(USERS_COLLECTION_NAME)
+        .doc(uid)
+        .collection(ADDRESSES_COLLECTION_NAME)
+        .doc(id)
+        .get();
+    final address = Address.fromMap(doc.data(), id: doc.id);
+    return address;
+  }
+  Future<Address> getAddressCurrentUser(String userID, String addressID) async {
+    String uid = AuthService().currentUser.uid;
+    final doc = await firestore
+        .collection(USERS_COLLECTION_NAME)
+        .doc(userID)
+        .collection(ADDRESSES_COLLECTION_NAME)
+        .doc(addressID)
+        .get();
+    final address = Address.fromMap(doc.data(), id: doc.id);
+    return address;
+  }
 
-  // Future<bool> updateAddressForCurrentUser(Address address) async {
-  //   String uid = AuthentificationService().currentUser.uid;
-  //   final addressDocReference = firestore
-  //       .collection(USERS_COLLECTION_NAME)
-  //       .doc(uid)
-  //       .collection(ADDRESSES_COLLECTION_NAME)
-  //       .doc(address.id);
-  //   await addressDocReference.update(address.toMap());
-  //   return true;
-  // }
+  Future<bool> addAddressForCurrentUser(Address address) async {
+    String uid = AuthService().currentUser.uid;
+    final addressesCollectionReference = firestore
+        .collection(USERS_COLLECTION_NAME)
+        .doc(uid)
+        .collection(ADDRESSES_COLLECTION_NAME);
+    await addressesCollectionReference.add(address.toMap());
+    return true;
+  }
+
+  Future<bool> deleteAddressForCurrentUser(String id) async {
+    String uid = AuthService().currentUser.uid;
+    final addressDocReference = firestore
+        .collection(USERS_COLLECTION_NAME)
+        .doc(uid)
+        .collection(ADDRESSES_COLLECTION_NAME)
+        .doc(id);
+    await addressDocReference.delete();
+    return true;
+  }
+
+  Future<bool> updateAddressForCurrentUser(Address address) async {
+    String uid = AuthService().currentUser.uid;
+    final addressDocReference = firestore
+        .collection(USERS_COLLECTION_NAME)
+        .doc(uid)
+        .collection(ADDRESSES_COLLECTION_NAME)
+        .doc(address.id);
+    await addressDocReference.update(address.toMap());
+    return true;
+  }
 
   Future<CartItem> getCartItemFromId(String id) async {
     String uid = AuthService().currentUser.uid;
@@ -172,7 +208,7 @@ class UserDatabaseService{
     return cartItem;
   }
 
-  Future<bool> addProductToCart(String productId) async {
+  Future<bool> addProductToCart(String productId, int minQuantity) async {
     String uid = AuthService().currentUser.uid;
     final cartCollectionRef = firestore
         .collection(USERS_COLLECTION_NAME)
@@ -182,7 +218,8 @@ class UserDatabaseService{
     final docSnapshot = await docRef.get();
     bool alreadyPresent = docSnapshot.exists;
     if (alreadyPresent == false) {
-      docRef.set(CartItem(itemCount: 1).toMap());
+      // docRef.set(CartItem(itemCount: 1).toMap());
+      docRef.set(CartItem(itemCount: minQuantity).toMap());
     } else {
       docRef.update({CartItem.ITEM_COUNT_KEY: FieldValue.increment(1)});
     }
@@ -363,19 +400,19 @@ class UserDatabaseService{
 
 
   //custom method not sure
-  static String name;
-  static String contact;
-  Future<String> getProductOwner(String owner) async {
-    final userDocSnapshot =
-        firestore.collection("users").doc(owner);
-    final userDocData = (await userDocSnapshot.get()).data();
-    final firstName = userDocData["firstName"];
-    final lastName = userDocData["lastName"];
-    contact = userDocData["contact"];
-    name= "$firstName $lastName";
-    print(name);
-    return name;
-  }
+  // static String name;
+  // static String contact;
+  // Future<String> getProductOwner(String owner) async {
+  //   final userDocSnapshot =
+  //       firestore.collection("users").doc(owner);
+  //   final userDocData = (await userDocSnapshot.get()).data();
+  //   final firstName = userDocData["firstName"];
+  //   final lastName = userDocData["lastName"];
+  //   contact = userDocData["contact"];
+  //   name= "$firstName $lastName";
+  //   print(name);
+  //   return name;
+  // }
 
   Stream<DocumentSnapshot> getSellerDetails(String owner) {
     return firestore

@@ -1,8 +1,11 @@
 import 'package:aswanna_application/screens/buyer_request/add_buyer_request_screen.dart';
+import 'package:aswanna_application/screens/edit_profile/edit_profile_screen.dart';
 import 'package:aswanna_application/screens/my_buyer_request/my_buyer_request_screen.dart';
+import 'package:aswanna_application/screens/my_orders/my_orders_screen.dart';
 import 'package:aswanna_application/screens/my_products/my_products_screen.dart';
 import 'package:aswanna_application/screens/product/add_product_screen.dart';
 import 'package:aswanna_application/screens/profile/components/profile_menu_title.dart';
+import 'package:aswanna_application/screens/profile_detail_screen/profile_detail_screen.dart';
 import 'package:aswanna_application/screens/sign_in/sign_in_screen.dart';
 import 'package:aswanna_application/services/auth/auth_service.dart';
 import 'package:aswanna_application/services/database/user_database_service.dart';
@@ -21,6 +24,7 @@ class Body extends StatelessWidget {
     // final userData =
     //     UserService().getById(FirebaseAuth.instance.currentUser.uid);
     FirebaseAuth auth = FirebaseAuth.instance;
+    final String userID = auth.currentUser.uid;
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -37,10 +41,9 @@ class Body extends StatelessWidget {
           Text(
             "${auth.currentUser.email}",
             style: TextStyle(
-              fontSize: getProportionateScreenWidth(30),
-              fontWeight: FontWeight.w500
-            ),
-            ),
+                fontSize: getProportionateScreenWidth(30),
+                fontWeight: FontWeight.w500),
+          ),
           SizedBox(
             height: 20,
           ),
@@ -62,20 +65,31 @@ class Body extends StatelessWidget {
                 ProfileMenuTile(
                   title: "My Account",
                   leading: Icons.person,
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ProfileDetailScreen(userID: userID),
+                      ),
+                    );
+                  },
                 ),
                 buildUserRoleBasedExpansionTitle(context),
+                buildRoleBasedOrderHistoryExpansionTitle(context),
+
+                editUserDetailExpansionTitele(context),
                 // buildManageGigExpansionTile(context),
                 ProfileMenuTile(
                   leading: Icons.notifications,
                   title: "Notifications",
                   onTap: () {},
                 ),
-                ProfileMenuTile(
-                  title: "Settings",
-                  leading: Icons.settings,
-                  onTap: () {},
-                ),
+                // ProfileMenuTile(
+                //   title: "Settings",
+                //   leading: Icons.settings,
+                //   onTap: () {},
+                // ),
                 ProfileMenuTile(
                   title: "Help Center",
                   leading: Icons.help_center_outlined,
@@ -186,7 +200,7 @@ class Body extends StatelessWidget {
         color: Color(0xFF41c300),
       ),
       title: Text(
-        "Manage Gigs",
+        "Manage Products",
         style: Theme.of(context).textTheme.headline6,
       ),
       trailing: Icon(
@@ -228,6 +242,100 @@ class Body extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => MyProductsScreen(),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildRoleBasedOrderHistoryExpansionTitle(BuildContext context) {
+    return StreamBuilder<DocumentSnapshot>(
+        stream: UserDatabaseService().currentUserDataStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            final error = snapshot.error;
+            Logger().w(error.toString());
+          }
+          String userRole;
+          if (snapshot.hasData && snapshot.data != null) {
+            userRole = snapshot.data["role"];
+          }
+          if (userRole == "Buyer") {
+            return buildMyOrders(context);
+          }
+          return SizedBox();
+        });
+  }
+
+  Widget buildMyOrders(BuildContext context) {
+    return ProfileMenuTile(
+      leading: Icons.cabin,
+      title: "My Orders",
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MyOrdersScreen(),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget editUserDetailExpansionTitele(BuildContext context) {
+    return ExpansionTile(
+      leading: Icon(
+        Icons.edit,
+        color: Color(0xFF41c300),
+      ),
+      title: Text(
+        "Edit User Details",
+        style: Theme.of(context).textTheme.headline6,
+      ),
+      trailing: Icon(
+        Icons.keyboard_arrow_down,
+        color: Color(0xFF41c300),
+        size: getProportionateScreenWidth(50),
+      ),
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: getProportionateScreenWidth(120)),
+          child: Column(
+            children: [
+              ListTile(
+                title: Text(
+                  "Edit details",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: getProportionateScreenWidth(32),
+                      fontWeight: FontWeight.w500),
+                ),
+                onTap: () async {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EditProfileScreen()));
+                },
+              ),
+              ListTile(
+                title: Text(
+                  "Edit Address",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: getProportionateScreenWidth(32),
+                      fontWeight: FontWeight.w500),
+                ),
+                onTap: () async {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyBuyerRequestScreen(),
                     ),
                   );
                 },

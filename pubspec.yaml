@@ -55,6 +55,10 @@ dependencies:
   swipedetector: ^1.2.0
   pinch_zoom_image_updated: ^0.2.6
   
+  flutter_rating_bar: ^3.2.0+1
+  # payhere: ^0.9.00
+  payhere_mobilesdk_flutter: ^1.0.4
+  
 
 dev_dependencies:
   flutter_test:

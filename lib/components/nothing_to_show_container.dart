@@ -7,7 +7,7 @@ import '../size_cofig.dart';
 class NothingToShowContainer extends StatelessWidget {
   const NothingToShowContainer(
       {Key key,
-      this.iconPath,
+      this.iconPath = "assets/icons/empty_box.svg",
       this.primaryMessage = "Nothing to Show",
       this.secondaryMessage})
       : super(key: key);

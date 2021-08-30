@@ -66,7 +66,7 @@ class _AddProductFormState extends State<AddProductForm> {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
+    // SizeConfig().init(context);
     final column = Column(
       children: [
         Text(
@@ -314,7 +314,7 @@ class _AddProductFormState extends State<AddProductForm> {
   Widget buildDescriptionField() {
     return TextFormField(
       controller: desciptionFieldController,
-      keyboardType: TextInputType.multiline,
+      keyboardType: TextInputType.name,
       decoration: InputDecoration(
         hintText: "e.g., ",
         labelText: "Description",

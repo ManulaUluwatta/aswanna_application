@@ -1,3 +1,4 @@
+import 'package:aswanna_application/size_cofig.dart';
 import 'package:flutter/material.dart';
 
 Future<bool> showConfirmationDialog(
@@ -12,7 +13,7 @@ Future<bool> showConfirmationDialog(
       return AlertDialog(
         content: Text(
           messege,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+          style: TextStyle(fontSize: getProportionateScreenWidth(30), fontWeight: FontWeight.w400),
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
@@ -23,7 +24,7 @@ Future<bool> showConfirmationDialog(
             children: [
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(getProportionateScreenWidth(8)),
                   child: ElevatedButton(
                     onPressed: () => Navigator.pop(context, true),
                     child: Text(
@@ -35,7 +36,7 @@ Future<bool> showConfirmationDialog(
               ),
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(getProportionateScreenWidth(8)),
                   child: ElevatedButton(
                     onPressed: () => Navigator.pop(context, false),
                     child: Text(

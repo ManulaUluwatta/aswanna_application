@@ -67,7 +67,7 @@ class _BodyState extends State<Body> {
                   ),
                   SizedBox(height: getProportionateScreenHeight(20)),
                   SizedBox(
-                    height: SizeConfig.screenHeight * 0.68,
+                    height: SizeConfig.screenHeight * 1,
                     child: StreamBuilder<List<String>>(
                       stream: categoryProductsStream.stream,
                       builder: (context, snapshot) {
@@ -208,8 +208,8 @@ class _BodyState extends State<Body> {
   Widget buildProductsGrid(List<String> productsId) {
     return Container(
       padding: EdgeInsets.symmetric(
-        vertical: 16,
-        horizontal: 8,
+        vertical: getProportionateScreenHeight(10),
+        horizontal: getProportionateScreenWidth(10),
       ),
       decoration: BoxDecoration(
         color: Color(0xFFF5F6F9),
@@ -240,9 +240,9 @@ class _BodyState extends State<Body> {
         },
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 0.75,
-          crossAxisSpacing: 2,
-          mainAxisSpacing: 8,
+          childAspectRatio: getProportionateScreenHeight(0.7),
+          crossAxisSpacing: getProportionateScreenWidth(5),
+          mainAxisSpacing: getProportionateScreenHeight(5),
         ),
         padding: EdgeInsets.symmetric(
           horizontal: 4,

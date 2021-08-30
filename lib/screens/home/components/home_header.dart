@@ -1,6 +1,8 @@
+import 'package:aswanna_application/screens/home/components/body.dart';
 import 'package:aswanna_application/screens/search_result/search_result_screen.dart';
 import 'package:aswanna_application/services/custom/user_service.dart';
 import 'package:aswanna_application/services/data_streem/all_products_stream.dart';
+import 'package:aswanna_application/services/data_streem/cart_items_stream.dart';
 import 'package:aswanna_application/services/database/product_database_service.dart';
 import 'package:aswanna_application/services/database/user_database_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,24 +14,33 @@ import 'icon_btn_with_counter.dart';
 import 'search_field.dart';
 
 class HomeHeader extends StatefulWidget {
+  final Function onCartButtonPress;
+  final int itemCounter;
   const HomeHeader({
-    Key key,
+    Key key,@required this.onCartButtonPress, @required this.itemCounter,
   }) : super(key: key);
 
   @override
-  _HomeHeaderState createState() => _HomeHeaderState();
+  _HomeHeaderState createState() => _HomeHeaderState(onCartButtonPress: onCartButtonPress, itemCounter: itemCounter);
 }
 
 class _HomeHeaderState extends State<HomeHeader> {
   final AllProductsStream allProductsStream = AllProductsStream();
+   final CartItemsStream cartItemsStream = CartItemsStream();
+  final Function onCartButtonPress;
+  final int itemCounter;
+  _HomeHeaderState({@required this.onCartButtonPress, @required this.itemCounter});
+  
   @override
   void initState() {
     allProductsStream.init();
+    cartItemsStream.init();
     super.initState();
   }
   @override
   void dispose() {
     allProductsStream.dispose();
+    cartItemsStream.dispose();
     super.dispose();
   }
   @override
@@ -75,11 +86,11 @@ class _HomeHeaderState extends State<HomeHeader> {
                     }
                   },
           ),
-          buildShopingCart(),
+          buildShopingCart(onCartButtonPress, itemCounter),
           
           IconBtnWithCounter(
             iconSrc: Icons.notifications,
-            numOfItems: 4, //pass the related value
+            numOfItems: 0, //pass the related value
             press: () {}, //assign the behaviour
           ),
         ],
@@ -87,7 +98,7 @@ class _HomeHeaderState extends State<HomeHeader> {
     );
   }
 
-  Widget buildShopingCart(){
+  Widget buildShopingCart(Function onCartButtonPress, int itemCounter){
     return StreamBuilder<DocumentSnapshot>(
        stream: UserDatabaseService().currentUserDataStream,
         builder: (context, snapshot) {
@@ -100,10 +111,11 @@ class _HomeHeaderState extends State<HomeHeader> {
             userRole = snapshot.data["role"];
           }
           if(userRole == "Buyer"){
-            return IconBtnWithCounter(
-            iconSrc: Icons.shopping_cart,
-            press: () {}, //assign the behaviour
-          );
+            // return IconBtnWithCounter(
+            // iconSrc: Icons.shopping_cart,
+            // press: onCartButtonPress,//assign the behaviour
+            // print("buyte counter $itemCounter");
+            return buildCartItemCounter(itemCounter);
           }
           return SizedBox();
         }
@@ -113,6 +125,30 @@ class _HomeHeaderState extends State<HomeHeader> {
   Future<void> refreshPage() {
     // favouriteProductsStream.reload();
     allProductsStream.reload();
+    cartItemsStream.reload();
     return Future<void>.value();
+  }
+
+  Widget buildCartItemCounter(int itemCounter) {
+    return StreamBuilder<List<String>>(
+      stream: cartItemsStream.stream,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<String> cartItemsId = snapshot.data;
+          if (cartItemsId.length == 0) {
+            return IconBtnWithCounter(
+            iconSrc: Icons.shopping_cart,
+            numOfItems: 0,
+            press: onCartButtonPress,);
+            
+          }
+          return IconBtnWithCounter(
+            iconSrc: Icons.shopping_cart,
+            numOfItems: itemCounter,
+            press: onCartButtonPress,);
+        }
+        return SizedBox();
+      }  
+    );
   }
 }
