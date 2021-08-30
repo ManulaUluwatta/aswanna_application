@@ -130,6 +130,24 @@ class ProductDescription extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: getProportionateScreenHeight(5)),
+                // Row(
+                //   children: [
+                //     Text(
+                //       "Available quantity : ",
+                //       style: TextStyle(
+                //           fontSize: getProportionateScreenHeight(18),
+                //           fontWeight: FontWeight.w500),
+                //     ),
+                //     Text(
+                //       "${product.availableQuantity.round()} KG",
+                //       style: TextStyle(
+                //           fontSize: getProportionateScreenHeight(18),
+                //           fontWeight: FontWeight.w900,
+                //           color: cPrimaryColor),
+                //     ),
+                //   ],
+                // ),
+                // SizedBox(height: getProportionateScreenHeight(5)),
                 Row(
                   children: [
                     Text(

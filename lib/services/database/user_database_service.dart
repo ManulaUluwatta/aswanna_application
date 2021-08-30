@@ -17,6 +17,13 @@ class UserDatabaseService{
   static const String FAV_PRODUCTS_KEY = "favourite_products";
   static const String USER_ROLE = "role";
 
+  
+  static const String FIRSTNAME_KEY = "lastName";
+  static const String LAST_NAME_KEY = "firstName";
+  static const String CONTACT_KEY = "contact";
+
+
+
   UserDatabaseService._privateConstructor();
   static UserDatabaseService _instance =
       UserDatabaseService._privateConstructor();
@@ -45,6 +52,18 @@ class UserDatabaseService{
     final docRef = userCollectionReference.doc(user.uid);
     await docRef.update(userMap);
     return docRef.id;
+  }
+
+  Future<bool> updateCurentUserDetails(String firstName, String lastName, String contact) async {
+    String uid = AuthService().currentUser.uid;
+    final userDocSnapshot =
+        firestore.collection(USERS_COLLECTION_NAME).doc(uid);
+    await userDocSnapshot.update({
+      FIRSTNAME_KEY:firstName,
+      LAST_NAME_KEY:lastName,
+      CONTACT_KEY: contact
+      });
+    return true;
   }
 
   Future<void> deleteCurrentUserData() async {

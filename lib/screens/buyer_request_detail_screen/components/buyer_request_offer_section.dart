@@ -21,7 +21,7 @@ class BuyerRequestOfferSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: getProportionateScreenHeight(500),
+      height: getProportionateScreenHeight(650),
       child: Stack(
         children: [
           TopRoundedContainer(

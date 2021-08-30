@@ -1,5 +1,6 @@
 import 'package:aswanna_application/screens/buyer_request/add_buyer_request_screen.dart';
 import 'package:aswanna_application/screens/edit_profile/edit_profile_screen.dart';
+import 'package:aswanna_application/screens/manage_addresses/manage_addresses_screen.dart';
 import 'package:aswanna_application/screens/my_buyer_request/my_buyer_request_screen.dart';
 import 'package:aswanna_application/screens/my_orders/my_orders_screen.dart';
 import 'package:aswanna_application/screens/my_products/my_products_screen.dart';
@@ -32,18 +33,19 @@ class Body extends StatelessWidget {
           SizedBox(
             height: getProportionateScreenHeight(10),
           ),
-          Text(
-            "${auth.currentUser.displayName}",
-            style: TextStyle(
-                fontSize: getProportionateScreenWidth(40),
-                fontWeight: FontWeight.w600),
-          ),
-          Text(
-            "${auth.currentUser.email}",
-            style: TextStyle(
-                fontSize: getProportionateScreenWidth(30),
-                fontWeight: FontWeight.w500),
-          ),
+          getUserDetails(),
+          // Text(
+          //   "${auth.currentUser.displayName}",
+          //   style: TextStyle(
+          //       fontSize: getProportionateScreenWidth(40),
+          //       fontWeight: FontWeight.w600),
+          // ),
+          // Text(
+          //   "${auth.currentUser.email}",
+          //   style: TextStyle(
+          //       fontSize: getProportionateScreenWidth(30),
+          //       fontWeight: FontWeight.w500),
+          // ),
           SizedBox(
             height: 20,
           ),
@@ -335,7 +337,7 @@ class Body extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MyBuyerRequestScreen(),
+                      builder: (context) => ManageAddressesScreen(),
                     ),
                   );
                 },
@@ -345,5 +347,49 @@ class Body extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Widget getUserDetails() {
+    String userID = AuthService().currentUser.uid;
+    return StreamBuilder<DocumentSnapshot>(
+        stream: UserDatabaseService().getSellerDetails(userID),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            final error = snapshot.error;
+            Logger().w(error.toString());
+          }
+          String firstName;
+          String lastName;
+          String contact;
+          String email;
+          // String address;
+          if (snapshot.hasData && snapshot.data != null) {
+            firstName = snapshot.data["firstName"];
+            lastName = snapshot.data["lastName"];
+            contact = snapshot.data["contact"];
+            email = snapshot.data["email"];
+            // address = snapshot.data["address"];
+          }
+          return SizedBox(
+            child: Container(
+              child: Column(
+                children: [
+                  Text(
+                    "$firstName $lastName",
+                    style: TextStyle(
+                        fontSize: getProportionateScreenWidth(40),
+                        fontWeight: FontWeight.w600),
+                  ),
+                  Text(
+                    "$email",
+                    style: TextStyle(
+                        fontSize: getProportionateScreenWidth(30),
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }
