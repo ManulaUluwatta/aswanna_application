@@ -10,11 +10,11 @@ The "Aswanna" mobile application aims to provide a virtual platform for the crop
 |             Welcome Screen           |             Splash Screen One             |            Splash Screen Two             |            Splash Screen Three             |
 |
 
-| :--------------------------------: | :---------------------------------------: | :----------------------------------: |
 
 
 
-![Screenshot_2021-08-30-11-17-13-897_com example aswanna_application](https://user-images.githubusercontent.com/29893232/142468157-90ab130b-1221-4f48-ac78-c0dfa3b1d6a7.jpg)
+
+
 ![Screenshot_2021-08-30-11-17-28-496_com example aswanna_application](https://user-images.githubusercontent.com/29893232/142468172-81ca6410-fe52-4624-8ed5-4aeba6e3519c.jpg)
 ![Screenshot_2021-08-30-11-17-50-047_com example aswanna_application](https://user-images.githubusercontent.com/29893232/142468180-3e95fce8-ceb9-4107-95da-c38a561acef9.jpg)
 ![Screenshot_2021-08-30-11-18-02-095_com example aswanna_application](https://user-images.githubusercontent.com/29893232/142468188-ae751749-02c5-4d12-bd98-37a8cfadb9e6.jpg)
