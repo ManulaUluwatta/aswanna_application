@@ -11,9 +11,7 @@ The "Aswanna" mobile application aims to provide a virtual platform for the crop
 
 
 
-| ![Screenshot_2021-08-30-11-17-28-496_com example aswanna_application](https://user-images.githubusercontent.com/29893232/142468172-81ca6410-fe52-4624-8ed5-4aeba6e3519c.jpg) | ![Screenshot_2021-08-30-11-17-50-047_com example aswanna_application](https://user-images.githubusercontent.com/29893232/142468180-3e95fce8-ceb9-4107-95da-c38a561acef9.jpg) | ![Screenshot_2021-08-30-11-18-55-173_com example aswanna_application](https://user-images.githubusercontent.com/29893232/142484159-e3215122-80e2-4a1a-9bb2-8190a08ec210.jpg)  |![Screenshot_2021-08-30-11-19-10-037_com example aswanna_application](https://user-images.githubusercontent.com/29893232/142484455-3f80ad7b-1a9d-4fc9-9a46-4bbdeecf9297.jpg) 
-
-|
+| ![Screenshot_2021-08-30-11-17-28-496_com example aswanna_application](https://user-images.githubusercontent.com/29893232/142468172-81ca6410-fe52-4624-8ed5-4aeba6e3519c.jpg) | ![Screenshot_2021-08-30-11-17-50-047_com example aswanna_application](https://user-images.githubusercontent.com/29893232/142468180-3e95fce8-ceb9-4107-95da-c38a561acef9.jpg) | ![Screenshot_2021-08-30-11-18-55-173_com example aswanna_application](https://user-images.githubusercontent.com/29893232/142484159-e3215122-80e2-4a1a-9bb2-8190a08ec210.jpg)  |![Screenshot_2021-08-30-11-19-10-037_com example aswanna_application](https://user-images.githubusercontent.com/29893232/142484455-3f80ad7b-1a9d-4fc9-9a46-4bbdeecf9297.jpg)  |
 | :--------------------------------: | :---------------------------------------: | :----------------------------------: |:----------------------------------: |
 |             Welcome Screen           |             Splash Screen One             |            Splash Screen Two             |            Splash Screen Three             |
 
