@@ -2,10 +2,14 @@
 
 The "Aswanna" mobile application aims to provide a virtual platform for the crop supply chain to bridge theneeds and requirements of suppliers and consumers by utilizing 
 
-  Welcome Screen             |   Splash Screen
-:-------------------------:|:-------------------------:
-![Screenshot_2021-08-30-11-16-47-942_com example aswanna_application](https://user-images.githubusercontent.com/29893232/142468128-7914206c-7d9e-444a-bae5-17eea4c587b0.jpg) |![Screenshot_2021-08-30-11-16-54-079_com example aswanna_application](https://user-images.githubusercontent.com/29893232/142468144-9a03a522-7e12-4ad4-abad-ff481149cc70.jpg) |
-![Screenshot_2021-08-30-11-17-06-005_com example aswanna_application](https://user-images.githubusercontent.com/29893232/142468152-83921e4d-7c62-46ed-8b79-a75e2a6ef24a.jpg) |
+
+|![Screenshot_2021-08-30-11-16-47-942_com example aswanna_application](https://user-images.githubusercontent.com/29893232/142468128-7914206c-7d9e-444a-bae5-17eea4c587b0.jpg)|
+|![Screenshot_2021-08-30-11-16-54-079_com example aswanna_application](https://user-images.githubusercontent.com/29893232/142468144-9a03a522-7e12-4ad4-abad-ff481149cc70.jpg) |
+|![Screenshot_2021-08-30-11-17-06-005_com example aswanna_application](https://user-images.githubusercontent.com/29893232/142468152-83921e4d-7c62-46ed-8b79-a75e2a6ef24a.jpg) |
+| :--------------------------------: | :---------------------------------------: | :----------------------------------: |
+
+
+
 ![Screenshot_2021-08-30-11-17-13-897_com example aswanna_application](https://user-images.githubusercontent.com/29893232/142468157-90ab130b-1221-4f48-ac78-c0dfa3b1d6a7.jpg)
 ![Screenshot_2021-08-30-11-17-28-496_com example aswanna_application](https://user-images.githubusercontent.com/29893232/142468172-81ca6410-fe52-4624-8ed5-4aeba6e3519c.jpg)
 ![Screenshot_2021-08-30-11-17-50-047_com example aswanna_application](https://user-images.githubusercontent.com/29893232/142468180-3e95fce8-ceb9-4107-95da-c38a561acef9.jpg)
