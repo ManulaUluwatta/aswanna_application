@@ -1,6 +1,6 @@
 # aswanna_application
 
-A new Flutter project.
+The "Aswanna" mobile application aims to provide a virtual platform for the crop supply chain to bridge theneeds and requirements of suppliers and consumers by utilizing 
 
 ## Getting Started
 
