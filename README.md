@@ -16,9 +16,10 @@ The "Aswanna" mobile application aims to provide a virtual platform for the crop
 |             Sign In           |             Sing up - screen one            |             Sing up - screen two            |             Sing up - screen three             |
 
 
-| ![](https://user-images.githubusercontent.com/29893232/142468274-dcfb70bc-7692-4287-ac84-e98095f46aa6.jpg) |  ![](https://user-images.githubusercontent.com/29893232/142759787-c267638c-5c99-446a-8442-8040ead96f02.jpg) | ![](https://user-images.githubusercontent.com/29893232/142484159-e3215122-80e2-4a1a-9bb2-8190a08ec210.jpg) | ![](https://user-images.githubusercontent.com/29893232/142484455-3f80ad7b-1a9d-4fc9-9a46-4bbdeecf9297.jpg) |
+| ![](https://user-images.githubusercontent.com/29893232/142468274-dcfb70bc-7692-4287-ac84-e98095f46aa6.jpg) |  ![](https://user-images.githubusercontent.com/29893232/142759787-c267638c-5c99-446a-8442-8040ead96f02.jpg) | ![](https://user-images.githubusercontent.com/29893232/142759973-6a7e6574-d0cc-4e64-9d97-fedb205ca26a.jpg) | ![](https://user-images.githubusercontent.com/29893232/142760022-197f09ce-9029-4a7c-acb6-c3804ad1b700.jpg) |
 | :--------------------------------: | :---------------------------------------: | :----------------------------------: | :----------------------------------: |
-|             Forgot Password Screen           |             Home Screen           |             Sing up - screen two            |             Sing up - screen three             |
+|             Forgot Password Screen           |             Home Screen           |             Explore Products Section            |             Product Details Screen            |
+
 
 
 
