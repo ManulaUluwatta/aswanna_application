@@ -16,6 +16,9 @@ The "Aswanna" mobile application aims to provide a virtual platform for the crop
 |             Sign In           |             Sing up - screen one            |             Sing up - screen two            |             Sing up - screen three             |
 
 
+| ![](https://user-images.githubusercontent.com/29893232/142468274-dcfb70bc-7692-4287-ac84-e98095f46aa6.jpg) |  ![](https://user-images.githubusercontent.com/29893232/142468180-3e95fce8-ceb9-4107-95da-c38a561acef9.jpg) | ![](https://user-images.githubusercontent.com/29893232/142484159-e3215122-80e2-4a1a-9bb2-8190a08ec210.jpg) | ![](https://user-images.githubusercontent.com/29893232/142484455-3f80ad7b-1a9d-4fc9-9a46-4bbdeecf9297.jpg) |
+| :--------------------------------: | :---------------------------------------: | :----------------------------------: | :----------------------------------: |
+|             Forget Password Screen           |             Sing up - screen one            |             Sing up - screen two            |             Sing up - screen three             |
 
 
 
@@ -24,7 +27,6 @@ The "Aswanna" mobile application aims to provide a virtual platform for the crop
 
 
 173_com example aswanna_application](https://user-images.githubusercontent.com/29893232/142468201-5b49041a-f509-4ff2-870c-1553ec2a48ac.jpg)
-![Screenshot_2021-08-30-11-20-35-181_com example aswanna_application](https://user-images.githubusercontent.com/29893232/142468274-dcfb70bc-7692-4287-ac84-e98095f46aa6.jpg)
 
 
 
