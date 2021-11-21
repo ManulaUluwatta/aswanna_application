@@ -21,13 +21,9 @@ The "Aswanna" mobile application aims to provide a virtual platform for the crop
 |             Forgot Password Screen           |             Home Screen           |             Explore Products Section            |             Product Details Screen            |
 
 
-
-
-
-
-
-
-
+| ![](https://user-images.githubusercontent.com/29893232/142774985-6d51cb2f-40ff-45fa-b9be-ca5e439871dd.jpg) |  ![](https://user-images.githubusercontent.com/29893232/142775021-4f79d041-7951-4f90-a2b6-636223a165e4.jpg) | ![](https://user-images.githubusercontent.com/29893232/142775053-2243da6f-ad04-48ce-b06a-b2660acfc316.jpg) | ![](https://user-images.githubusercontent.com/29893232/142775127-17dbc83d-cb7f-455b-bfb1-047b3aed8644.jpg) |
+| :--------------------------------: | :---------------------------------------: | :----------------------------------: | :----------------------------------: |
+|             Buyer Request Section          |             Manage Products(Seller UI)           |             Profile Menu            |             Product Details Screen            |
 
 
 
