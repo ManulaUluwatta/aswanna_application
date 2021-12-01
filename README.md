@@ -2,6 +2,12 @@
 
 The "Aswanna" mobile application aims to provide a virtual platform for the crop supply chain to bridge the needs and requirements of suppliers and consumers by utilizing. 
 
+## Technologies
+
+  - Flutter
+  - Dart
+  - FirebaseAuth
+  - Firestore
 
 ## Some screenshot of mobile application
 
